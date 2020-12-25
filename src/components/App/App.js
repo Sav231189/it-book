@@ -1,8 +1,8 @@
 import React from "react";
 import './App.css';
-import {Header} from "./components/header/Header";
-import {Panel} from "./components/panel/Panel";
-import {PanelMoreBtn} from "./components/panelMoreBtn/PanelMoreBtn";
+import {Header} from "../header/Header";
+import {Panel} from "../panel/Panel";
+import {PanelMoreBtn} from "../panelMoreBtn/PanelMoreBtn";
 
 
 
