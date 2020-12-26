@@ -6,7 +6,6 @@ import {PanelMoreBtn} from "../panelMoreBtn/PanelMoreBtn";
 import {connect} from "react-redux";
 import {changeIsOpenMenu, closeOpenMenu} from "../../redux/reducers/AppReducer";
 
-
 function AppComponent(props) {
   // console.log("render AppComponent")
 

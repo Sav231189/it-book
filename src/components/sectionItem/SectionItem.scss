@@ -8,16 +8,135 @@
 
   cursor: pointer;
   border-radius: 50%;
-  overflow: hidden;
+
   background: #323232;
   box-shadow: 0px 0px 5px 1px rgba(226, 226, 226, 0.25);
   border: #3c3f41 solid 1px;
+
   img {
     width: 100%;
     height: auto;
     object-fit: cover;
     border-radius: 50%;
-    pointer-events: none;
+    //pointer-events: none;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .nameBlock {
+    display: none;
+    position: relative;
+    span {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 5px 10px;
+      background-color: #6f757a;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #2d2d2d;
+      box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
+    }
+  }
+  & img:hover {
+    &+.nameBlock {
+      display: inline-block;
+    }
+  }
+
+  .sectionItemChange {
+    //display: none;
+    position: absolute;
+    z-index: 2;
+    top: -60px;
+    left: 5px;
+    width: 465px;
+    height: 300px;
+    background-color: rgba(23, 23, 23, 0.87);
+    backdrop-filter: blur(3px);
+
+    border-radius: 0 0 10px 10px;
+
+    .sectionItemChangeBox {
+      padding-top: 20px;
+      display: block;
+      position: absolute;
+      z-index: 2;
+      top: calc(50%);
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: 100%;
+      height: 100%;
+
+      label {
+        width: 90%;
+        display: grid;
+        grid-template-columns: 70px 1fr;
+        align-items: center;
+        span {
+          margin: 0 20px;
+          display: inline;
+          color: #c3cbd1;
+          justify-self: center;
+        }
+        input {
+          display: inline;
+          height: 28px;
+          width: 100%;
+          margin: 10px 0;
+          padding: 0 10px;
+
+          font-size: 20px;
+          background-color: rgba(190, 190, 190, 0.98);
+        }
+      }
+      .sectionItemChangePosition {
+        grid-template-columns: 120px 1fr;
+        input {
+
+        }
+      }
+    }
+    .sectionItemChangeTitle {
+      color: #b2bcc4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 30px;
+    }
+    .sectionItemChangeBtn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #067500;
+      font-size: 26px;
+      background-color: #3c3f41;
+      margin: 30px 20px 0;
+      border-radius: 5px;
+    }
+    .sectionItemChangeClose {
+      position: absolute;
+      z-index: 3;
+      top: 0;
+      right: 0;
+      width: 30px;
+      height: 30px;
+      background-color: #7b0000;
+      div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%) rotate(-45deg);
+        height: 2px;
+        width: 25px;
+        background-color: #cccccc;
+
+        &:last-child {
+          transform: translate(-50%, -1px) rotate(45deg);
+        }
+      }
+    }
   }
 
   .menuSectionItem {

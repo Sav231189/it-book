@@ -2,11 +2,16 @@ import React from 'react';
 import './Section.css'
 import {connect} from "react-redux";
 import {SectionItem} from "../sectionItem/SectionItem";
-import {menuSectionItemShow, menuSectionShow} from "../../redux/reducers/SectionReducer";
+import {
+	addSectionItem, changeSectionItem,
+	deleteSectionItem,
+	menuSectionItemShow,
+	menuSectionShow, showChangeSectionItem, unShowChangeSectionItem
+} from "../../redux/reducers/SectionReducer";
 import {changeIsOpenMenu, closeOpenMenu} from "../../redux/reducers/AppReducer";
 
 export function SectionComponent(props) {
-	// console.log("render Section")
+	console.log("render Section")
 	const showMenuSection = (e) => {
 		if (!props.isOpenMenu) {
 			if (e.target.clientHeight - 25 > e.clientY) {
@@ -20,22 +25,24 @@ export function SectionComponent(props) {
 		}
 	};
 
-	const addSectionItem = () => {
-
-	};
 
 	return (
 		<div className="section" onContextMenu={showMenuSection}>
 			{/*вывод элементов section*/}
-			{props.items.map((el) => <SectionItem
-				key={el.position} url={el.url} name={el.name} isMenuSectionItem={el.isMenuSectionItem} position={el.position}
+			{props.items.map((el,index) => <SectionItem
+				key={el.position} url={el.url} name={el.name} isMenuSectionItem={el.isMenuSectionItem}
+				position={index} length={props.items.length}
+				isChangeSectionItem={el.isChangeSectionItem}
+				showChangeSectionItem={props.showChangeSectionItem}
+				unShowChangeSectionItem={props.unShowChangeSectionItem}
 				isOpenMenu={props.isOpenMenu}
 				changeIsOpenMenu={props.changeIsOpenMenu}
 				menuSectionItemShow={props.menuSectionItemShow}
+				deleteSectionItem={props.deleteSectionItem}
 			/>)}
 			{/*context menu section*/}
 			<div className="menuSection" style={props.isMenuSection ? {display: 'block'} : {display: 'none'}}>
-				<span onClick={addSectionItem}>Добавить +</span>
+				<span onClick={props.addSectionItem}>Добавить +</span>
 			</div>
 		</div>
 	);
@@ -55,5 +62,9 @@ export const Section = connect(
 		menuSectionItemShow,
 		changeIsOpenMenu,
 		closeOpenMenu,
+		addSectionItem,
+		deleteSectionItem,
+		showChangeSectionItem,
+		unShowChangeSectionItem,
 	}
 )(SectionComponent);

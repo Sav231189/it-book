@@ -3,6 +3,8 @@
   width: 100%;
   height: 100vh;
   background: #272727;
+  font-family: "JetBrains Mono", monospace;
+  overflow: hidden;
 }
 
 /*# sourceMappingURL=App.css.map */
