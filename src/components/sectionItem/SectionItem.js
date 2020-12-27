@@ -1,9 +1,9 @@
 import React from 'react';
 import './SectionItem.css'
-import {changeSectionItem} from "../../redux/reducers/SectionReducer";
+import {activateSectionItem} from "../../redux/reducers/SectionReducer";
 
 export function SectionItem(props) {
-	console.log('render SectionItem')
+	// console.log('render SectionItem')
 
 	const showMenuSectionItem = (e) => {
 		if(!props.isMenuSectionItem && !props.isOpenMenu){
@@ -24,9 +24,13 @@ export function SectionItem(props) {
 	const unShowChangeSectionItem = () => {
 			props.unShowChangeSectionItem();
 	};
+	const activateSectionItem = () => {
+		props.activateSectionItem(props.position);
+	};
 
 	return (
-		<div className="item" onContextMenu={showMenuSectionItem}>
+		<div className="item" onContextMenu={showMenuSectionItem} onClick={activateSectionItem}>
+			{props.isActive && <div className='isActiveSectionItem'> </div>}
 			<img src = {props.url} alt = {props.name} />
 			<div className="nameBlock">
 				<span> {props.name} </span>
@@ -54,8 +58,8 @@ export function SectionItem(props) {
 					</div>
 				</div>
 				<div className="sectionItemChangeClose" onClick={unShowChangeSectionItem}>
-					<div></div>
-					<div></div>
+					<div> </div>
+					<div> </div>
 				</div>
 			</div>
 			<div className="menuSectionItem" style={props.isMenuSectionItem ? {display: 'block'} : {display: 'none'}} >

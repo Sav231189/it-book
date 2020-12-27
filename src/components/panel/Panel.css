@@ -7,14 +7,5 @@
   justify-content: space-between;
   transition: all 0.4s linear 0s;
 }
-.panel .panelNav {
-  width: 100%;
-  height: calc(100% - 25px);
-  margin: 15px 0 10px;
-  background: #323232;
-  border: 1px solid #565656;
-  box-shadow: 0px 0px 4px 2px rgba(197, 197, 197, 0.25);
-  border-radius: 10px;
-}
 
 /*# sourceMappingURL=Panel.css.map */

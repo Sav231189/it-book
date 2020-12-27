@@ -3,7 +3,8 @@ import './Section.css'
 import {connect} from "react-redux";
 import {SectionItem} from "../sectionItem/SectionItem";
 import {
-	addSectionItem, changeSectionItem,
+	activateSectionItem,
+	addSectionItem,
 	deleteSectionItem,
 	menuSectionItemShow,
 	menuSectionShow, showChangeSectionItem, unShowChangeSectionItem
@@ -11,7 +12,7 @@ import {
 import {changeIsOpenMenu, closeOpenMenu} from "../../redux/reducers/AppReducer";
 
 export function SectionComponent(props) {
-	console.log("render Section")
+	// console.log("render Section")
 	const showMenuSection = (e) => {
 		if (!props.isOpenMenu) {
 			if (e.target.clientHeight - 25 > e.clientY) {
@@ -30,8 +31,14 @@ export function SectionComponent(props) {
 		<div className="section" onContextMenu={showMenuSection}>
 			{/*вывод элементов section*/}
 			{props.items.map((el,index) => <SectionItem
-				key={el.position} url={el.url} name={el.name} isMenuSectionItem={el.isMenuSectionItem}
-				position={index} length={props.items.length}
+				key={el.id}
+				url={el.url}
+				name={el.name}
+				isMenuSectionItem={el.isMenuSectionItem}
+				isActive={el.isActive}
+				id={el.id}
+				position={index}
+				length={props.items.length}
 				isChangeSectionItem={el.isChangeSectionItem}
 				showChangeSectionItem={props.showChangeSectionItem}
 				unShowChangeSectionItem={props.unShowChangeSectionItem}
@@ -39,6 +46,7 @@ export function SectionComponent(props) {
 				changeIsOpenMenu={props.changeIsOpenMenu}
 				menuSectionItemShow={props.menuSectionItemShow}
 				deleteSectionItem={props.deleteSectionItem}
+				activateSectionItem={props.activateSectionItem}
 			/>)}
 			{/*context menu section*/}
 			<div className="menuSection" style={props.isMenuSection ? {display: 'block'} : {display: 'none'}}>
@@ -66,5 +74,6 @@ export const Section = connect(
 		deleteSectionItem,
 		showChangeSectionItem,
 		unShowChangeSectionItem,
+		activateSectionItem,
 	}
 )(SectionComponent);

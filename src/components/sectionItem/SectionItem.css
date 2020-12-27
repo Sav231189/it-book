@@ -11,6 +11,14 @@
   box-shadow: 0px 0px 5px 1px rgba(226, 226, 226, 0.25);
   border: #3c3f41 solid 1px;
 }
+.item .isActiveSectionItem {
+  position: absolute;
+  left: 0;
+  width: 4px;
+  height: 40px;
+  background-color: #ccccccb8;
+  border-radius: 0 5px 5px 0;
+}
 .item img {
   width: 100%;
   height: auto;
@@ -25,6 +33,7 @@
 }
 .item .nameBlock span {
   position: absolute;
+  z-index: 1;
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
@@ -125,6 +134,7 @@
 }
 .item .menuSectionItem {
   position: absolute;
+  z-index: 1;
   top: 0;
   left: 0;
   background-color: #3c3f41;

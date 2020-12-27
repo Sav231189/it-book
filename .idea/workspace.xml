@@ -2,17 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5ade667-796b-4e33-abca-7c3a979b8322" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/NavItems/NavItems.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/NavItems/NavItems.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/PanelNav/PanelNav.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/PanelNav/PanelNav.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/App/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/App/App.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/App/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/App/App.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/section/Section.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/section/Section.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/section/Section.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/section/Section.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/AppReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/AppReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/SectionItemReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,8 +37,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="SCSS File" />
         <option value="JavaScript File" />
+        <option value="SCSS File" />
       </list>
     </option>
   </component>
@@ -104,7 +114,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1608884719354</updated>
-      <workItem from="1608884720971" duration="60987000" />
+      <workItem from="1608884720971" duration="61321000" />
+      <workItem from="1609047516666" duration="20163000" />
     </task>
     <servers />
   </component>
@@ -116,7 +127,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

@@ -27,3 +27,4 @@ export const closeOpenMenu = () => {
 		type: 'CLOSE_OPEN_MENU',
 	}
 };
+
