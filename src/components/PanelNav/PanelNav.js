@@ -3,7 +3,20 @@ import './PanelNav.css';
 import {NavItems} from "../NavItems/NavItems";
 import {connect} from "react-redux";
 import {changeIsOpenMenu, closeOpenMenu} from "../../redux/reducers/AppReducer";
-import {addPanelNavItem, menuPanelNavShow} from "../../redux/reducers/SectionReducer";
+import {
+	addFileNavItem,
+	addFolderNavItem,
+	addPanelNavItem,
+	changeIsOpenContextMenu,
+	changeNameNavItem, changePositionNavItem,
+	changePositionUpNavItem,
+	closeAllIsOpenContextMenu,
+	deleteNavItem,
+	menuNavItemShow,
+	menuPanelNavShow,
+	openCloseFolder,
+	openFile
+} from "../../redux/reducers/SectionReducer";
 
 export function PanelNavContainer(props) {
 
@@ -34,8 +47,23 @@ export function PanelNavContainer(props) {
 				</div>
 			}
 			{ props.itemsElement &&
-			<NavItems navItems={props.itemsElement.panelNav.navItems} step={0}/>}
-			<div className="menuPanelNav" style={props.isMenuNamItems ? {display: 'block'} : {display: 'none'}}>
+			<NavItems navItems={props.itemsElement.panelNav.navItems}
+								openCloseFolder={props.openCloseFolder} step={0}
+								openFile={props.openFile}
+								isOpenMenu={props.isOpenMenu}
+								changeIsOpenMenu={props.changeIsOpenMenu}
+								isMenuNavItem={props.isMenuNavItem}
+								menuNavItemShow={props.menuNavItemShow}
+								closeOpenMenu={props.closeOpenMenu}
+								changeIsOpenContextMenu={props.changeIsOpenContextMenu}
+								closeAllIsOpenContextMenu={props.closeAllIsOpenContextMenu}
+								addFolderNavItem={props.addFolderNavItem}
+								addFileNavItem={props.addFileNavItem}
+								deleteNavItem={props.deleteNavItem}
+								changeNameNavItem={props.changeNameNavItem}
+								changePositionNavItem={props.changePositionNavItem}
+			/>}
+			<div className="menuPanelNav" style={props.isMenuNavItems ? {display: 'block'} : {display: 'none'}}>
 				<span onClick={()=>{addItemInPanelNav('folder')}}> + new Folder </span>
 				<span onClick={()=>{addItemInPanelNav('file')}}> + new File </span>
 			</div>
@@ -45,7 +73,8 @@ export function PanelNavContainer(props) {
 
 const mstp = (state) => {
 	return {
-		isMenuNamItems: state.section.isMenuNavItems,
+		isMenuNavItems: state.section.isMenuNavItems,
+		isMenuNavItem: state.section.isMenuNavItem,
 		isOpenMenu: state.app.isOpenMenu,
 	}
 };
@@ -53,5 +82,15 @@ export const PanelNav = connect(mstp,{
 	changeIsOpenMenu,
 	closeOpenMenu,
 	menuPanelNavShow,
+	menuNavItemShow,
 	addPanelNavItem,
+	openCloseFolder,
+	openFile,
+	changeIsOpenContextMenu,
+	closeAllIsOpenContextMenu,
+	addFolderNavItem,
+	addFileNavItem,
+	deleteNavItem,
+	changeNameNavItem,
+	changePositionNavItem,
 	})(PanelNavContainer);

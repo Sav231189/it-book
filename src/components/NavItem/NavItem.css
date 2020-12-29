@@ -1,3 +1,86 @@
-
+.navItem {
+  font-family: Roboto, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #868686;
+}
+.navItem .navStep {
+  width: 14px;
+  margin: 0 2px;
+  height: 1px;
+  background-color: rgba(134, 134, 134, 0.24);
+}
+.navItem .navElement {
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  cursor: default;
+}
+.navItem .navElement svg.closeFolderImg {
+  margin-right: 4px;
+  display: block;
+  width: 10px;
+  height: auto;
+  transform: rotate(-90deg);
+  cursor: pointer;
+  fill: #a5a5a5;
+}
+.navItem .navElement svg.closeFolderImg.emptyFolder {
+  fill: rgba(134, 134, 134, 0.24);
+}
+.navItem .navElement svg.fileImg {
+  margin-right: 4px;
+  display: block;
+  width: 10px;
+  height: auto;
+  fill: #a5a5a5;
+  cursor: pointer;
+}
+.navItem .navElement .navElementName {
+  cursor: pointer;
+}
+.navItem .navElement.active svg.closeFolderImg {
+  transform: rotate(0deg);
+}
+.navItem .navElement.active svg.fileImg {
+  margin-right: 4px;
+  display: block;
+  width: 10px;
+  height: auto;
+  color: #759874;
+  fill: #759874;
+}
+.navItem .fileActive {
+  color: #759874;
+}
+.navItem .menuNavItem {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #3c3f41;
+  color: #bebebe;
+}
+.navItem .menuNavItem span {
+  display: block;
+  padding: 5px 15px 5px 20px;
+  cursor: pointer;
+  width: 160px;
+}
+.navItem .menuNavItem span:hover {
+  background-color: rgba(96, 135, 166, 0.82);
+  color: white;
+}
+.navItem .saveNameBtn {
+  display: inline-block;
+  height: 100%;
+  padding: 0 5px;
+  margin-left: 2px;
+  background-color: #b7b7b7;
+  color: #2d2d2d;
+  font-size: 13px;
+}
 
 /*# sourceMappingURL=NavItem.css.map */
