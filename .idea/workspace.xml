@@ -11,8 +11,8 @@
       <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/NavItems/NavItems.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItems/NavItems.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/PanelNav/PanelNav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PanelNav/PanelNav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/redux.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/redux.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,16 +53,16 @@
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="editing.templates" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/App" />
       <recent name="$PROJECT_DIR$/src/components/header" />
       <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/public" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/public" />
     </key>
   </component>
@@ -105,7 +105,9 @@
       <updated>1608884719354</updated>
       <workItem from="1608884720971" duration="61321000" />
       <workItem from="1609047516666" duration="23721000" />
-      <workItem from="1609186756744" duration="27572000" />
+      <workItem from="1609186756744" duration="30228000" />
+      <workItem from="1609337650992" duration="299000" />
+      <workItem from="1609661967055" duration="2966000" />
     </task>
     <servers />
   </component>

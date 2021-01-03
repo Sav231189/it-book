@@ -6,21 +6,21 @@
   color: #868686;
 }
 .navItem .navStep {
-  width: 14px;
+  width: 10px;
   margin: 0 2px;
   height: 1px;
   background-color: rgba(134, 134, 134, 0.24);
 }
 .navItem .navElement {
-  margin-top: 3px;
+  padding: 2px 0;
   display: flex;
   align-items: center;
-  cursor: default;
+  cursor: pointer;
 }
 .navItem .navElement svg.closeFolderImg {
-  margin-right: 4px;
+  padding: 4px 4px;
   display: block;
-  width: 10px;
+  width: 18px;
   height: auto;
   transform: rotate(-90deg);
   cursor: pointer;
@@ -30,9 +30,9 @@
   fill: rgba(134, 134, 134, 0.24);
 }
 .navItem .navElement svg.fileImg {
-  margin-right: 4px;
+  padding: 0 4px;
   display: block;
-  width: 10px;
+  width: 18px;
   height: auto;
   fill: #a5a5a5;
   cursor: pointer;
@@ -44,15 +44,10 @@
   transform: rotate(0deg);
 }
 .navItem .navElement.active svg.fileImg {
-  margin-right: 4px;
-  display: block;
-  width: 10px;
-  height: auto;
-  color: #759874;
-  fill: #759874;
+  fill: #07ff0070;
 }
 .navItem .fileActive {
-  color: #759874;
+  color: #07ff0070;
 }
 .navItem .menuNavItem {
   display: none;

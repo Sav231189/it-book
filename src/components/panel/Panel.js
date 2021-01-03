@@ -9,7 +9,7 @@ export const PanelComponent = (props) => {
 	return (
 		<div className="panel" style={props.show ? {left: "0"} : {left: `-500px`}}>
 			<Section />
-			<PanelNav itemsElement={props.items.find((el,index)=>el.panelNav.isNavShow)}
+			<PanelNav activeSectionItem={props.items.find((el)=> el.panelNav.isNavShow)}
 			/>
 		</div>
 	);

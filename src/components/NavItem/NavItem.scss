@@ -11,7 +11,7 @@
 
 
   .navStep {
-    width: 14px;
+    width: 10px;
     margin: 0 2px;
     height: 1px;
     background-color: rgba(134, 134, 134, 0.24);
@@ -19,15 +19,16 @@
   }
 
   .navElement {
-    margin-top: 3px;
+    padding: 2px 0;
     display: flex;
     align-items: center;
 
-    cursor: default;
+    //cursor: default;
+    cursor: pointer;
     svg.closeFolderImg {
-      margin-right: 4px;
+      padding: 4px 4px;
       display: block;
-      width: 10px;
+      width: 18px;
       height: auto;
       transform: rotate(-90deg);
       cursor: pointer;
@@ -38,9 +39,9 @@
       }
     }
     svg.fileImg {
-      margin-right: 4px;
+      padding: 0 4px;
       display: block;
-      width: 10px;
+      width: 18px;
       height: auto;
       fill: #a5a5a5;
       //transform: rotate(-90deg);
@@ -57,20 +58,12 @@
       transform: rotate(0deg);
     }
     svg.fileImg {
-      margin-right: 4px;
-      display: block;
-      width: 10px;
-      height: auto;
-      color: #759874;
-      fill: #759874;
-      //background-color: #759874;
-      //transform: rotate(-90deg);
-
+      fill: #07ff0070;
     }
   }
 
   .fileActive {
-    color: #759874;
+    color: #07ff0070;
   }
 
   .menuNavItem {

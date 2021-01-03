@@ -8,7 +8,6 @@ import {changeIsOpenMenu, closeOpenMenu} from "../../redux/reducers/AppReducer";
 import {closeAllIsOpenContextMenu} from "../../redux/reducers/SectionReducer";
 
 function AppComponent(props) {
-  // console.log("render AppComponent")
 
   const closeAllMenu = (e) => {
     if (props.isOpenMenu){

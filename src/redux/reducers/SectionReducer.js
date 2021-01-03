@@ -11,8 +11,8 @@ const initialState = {
 
 			panelNav: {
 				id: 1,
-				isNavShow: false,
 				parentName: 'HTML',
+				isNavShow: false,
 				navItems: [
 					{
 						id: 2,
@@ -143,7 +143,9 @@ const initialState = {
 	isMenuNavItem: false,
 };
 
+//вспомогательные функции
 let element;
+
 function searchNavItemID(array, id) {
 
 	for (let i = 0; i < array.length; i++) {
@@ -161,6 +163,7 @@ function searchNavItemID(array, id) {
 }
 
 let list = {list: [], index: null};
+
 function searchListNavItemID(array, id) {
 	for (let i = 0; i < array.length; i++) {
 		if (array[i].id === id) {
@@ -172,7 +175,8 @@ function searchListNavItemID(array, id) {
 			return list.list = array;
 		} else if (array[i].panelNav) searchListNavItemID(array[i].panelNav.navItems, id)
 		if (array[i].folderItems && array[i].id === id) {
-			list.list = array; list.index = i;
+			list.list = array;
+			list.index = i;
 			return list;
 		} else if (array[i].folderItems) searchListNavItemID(array[i].folderItems, id)
 	}
@@ -241,6 +245,7 @@ function deleteNavItemID(array, id) {
 	}
 }
 
+//Reducer
 export const SectionReducer = (state = initialState, action) => {
 	let stateCopy = JSON.parse(JSON.stringify(state));
 	switch (action.type) {
@@ -396,15 +401,14 @@ export const SectionReducer = (state = initialState, action) => {
 		}
 		case 'CHANGE_POSITION_NAV_ITEM': {
 			let element = searchListNavItemID(stateCopy.items, action.id);
-			if (action.side === 'up'){
-				if (element.index > 0){
-					let elemCopy = element.list[element.index-1];
-					element.list[element.index-1] = element.list[element.index];
+			if (action.side === 'up') {
+				if (element.index > 0) {
+					let elemCopy = element.list[element.index - 1];
+					element.list[element.index - 1] = element.list[element.index];
 					element.list[element.index] = elemCopy;
 				}
-			}
-			else if (action.side === 'down'){
-				if (element.index + 1 < element.list.length){
+			} else if (action.side === 'down') {
+				if (element.index + 1 < element.list.length) {
 					let elemCopy = element.list[element.index + 1];
 					element.list[element.index + 1] = element.list[element.index];
 					element.list[element.index] = elemCopy;
@@ -539,7 +543,7 @@ export const changeNameNavItem = (id, name) => {
 	}
 };
 //changePositionUpNavItem AC:
-export const changePositionNavItem = (id,side) => {
+export const changePositionNavItem = (id, side) => {
 	return {
 		type: 'CHANGE_POSITION_NAV_ITEM',
 		id: id,

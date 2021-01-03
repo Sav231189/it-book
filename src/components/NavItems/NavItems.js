@@ -1,10 +1,10 @@
 import React from 'react';
 import './NavItems.css'
 import {NavItem} from "../NavItem/NavItem";
-import {changePositionNavItem} from "../../redux/reducers/SectionReducer";
 
 export function NavItems(props) {
-	console.log("render NavItem")
+	// console.log("render NavItem")
+
 	return (
 		<div className='navItems'>
 			{props.navItems.map((el,index) => {

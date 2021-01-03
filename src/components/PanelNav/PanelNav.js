@@ -9,7 +9,6 @@ import {
 	addPanelNavItem,
 	changeIsOpenContextMenu,
 	changeNameNavItem, changePositionNavItem,
-	changePositionUpNavItem,
 	closeAllIsOpenContextMenu,
 	deleteNavItem,
 	menuNavItemShow,
@@ -18,8 +17,8 @@ import {
 	openFile
 } from "../../redux/reducers/SectionReducer";
 
-export function PanelNavContainer(props) {
 
+export function PanelNavContainer(props) {
 	const showMenuNavItems = (e) => {
 		if (!props.isOpenMenu) {
 			if (e.target.clientHeight +20 > e.clientY) {
@@ -38,17 +37,21 @@ export function PanelNavContainer(props) {
 
 	return (
 		<div className='panelNav' onContextMenu={showMenuNavItems}>
-			{ !props.itemsElement && <div
-				onContextMenu={(e)=>{e.stopPropagation();e.preventDefault()}}
-				className='previewNav'><span>"PREVIEW"</span></div>}
-			{ props.itemsElement &&
-			<div className='panelNavTitle'>
-					{props.itemsElement.panelNav.parentName}
+			{!props.activeSectionItem
+				? <div
+					onContextMenu={(e) => {
+						e.stopPropagation();
+						e.preventDefault()
+					}}
+					className='previewNav'><span>"PREVIEW"</span></div>
+				: <div className='panelNavTitle'>
+					{props.activeSectionItem.panelNav.parentName}
 				</div>
 			}
-			{ props.itemsElement &&
-			<NavItems navItems={props.itemsElement.panelNav.navItems}
-								openCloseFolder={props.openCloseFolder} step={0}
+			{ props.activeSectionItem &&
+			<NavItems navItems={props.activeSectionItem.panelNav.navItems}
+								openCloseFolder={props.openCloseFolder}
+								step={0}
 								openFile={props.openFile}
 								isOpenMenu={props.isOpenMenu}
 								changeIsOpenMenu={props.changeIsOpenMenu}
