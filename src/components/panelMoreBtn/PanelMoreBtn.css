@@ -1,5 +1,6 @@
 .panelMore {
   position: absolute;
+  z-index: 10;
   bottom: 10px;
   left: 10px;
 }

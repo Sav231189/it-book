@@ -6,4 +6,15 @@
   //pointer-events: none;
   font-family: 'JetBrains Mono', monospace;
   overflow: hidden;
+  .mainBox {
+    position: absolute;
+    z-index: 1;
+    top: 70px;
+    right: 5px;
+    width: calc(100% - 465px);
+    height: calc(100% - 75px);
+    //pointer-events: none;
+
+    transition: all .4s linear 0s;
+  }
 }

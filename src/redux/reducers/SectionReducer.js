@@ -34,7 +34,68 @@ const initialState = {
 										name: 'fileName1',
 										isOpen: false,
 										isOpenContextMenu: false,
-										fileMain: []
+										fileMain: [
+											{
+												id: 5000,
+												type: 'block',
+												isOpenContextMenu: false,
+												title: 'Описание:',
+												subTitle: 'myFn.bind(obj)',
+												text: 'Указать obj(объект) которому будет принадлежать контекст (возвращает функцию); ',
+												img: '',
+												inner: [],
+											},
+											{
+												id: 5001,
+												type: 'block',
+												isOpenContextMenu: false,
+												title: 'Description2',
+												subTitle: '',
+												text: '',
+												img: '',
+												// inner: {},
+											},
+											{
+												id: 5002,
+												type: 'block',
+												isOpenContextMenu: false,
+												title: '',
+												subTitle: '',
+												text: '',
+												img: '',
+												// inner: {},
+											},
+											{
+												id: 5003,
+												type: 'block',
+												isOpenContextMenu: false,
+												title: 'Синтаксис:',
+												subTitle: '',
+												text: '',
+												img: '',
+												inner: [
+													{
+														id: 5004,
+														type: 'block',
+														isOpenContextMenu: false,
+														title: '',
+														subTitle: 'myFn.bind(obj)',
+														text: 'Указать obj(объект) которому будет    \n   принадлежать контекст (возвращает функцию); ',
+														img: '',
+													},
+													{
+														id: 5005,
+														type: 'block',
+														isOpenContextMenu: false,
+														title: '',
+														subTitle: 'myFn.bind(obj)',
+														text: 'Указать obj(объект) которому будет ' +
+															'принадлежать контекст (возвращает функцию); ',
+														img: '',
+													}
+												],
+											}
+										]
 									},
 									{
 										id: 8,
@@ -141,6 +202,7 @@ const initialState = {
 	isMenuSection: false,
 	isMenuNavItems: false,
 	isMenuNavItem: false,
+	isMenuBlock: false,
 };
 
 //вспомогательные функции
@@ -204,12 +266,13 @@ function changeContextMenuItem(array, id) {
 		if (array[i].id === id) {
 			return element = array[i];
 		}
-		if (array[i].panelNav && array[i].panelNav === id) {
+		if (array[i].panelNav && array[i].panelNav.id === id) {
 			return element = array[i].panelNav;
-		} else if (array[i].panelNav) searchNavItemID(array[i].panelNav.navItems, id)
-		if (array[i].folderItems && array[i].id === id) {
-			return element = array[i];
-		} else if (array[i].folderItems) searchNavItemID(array[i].folderItems, id)
+		}
+		if (array[i].panelNav) changeContextMenuItem(array[i].panelNav.navItems, id);
+		if (array[i].folderItems) changeContextMenuItem(array[i].folderItems, id)
+		if (array[i].fileMain) changeContextMenuItem(array[i].fileMain, id)
+		if (array[i].inner) changeContextMenuItem(array[i].inner, id)
 	}
 	return element
 }
@@ -223,7 +286,9 @@ function closeAllOpenContextMenuItem(items) {
 		if (items[i].folderItems && items[i].isOpenContextMenu) {
 			items[i].isOpenContextMenu = false;
 		}
-		if (items[i].folderItems) closeAllOpenContextMenuItem(items[i].folderItems)
+		if (items[i].folderItems) closeAllOpenContextMenuItem(items[i].folderItems);
+		if (items[i].fileMain) closeAllOpenContextMenuItem(items[i].fileMain);
+		if (items[i].inner) closeAllOpenContextMenuItem(items[i].inner);
 	}
 
 }
@@ -352,6 +417,7 @@ export const SectionReducer = (state = initialState, action) => {
 			return stateCopy;
 		}
 		case 'CHANGE_IS_OPEN_CONTEXT_MENU': {
+
 			let element = changeContextMenuItem(stateCopy.items, action.id);
 			element.isOpenContextMenu = !element.isOpenContextMenu;
 			return stateCopy;
@@ -414,6 +480,20 @@ export const SectionReducer = (state = initialState, action) => {
 					element.list[element.index] = elemCopy;
 				}
 			}
+			return stateCopy;
+		}
+		case 'ADD_BLOCK_IN_ACTIVE_FILE': {
+			let element = searchNavItemID(stateCopy.items, action.id);
+			element.fileMain.push({
+				id: stateCopy.idCount++,
+				type: 'block',
+				isOpenContextMenu: false,
+				title: '',
+				subTitle: '',
+				text: '',
+				img: '',
+				// inner: {},
+			});
 			return stateCopy;
 		}
 		default :
@@ -548,6 +628,13 @@ export const changePositionNavItem = (id, side) => {
 		type: 'CHANGE_POSITION_NAV_ITEM',
 		id: id,
 		side: side,
+	}
+};
+//addBlockInActiveFile AC:
+export const addBlockInActiveFile = (id) => {
+	return {
+		type: 'ADD_BLOCK_IN_ACTIVE_FILE',
+		id: id,
 	}
 };
 

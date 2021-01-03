@@ -1,0 +1,25 @@
+.Main {
+  height: calc(100vh - 75px);
+  overflow: auto;
+}
+.Main .contextMenuMain {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background-color: #3c3f41;
+  color: #bebebe;
+}
+.Main .contextMenuMain span {
+  display: block;
+  padding: 5px 15px 5px 20px;
+  cursor: pointer;
+  width: 160px;
+}
+.Main .contextMenuMain span:hover {
+  background-color: rgba(96, 135, 166, 0.82);
+  color: white;
+}
+
+/*# sourceMappingURL=Main.css.map */
