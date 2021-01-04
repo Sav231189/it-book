@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {SectionItem} from "../sectionItem/SectionItem";
 import {
 	activateSectionItem,
-	addSectionItem,
+	addSectionItem, changePositionSectionItem, changeSectionItem,
 	deleteSectionItem,
 	menuSectionItemShow,
 	menuSectionShow, showChangeSectionItem, unShowChangeSectionItem
@@ -47,6 +47,8 @@ export function SectionComponent(props) {
 				menuSectionItemShow={props.menuSectionItemShow}
 				deleteSectionItem={props.deleteSectionItem}
 				activateSectionItem={props.activateSectionItem}
+				changeSectionItem={props.changeSectionItem}
+				changePositionSectionItem={props.changePositionSectionItem}
 			/>)}
 			{/*context menu section*/}
 			<div className="menuSection" style={props.isMenuSection ? {display: 'block'} : {display: 'none'}}>
@@ -75,5 +77,7 @@ export const Section = connect(
 		showChangeSectionItem,
 		unShowChangeSectionItem,
 		activateSectionItem,
+		changeSectionItem,
+		changePositionSectionItem,
 	}
 )(SectionComponent);

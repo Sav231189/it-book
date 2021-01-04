@@ -44,6 +44,7 @@ export const NavItemComponent = (props) => {
 
 	const showMenuNavItem = (e) => {
 
+
 		if (!props.isOpenMenu && !props.isMenuNavItem && !props.element.isOpenContextMenu) {
 			e.target.parentElement.parentElement.parentElement.lastChild.style
 				= `top: ${e.clientY - 75}px; left: ${e.clientX - 75}px; display: block;`;
@@ -51,6 +52,7 @@ export const NavItemComponent = (props) => {
 			props.menuNavItemShow();
 			props.changeIsOpenMenu(true);
 			props.changeIsOpenContextMenu(props.element.id);
+			if (props.element.type==='file') openCloseFolder();
 		} else {
 			props.closeAllIsOpenContextMenu();
 			props.changeIsOpenMenu(false);
@@ -94,7 +96,7 @@ export const NavItemComponent = (props) => {
 
 				{<div className={`${props.element.type === 'file' && props.element.isOpen ? "fileActive" : null}`}>
 					{!isRenameMode
-						? <span onContextMenu={showMenuNavItem} onClick={openCloseFolder} className='navElementName'> {name} </span>
+						? <span onContextMenu={showMenuNavItem} onMouseDown={e =>{e.stopPropagation();e.preventDefault(); }} onClick={openCloseFolder} className='navElementName'> {name} </span>
 						: <span>
 							<input type="text"
 										 onClick={(e) => {

@@ -1,9 +1,12 @@
 import React from 'react';
 import './SectionItem.css'
-import {activateSectionItem} from "../../redux/reducers/SectionReducer";
+import logoSection from '../../img/logo.png';
+import {changePositionBlock} from "../../redux/reducers/SectionReducer";
 
 export function SectionItem(props) {
 	// console.log('render SectionItem')
+	const name = React.createRef();
+	const url = React.createRef();
 
 	const showMenuSectionItem = (e) => {
 		if(!props.isMenuSectionItem && !props.isOpenMenu){
@@ -25,13 +28,26 @@ export function SectionItem(props) {
 			props.unShowChangeSectionItem();
 	};
 	const activateSectionItem = () => {
-		props.activateSectionItem(props.position);
+		props.activateSectionItem(props.id);
 	};
+	const saveChange = () => {
+		unShowChangeSectionItem();
+		props.changeSectionItem(props.id, name.current.value, url.current.value);
+		name.current.value = '';
+		url.current.value = '';
+	};
+	const changePositionSectionItem = (side) => {
+		props.changePositionSectionItem(props.id, side);
+	};
+
 
 	return (
 		<div className="item" onContextMenu={showMenuSectionItem} onClick={activateSectionItem}>
 			{props.isActive && <div className='isActiveSectionItem'> </div>}
-			<img src = {props.url} alt = {props.name} />
+			{	props.url !== '' ?
+				<img src = {props.url} alt = {props.name} />
+				: <img src = {logoSection} alt = {logoSection.name} />
+			}
 			<div className="nameBlock">
 				<span> {props.name} </span>
 			</div>
@@ -43,17 +59,13 @@ export function SectionItem(props) {
 					<div className="sectionItemChangeTitle">Изменение секции:</div>
 					<label htmlFor="">
 						<span>Name:</span>
-						<input type="text" placeholder={props.name}/>
+						<input ref={name} type="text" placeholder={props.name}/>
 					</label>
 					<label htmlFor="">
 						<span>Url:</span>
-						<input type="text" placeholder={props.url}/>
+						<input ref={url} type="text" placeholder={props.url}/>
 					</label>
-					<label htmlFor="" className="sectionItemChangePosition">
-						<span>Position:</span>
-						<input type="number" placeholder={props.position+1} min={1} max={props.length}/>
-					</label>
-					<div className="sectionItemChangeBtn">
+					<div className="sectionItemChangeBtn" onClick={saveChange}>
 						Save
 					</div>
 				</div>
@@ -64,6 +76,10 @@ export function SectionItem(props) {
 			</div>
 			<div className="menuSectionItem" style={props.isMenuSectionItem ? {display: 'block'} : {display: 'none'}} >
 				<span onClick={showChangeSectionItem}>Изменить</span>
+				<hr style={{background: 'grey', height: "1px"}}/>
+				<span onClick={()=>changePositionSectionItem('up')}>position UP</span>
+				<span onClick={()=>changePositionSectionItem('down')}>position DOWN</span>
+				<hr style={{background: 'grey', height: "1px"}}/>
 				<span onClick={deleteSectionItem}>Удалить</span>
 			</div>
 		</div>

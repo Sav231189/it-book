@@ -1,8 +1,8 @@
 .Block {
-  width: 98%;
+  width: 100%;
   min-height: 30px;
   margin: 10px auto;
-  padding: 5px;
+  padding: 0 5px;
 
   background: #1F1F1F;
   border: 1px solid #333333;
@@ -11,7 +11,9 @@
 
   font-family: Monaco,sans-serif;
   white-space: pre-wrap;
-
+  &:hover {
+    border: 1px solid #585858;
+  }
   .blockTitle {
     font-size: 18px;
     text-indent: 2px;
@@ -40,15 +42,55 @@
     background-color: #3c3f41;
     color: #bebebe;
 
+    font-family: Roboto,sans-serif;
+    font-size: 14px;
     span {
       display: block;
       padding: 5px 15px 5px 20px;
       cursor: pointer;
       width: 160px;
+
       &:hover {
         background-color: rgba(96, 135, 166, 0.82);
         color: white;
       }
     }
+  }
+  .saveNameBtn {
+    display: inline-block;
+    height: 100%;
+    padding: 0 5px;
+    margin-left: 2px;
+    background-color: #b7b7b7;
+    color: #2d2d2d;
+    font-size: 13px;
+  }
+
+  input {
+    background-color: #1F1F1F;
+  }
+  .inputTitle {
+    padding: 0;
+    font-size: 18px;
+    text-indent: 2px;
+    letter-spacing: 0.1em;
+    color: #BC5151;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px solid #333333;
+  }
+  .inputSubTitle {
+    padding: 2px 0;
+    font-size: 16px;
+    color: #59BC51;
+    letter-spacing: 0.005em;
+    border: 1px solid #333333;
+  }
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    background-color: #1F1F1F;
+    color: #919191;
+    resize: vertical;
+    border: 1px solid #333333;
   }
 }

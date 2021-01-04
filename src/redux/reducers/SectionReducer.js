@@ -53,7 +53,7 @@ const initialState = {
 												subTitle: '',
 												text: '',
 												img: '',
-												// inner: {},
+												inner: [],
 											},
 											{
 												id: 5002,
@@ -63,7 +63,7 @@ const initialState = {
 												subTitle: '',
 												text: '',
 												img: '',
-												// inner: {},
+												inner: [],
 											},
 											{
 												id: 5003,
@@ -82,6 +82,7 @@ const initialState = {
 														subTitle: 'myFn.bind(obj)',
 														text: 'Указать obj(объект) которому будет    \n   принадлежать контекст (возвращает функцию); ',
 														img: '',
+														inner: [],
 													},
 													{
 														id: 5005,
@@ -92,6 +93,7 @@ const initialState = {
 														text: 'Указать obj(объект) которому будет ' +
 															'принадлежать контекст (возвращает функцию); ',
 														img: '',
+														inner: [],
 													}
 												],
 											}
@@ -224,6 +226,23 @@ function searchNavItemID(array, id) {
 	return element
 }
 
+function searchBlockID(array, id) {
+
+	for (let i = 0; i < array.length; i++) {
+		if (array[i].id === id) {
+			return element = array[i];
+		}
+		if (array[i].panelNav && array[i].panelNav.id === id) {
+			return element = array[i].panelNav;
+		}
+		if (array[i].panelNav) changeContextMenuItem(array[i].panelNav.navItems, id);
+		if (array[i].folderItems) changeContextMenuItem(array[i].folderItems, id)
+		if (array[i].fileMain) changeContextMenuItem(array[i].fileMain, id)
+		if (array[i].inner) changeContextMenuItem(array[i].inner, id)
+	}
+	return element
+}
+
 let list = {list: [], index: null};
 
 function searchListNavItemID(array, id) {
@@ -310,6 +329,42 @@ function deleteNavItemID(array, id) {
 	}
 }
 
+function deleteBlockID(array, id) {
+	for (let i = 0; i < array.length; i++) {
+		if (array[i].id === id) {
+			return array.splice(i, 1);
+		}
+		if (array[i].panelNav && array[i].panelNav.id === id) {
+			return array.splice(i, 1);
+		}
+		if (array[i].panelNav) deleteBlockID(array[i].panelNav.navItems, id);
+		if (array[i].folderItems) deleteBlockID(array[i].folderItems, id)
+		if (array[i].fileMain) deleteBlockID(array[i].fileMain, id)
+		if (array[i].inner) deleteBlockID(array[i].inner, id)
+	}
+}
+
+function searchListBlock(array, id) {
+
+	for (let i = 0; i < array.length; i++) {
+		if (array[i].id === id) {
+			list.list = array;
+			list.index = i;
+			return list;
+		}
+		if (array[i].panelNav && array[i].panelNav.id === id) {
+			list.list = array;
+			list.index = i;
+			return list;
+		}
+		if (array[i].panelNav) searchListBlock(array[i].panelNav.navItems, id);
+		if (array[i].folderItems) searchListBlock(array[i].folderItems, id)
+		if (array[i].fileMain) searchListBlock(array[i].fileMain, id)
+		if (array[i].inner) searchListBlock(array[i].inner, id)
+	}
+	return list
+}
+
 //Reducer
 export const SectionReducer = (state = initialState, action) => {
 	let stateCopy = JSON.parse(JSON.stringify(state));
@@ -344,7 +399,7 @@ export const SectionReducer = (state = initialState, action) => {
 			stateCopy.items.push({
 				id: stateCopy.idCount++,
 				name: 'Name',
-				url: 'https://lh3.googleusercontent.com/RgLNxSnwibzKuEcPUTLul7fvrJMK-bkG-4CpPQugJ6jrBdVIrj48j0p-ofOyF23rRx_iOHo=s48',
+				url: '',
 				position: stateCopy.items.length,
 				isActive: false,
 				isMenuSectionItem: false,
@@ -356,8 +411,32 @@ export const SectionReducer = (state = initialState, action) => {
 			});
 			return stateCopy;
 		}
+		case 'CHANGE_SECTION_ITEM': {
+			let sectionItem = stateCopy.items.find(el=> el.id === action.id);
+			sectionItem.panelNav.parentName = action.name;
+			sectionItem.name = action.name;
+			action.url !== '' ? sectionItem.url = action.url : false;
+			return stateCopy;
+		}
 		case 'DELETE_SECTION_ITEM': {
 			stateCopy.items.splice(action.position, 1);
+			return stateCopy;
+		}
+		case 'CHANGE_POSITION_SECTION_ITEM': {
+			let element = searchListBlock(stateCopy.items, action.id);
+			if (action.side === 'up') {
+				if (element.index > 0) {
+					let elemCopy = element.list[element.index - 1];
+					element.list[element.index - 1] = element.list[element.index];
+					element.list[element.index] = elemCopy;
+				}
+			} else if (action.side === 'down') {
+				if (element.index + 1 < element.list.length) {
+					let elemCopy = element.list[element.index + 1];
+					element.list[element.index + 1] = element.list[element.index];
+					element.list[element.index] = elemCopy;
+				}
+			}
 			return stateCopy;
 		}
 		case 'SHOW_CHANGE_SECTION_ITEM': {
@@ -371,9 +450,9 @@ export const SectionReducer = (state = initialState, action) => {
 			return stateCopy;
 		}
 		case 'ACTIVATE_SECTION_ITEM': {
-			// stateCopy.items.map(el => {el.isChangeSectionItem = false})
+
 			for (let i = 0; i < stateCopy.items.length; i++) {
-				if (action.position === i) {
+				if (action.id === stateCopy.items[i].id) {
 					stateCopy.items[i].panelNav.isNavShow = true;
 					stateCopy.items[i].isActive = true;
 				} else {
@@ -492,8 +571,62 @@ export const SectionReducer = (state = initialState, action) => {
 				subTitle: '',
 				text: '',
 				img: '',
-				// inner: {},
+				inner: [],
 			});
+			return stateCopy;
+		}
+
+		//main context menu
+		case 'ADD_BLOCK_IN_BLOCK': {
+			let element = searchBlockID(stateCopy.items, action.id);
+			element.inner.push(
+				{
+				id: stateCopy.idCount++,
+				type: 'block',
+				isOpenContextMenu: false,
+				title: '',
+				subTitle: '',
+				text: '',
+				img: '',
+				inner: [],
+			}
+			);
+			return stateCopy;
+		}
+		case 'CHANGE_TITLE_IN_BLOCK': {
+			let element = searchBlockID(stateCopy.items, action.id);
+			element.title = action.title;
+			return stateCopy;
+		}
+		case 'CHANGE_SUB_TITLE_IN_BLOCK': {
+			let element = searchBlockID(stateCopy.items, action.id);
+			element.subTitle = action.subTitle;
+			return stateCopy;
+		}
+		case 'CHANGE_TEXT_IN_BLOCK': {
+			let element = searchBlockID(stateCopy.items, action.id);
+			element.text = action.text;
+			return stateCopy;
+		}
+		case 'DELETE_BLOCK': {
+			deleteBlockID(stateCopy.items, action.id);
+			return stateCopy;
+		}
+		case 'CHANGE_POSITION_BLOCK': {
+			let element = searchListBlock(stateCopy.items, action.id);
+			if (action.side === 'up') {
+				if (element.index > 0) {
+					let elemCopy = element.list[element.index - 1];
+					element.list[element.index - 1] = element.list[element.index];
+					element.list[element.index] = elemCopy;
+				}
+			} else if (action.side === 'down') {
+				if (element.index + 1 < element.list.length) {
+					let elemCopy = element.list[element.index + 1];
+					element.list[element.index + 1] = element.list[element.index];
+					element.list[element.index] = elemCopy;
+				}
+			}
 			return stateCopy;
 		}
 		default :
@@ -532,11 +665,28 @@ export const addSectionItem = () => {
 		type: 'ADD_SECTION_ITEM',
 	}
 };
+//changeSectionItem AC:
+export const changeSectionItem = (id, name, url) => {
+	return {
+		type: 'CHANGE_SECTION_ITEM',
+		id: id,
+		name: name,
+		url: url,
+	}
+};
 //deleteSectionItem AC:
 export const deleteSectionItem = (position) => {
 	return {
 		type: 'DELETE_SECTION_ITEM',
 		position: position,
+	}
+};
+//changePositionSectionItem AC:
+export const changePositionSectionItem = (id, side) => {
+	return {
+		type: 'CHANGE_POSITION_SECTION_ITEM',
+		id: id,
+		side: side,
 	}
 };
 //showChangeSectionItem AC:
@@ -553,10 +703,10 @@ export const unShowChangeSectionItem = () => {
 	}
 };
 //activateSectionItem AC:
-export const activateSectionItem = (position) => {
+export const activateSectionItem = (id) => {
 	return {
 		type: 'ACTIVATE_SECTION_ITEM',
-		position: position,
+		id: id,
 	}
 };
 //addPanelNavItem AC:
@@ -638,6 +788,52 @@ export const addBlockInActiveFile = (id) => {
 	}
 };
 
+//main context menu
 
-
+//addBlockInBlock AC:
+export const addBlockInBlock = (id) => {
+	return {
+		type: 'ADD_BLOCK_IN_BLOCK',
+		id: id,
+	}
+};
+//changeTitleInBlock AC:
+export const changeTitleInBlock = (id, title) => {
+	return {
+		type: 'CHANGE_TITLE_IN_BLOCK',
+		id: id,
+		title: title,
+	}
+};
+//changeSubTitleInBlock AC:
+export const changeSubTitleInBlock = (id,subTitle) => {
+	return {
+		type: 'CHANGE_SUB_TITLE_IN_BLOCK',
+		id: id,
+		subTitle: subTitle,
+	}
+};
+//changeTextInBlock AC:
+export const changeTextInBlock = (id, text) => {
+	return {
+		type: 'CHANGE_TEXT_IN_BLOCK',
+		id: id,
+		text: text,
+	}
+};
+//deleteBlock AC:
+export const deleteBlock = (id) => {
+	return {
+		type: 'DELETE_BLOCK',
+		id: id,
+	}
+};
+//changePositionBlock AC:
+export const changePositionBlock = (id, side) => {
+	return {
+		type: 'CHANGE_POSITION_BLOCK',
+		id: id,
+		side: side,
+	}
+};
 
