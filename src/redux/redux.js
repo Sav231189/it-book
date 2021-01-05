@@ -1,8 +1,21 @@
-import {combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
+import thunk from "redux-thunk";
 import {PanelReducer} from "./reducers/PanelReducer";
 import {SectionReducer} from "./reducers/SectionReducer";
 import {AppReducer} from "./reducers/AppReducer";
-const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+//
+// const composeEnhancers =
+// 	typeof window === 'object' &&
+// 	window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+// 		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+// 			// Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+// 		}) : compose;
+//
+// const enhancer = composeEnhancers(
+// 	applyMiddleware(thunkMiddleware),
+// 	// other store enhancers if any
+// );
+
 
 const reducers = combineReducers({
 	app: AppReducer,
@@ -11,9 +24,4 @@ const reducers = combineReducers({
 });
 
 
-/* eslint-disable no-underscore-dangle */
-export let store = createStore(
-	reducers, /* preloadedState, */
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
-/* eslint-enable */
+export let store = createStore(reducers, applyMiddleware(thunk));
