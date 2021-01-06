@@ -1,12 +1,12 @@
 const initialState = {
-	show: true,
+	showPanel: true,
 };
 
 export const PanelReducer = (state = initialState, action) => {
 	let stateCopy = { ...state };
 	switch (action.type){
-		case 'PANEL_SHOW_CHANGE': {
-			stateCopy.show = !stateCopy.show;
+		case 'CHANGE_PANEL_SHOW': {
+			stateCopy.showPanel = !stateCopy.showPanel;
 			return stateCopy;
 		}
 		default : return state;
@@ -14,9 +14,9 @@ export const PanelReducer = (state = initialState, action) => {
 };
 
 
-//Panel AC:
-export const panelShowChange = () => {
+//AC CHANGE_PANEL_SHOW:
+export const changePanelShow = () => {
 	return {
-		type: 'PANEL_SHOW_CHANGE',
+		type: 'CHANGE_PANEL_SHOW',
 	}
 };

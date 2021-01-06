@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import './NavItem.css';
 import {NavItems} from "../NavItems/NavItems";
 import {connect} from "react-redux";
-import {changeIsOpenMenu, closeOpenMenu} from "../../redux/reducers/AppReducer";
 import {
 	addBlockInActiveFile,
 	addFileNavItem,
@@ -12,7 +11,6 @@ import {
 	changePositionNavItem,
 	closeAllIsOpenContextMenu,
 	deleteNavItem,
-	menuNavItemShow,
 	openCloseFolder,
 	openFile
 } from "../../redux/reducers/SectionReducer";
@@ -182,9 +180,6 @@ export const NavItem = connect(
 	{
 		openCloseFolder,
 		openFile,
-		changeIsOpenMenu,
-		menuNavItemShow,
-		closeOpenMenu,
 		changeIsOpenContextMenu,
 		closeAllIsOpenContextMenu,
 		addFolderNavItem,

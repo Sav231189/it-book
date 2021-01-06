@@ -1,87 +1,150 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './SectionItem.css'
 import logoSection from '../../img/logo.png';
-import {changePositionBlock} from "../../redux/reducers/SectionReducer";
+import {connect} from "react-redux";
+import {
+	changeIsContextMenu,
+} from "../../redux/reducers/AppReducer";
+import {
+	activateSectionItem,
+	changeIsOpenContextMenu,
+	changePositionSectionItem, changeSectionItem, deleteSectionItem
+} from "../../redux/reducers/SectionReducer";
 
-export function SectionItem(props) {
-	// console.log('render SectionItem')
-	const name = React.createRef();
-	const url = React.createRef();
+export function SectionItemComponent(props) {
 
-	const showMenuSectionItem = (e) => {
-		if(!props.isMenuSectionItem && !props.isOpenMenu){
+	const [isChangeName, setIsChangeName] = useState(false);
+	const [isChangeImg, setIsChangeImg] = useState(false);
+
+	const [newName, setNewName] = useState('');
+	const [newImgURL, setNewImgURL] = useState('');
+
+	const showSectionItemContextMenu = (e) => {
+		console.log('showSectionItemContextMenu')
+		if (!props.isContextMenu && !props.element.isOpenContextMenu ) {
 			e.target.parentElement.lastChild.style = `top: ${e.clientY - 60}px; left: ${e.clientX}px;`;
-			props.menuSectionItemShow(props.position);
-			props.changeIsOpenMenu(true);
+			props.changeIsContextMenu(true);
+			props.changeIsOpenContextMenu(props.element.id,true);
+			// e.preventDefault();
+			// e.stopPropagation();
 		}
-	};
-
-	const deleteSectionItem = () => {
-		if(confirm( "вы уверены что хотите удалить раздел?")){
-			props.deleteSectionItem(props.position);
-		}
-	};
-	const showChangeSectionItem = () => {
-			props.showChangeSectionItem(props.position);
-	};
-	const unShowChangeSectionItem = () => {
-			props.unShowChangeSectionItem();
 	};
 	const activateSectionItem = () => {
-		props.activateSectionItem(props.id);
+		props.activateSectionItem(props.element.id);
 	};
-	const saveChange = () => {
-		unShowChangeSectionItem();
-		props.changeSectionItem(props.id, name.current.value, url.current.value);
-		name.current.value = '';
-		url.current.value = '';
+	const changeName = (e) => {
+		setIsChangeName(true);
+		setIsChangeImg(false);
+		e.preventDefault();
+		e.stopPropagation();
+	};
+	const changeImg = (e) => {
+		setIsChangeName(false);
+		setIsChangeImg(true);
+		e.preventDefault();
+		e.stopPropagation();
 	};
 	const changePositionSectionItem = (side) => {
-		props.changePositionSectionItem(props.id, side);
+		props.changePositionSectionItem(props.element.id, side,props.userId);
+		props.changeIsContextMenu(false);
+	};
+	const deleteSectionItem = () => {
+		if (confirm("вы уверены что хотите удалить раздел?")) {
+			props.deleteSectionItem(props.element.id,props.userId);
+			props.changeIsContextMenu(false);
+		}
+	};
+	const saveChange = () => {
+		isChangeName
+			?	props.changeSectionItem(newName,'',props.element.id,props.userId)
+			: props.changeSectionItem('',newImgURL,props.element.id,props.userId);
+		setIsChangeName('');
+		setIsChangeImg('');
 	};
 
 
 	return (
-		<div className="item" onContextMenu={showMenuSectionItem} onClick={activateSectionItem}>
-			{props.isActive && <div className='isActiveSectionItem'> </div>}
-			{	props.url !== '' ?
-				<img src = {props.url} alt = {props.name} />
-				: <img src = {logoSection} alt = {logoSection.name} />
+		<div className="item"
+				 onContextMenu={showSectionItemContextMenu}
+				 onClick={activateSectionItem}>
+			{props.element.isActive && <div className='isActiveSectionItem'></div>}
+			{props.element.url !== ''
+				?
+				<img src={props.url} alt={props.name}/>
+				:
+				<img src={logoSection} alt={logoSection.name}/>
 			}
+
 			<div className="nameBlock">
-				<span> {props.name} </span>
+				<span> {props.element.name} </span>
 			</div>
-			<div className="sectionItemChange"
-					 onContextMenu={(e)=>{e.stopPropagation();e.preventDefault()}}
-					 style={props.isChangeSectionItem ? {top: "-60px"} : {top: "-460px"}} >
-				<div className="sectionItemChangeBox"
-						 onContextMenu={(e)=>{e.stopPropagation();e.preventDefault()}} >
-					<div className="sectionItemChangeTitle">Изменение секции:</div>
-					<label htmlFor="">
-						<span>Name:</span>
-						<input ref={name} type="text" placeholder={props.name}/>
-					</label>
-					<label htmlFor="">
-						<span>Url:</span>
-						<input ref={url} type="text" placeholder={props.url}/>
-					</label>
-					<div className="sectionItemChangeBtn" onClick={saveChange}>
-						Save
+
+			<div className="menuSectionItem"
+					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
+				{!isChangeName
+					? <div><span className="menuItem" onClick={changeName}> Change Name </span>
+
 					</div>
-				</div>
-				<div className="sectionItemChangeClose" onClick={unShowChangeSectionItem}>
-					<div> </div>
-					<div> </div>
-				</div>
-			</div>
-			<div className="menuSectionItem" style={props.isMenuSectionItem ? {display: 'block'} : {display: 'none'}} >
-				<span onClick={showChangeSectionItem}>Изменить</span>
-				<hr style={{background: 'grey', height: "1px"}}/>
-				<span onClick={()=>changePositionSectionItem('up')}>position UP</span>
-				<span onClick={()=>changePositionSectionItem('down')}>position DOWN</span>
+					: <div><input type="text" onClick={changeName} placeholder='new Name'
+												onChange={(e) => setNewName(e.currentTarget.value)}
+												value={newName}/>
+						<span className="menuItem save_btn" onClick={saveChange}>Save</span>
+					</div>
+				}
+				{!isChangeImg
+					? <div><span className="menuItem" onClick={changeImg}> Change Img </span>
+						<hr style={{background: 'grey', height: "1px"}}/>
+					</div>
+					: <div><input type="text" onClick={changeImg} placeholder='new URL'
+												onChange={(e) => setNewImgURL(e.currentTarget.value)}
+												value={newImgURL}/>
+						<span className="menuItem save_btn" onClick={saveChange}>Save</span>
+					</div>
+				}
+				<span onClick={() => changePositionSectionItem('up')}>position UP</span>
+				<span onClick={() => changePositionSectionItem('down')}>position DOWN</span>
 				<hr style={{background: 'grey', height: "1px"}}/>
 				<span onClick={deleteSectionItem}>Удалить</span>
 			</div>
 		</div>
 	);
 }
+
+const mstp = (state) => {
+	return {
+		isContextMenu: state.app.isContextMenu,
+		userId: state.app.userId,
+
+		// userId={props.userId}
+		// key={el.id}
+		// url={el.url}
+		// name={el.name}
+		// isMenuSectionItem={el.isMenuSectionItem}
+		// isActive={el.isActive}
+		// id={el.id}
+		// position={index}
+		// length={props.items.length}
+		// isChangeSectionItem={el.isChangeSectionItem}
+		// showChangeSectionItem={props.showChangeSectionItem}
+		// unShowChangeSectionItem={props.unShowChangeSectionItem}
+		// isOpenMenu={props.isOpenMenu}
+		// changeIsOpenMenu={props.changeIsOpenMenu}
+		// menuSectionItemShow={props.menuSectionItemShow}
+		// deleteSectionItem={props.deleteSectionItem}
+		// activateSectionItem={props.activateSectionItem}
+		// changeSectionItem={props.changeSectionItem}
+		// changePositionSectionItem={props.changePositionSectionItem}
+	}
+};
+export const SectionItem = connect(
+	mstp,
+	{
+		changeIsContextMenu,
+		changeIsOpenContextMenu,
+		activateSectionItem,
+		changePositionSectionItem,
+		deleteSectionItem,
+		changeSectionItem,
+	}
+)(SectionItemComponent);
+

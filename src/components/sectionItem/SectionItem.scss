@@ -157,15 +157,39 @@
     background-color: #3c3f41;
     color: #bebebe;
 
-    span {
+    .menuItem {
       display: block;
-      padding: 5px 15px 5px 20px;
+      padding: 5px 20px 5px 20px;
       cursor: pointer;
 
       &:hover {
-        background-color: rgba(96, 135, 166, 0.82);
-        color: white;
+        background-color: #737373;
+      }
+
+    }
+    span {
+      display: block;
+      padding: 5px 20px 5px 20px;
+
+      &:hover {
+        background-color: #737373;
+      }
+    }
+    input {
+      padding: 0 10px;
+      width: 100%;
+      height: 30px;
+      font-size: 16px;
+      background-color: #999999;
+    }
+    .save_btn {
+      background-color: #046c00;
+      text-align: center;
+      &:hover {
+        background-color: #05a800;
       }
     }
   }
+
+
 }

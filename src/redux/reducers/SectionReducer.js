@@ -1,213 +1,228 @@
+import firebase from "firebase/app";
+import "firebase/firestore";
+import {addSectionItemDAL, setSectionItemDAL} from "../../DAL/DAL_Section";
+
 const initialState = {
 	idCount: 20,
-	items: [
-		{
-			id: 0,
-			name: 'HTML',
-			url: 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Html5_dise%C3%B1o_web.png',
-			isActive: false,
-			isMenuSectionItem: false,
-			isChangeSectionItem: false,
-
-			panelNav: {
-				id: 1,
-				parentName: 'HTML',
-				isNavShow: false,
-				navItems: [
-					{
-						id: 2,
-						type: 'folder',
-						isOpen: false,
-						isOpenContextMenu: false,
-						name: 'name',
-						folderItems: [
-							{
-								id: 4,
-								type: 'folder',
-								name: 'name',
-								isOpen: false,
-								isOpenContextMenu: false,
-								folderItems: [
-									{
-										id: 7,
-										type: 'file',
-										name: 'fileName1',
-										isOpen: false,
-										isOpenContextMenu: false,
-										fileMain: [
-											{
-												id: 5000,
-												type: 'block',
-												isOpenContextMenu: false,
-												title: 'Описание:',
-												subTitle: 'myFn.bind(obj)',
-												text: 'Указать obj(объект) которому будет принадлежать контекст (возвращает функцию); ',
-												img: '',
-												inner: [],
-											},
-											{
-												id: 5001,
-												type: 'block',
-												isOpenContextMenu: false,
-												title: 'Description2',
-												subTitle: '',
-												text: '',
-												img: '',
-												inner: [],
-											},
-											{
-												id: 5002,
-												type: 'block',
-												isOpenContextMenu: false,
-												title: '',
-												subTitle: '',
-												text: '',
-												img: '',
-												inner: [],
-											},
-											{
-												id: 5003,
-												type: 'block',
-												isOpenContextMenu: false,
-												title: 'Синтаксис:',
-												subTitle: '',
-												text: '',
-												img: '',
-												inner: [
-													{
-														id: 5004,
-														type: 'block',
-														isOpenContextMenu: false,
-														title: '',
-														subTitle: 'myFn.bind(obj)',
-														text: 'Указать obj(объект) которому будет    \n   принадлежать контекст (возвращает функцию); ',
-														img: '',
-														inner: [],
-													},
-													{
-														id: 5005,
-														type: 'block',
-														isOpenContextMenu: false,
-														title: '',
-														subTitle: 'myFn.bind(obj)',
-														text: 'Указать obj(объект) которому будет ' +
-															'принадлежать контекст (возвращает функцию); ',
-														img: '',
-														inner: [],
-													}
-												],
-											}
-										]
-									},
-									{
-										id: 8,
-										type: 'file',
-										name: 'fileName2',
-										isOpen: false,
-										isOpenContextMenu: false,
-										fileMain: []
-									},
-									{
-										id: 9,
-										type: 'file',
-										name: 'fileName3',
-										isOpen: false,
-										isOpenContextMenu: false,
-										fileMain: []
-									},
-								]
-							},
-							{
-								id: 5,
-								type: 'folder',
-								name: 'name',
-								isOpen: false,
-								isOpenContextMenu: false,
-								folderItems: [
-									{
-										id: 10,
-										type: 'folder',
-										name: 'name',
-										isOpen: false,
-										isOpenContextMenu: false,
-										folderItems: [
-											{
-												id: 11,
-												type: 'folder',
-												name: 'name',
-												isOpen: false,
-												isOpenContextMenu: false,
-												folderItems: [
-													{
-														id: 12,
-														type: 'folder',
-														name: 'name',
-														isOpen: false,
-														isOpenContextMenu: false,
-														folderItems: [
-															{
-																id: 13,
-																type: 'file',
-																name: 'fileName',
-																isOpen: false,
-																isOpenContextMenu: false,
-																fileMain: []
-															},
-															{
-																id: 14,
-																type: 'file',
-																name: 'fileName',
-																isOpen: false,
-																isOpenContextMenu: false,
-																fileMain: []
-															},
-															{
-																id: 15,
-																type: 'file',
-																name: 'fileName',
-																isOpen: false,
-																isOpenContextMenu: false,
-																fileMain: []
-															},
-														]
-													},
-												]
-											},
-										]
-									},
-								]
-							},
-							{
-								id: 6,
-								type: 'folder',
-								name: 'name',
-								isOpen: false,
-								isOpenContextMenu: false,
-								folderItems: [],
-							}
-						]
-					},
-					{
-						id: 3,
-						type: 'file',
-						name: 'fileName',
-						isOpen: false,
-						isOpenContextMenu: false,
-						fileMain: []
-					},
-				],
-			},
-		},
+	sectionItems: [
+		// {
+		// 	id: 0,
+		// 	name: 'HTML',
+		// 	url: 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Html5_dise%C3%B1o_web.png',
+		// 	isActive: false,
+		// 	isMenuSectionItem: false,
+		// 	isChangeSectionItem: false,
+		//
+		// 	panelNav: {
+		// 		id: 1,
+		// 		parentName: 'HTML',
+		// 		isNavShow: false,
+		// 		navItems: [
+		// 			{
+		// 				id: 2,
+		// 				type: 'folder',
+		// 				isOpen: false,
+		// 				isOpenContextMenu: false,
+		// 				name: 'name',
+		// 				folderItems: [
+		// 					{
+		// 						id: 4,
+		// 						type: 'folder',
+		// 						name: 'name',
+		// 						isOpen: false,
+		// 						isOpenContextMenu: false,
+		// 						folderItems: [
+		// 							{
+		// 								id: 7,
+		// 								type: 'file',
+		// 								name: 'fileName1',
+		// 								isOpen: false,
+		// 								isOpenContextMenu: false,
+		// 								fileMain: [
+		// 									{
+		// 										id: 5000,
+		// 										type: 'block',
+		// 										isOpenContextMenu: false,
+		// 										title: 'Описание:',
+		// 										subTitle: 'myFn.bind(obj)',
+		// 										text: 'Указать obj(объект) которому будет принадлежать контекст (возвращает функцию); ',
+		// 										img: '',
+		// 										inner: [],
+		// 									},
+		// 									{
+		// 										id: 5001,
+		// 										type: 'block',
+		// 										isOpenContextMenu: false,
+		// 										title: 'Description2',
+		// 										subTitle: '',
+		// 										text: '',
+		// 										img: '',
+		// 										inner: [],
+		// 									},
+		// 									{
+		// 										id: 5002,
+		// 										type: 'block',
+		// 										isOpenContextMenu: false,
+		// 										title: '',
+		// 										subTitle: '',
+		// 										text: '',
+		// 										img: '',
+		// 										inner: [],
+		// 									},
+		// 									{
+		// 										id: 5003,
+		// 										type: 'block',
+		// 										isOpenContextMenu: false,
+		// 										title: 'Синтаксис:',
+		// 										subTitle: '',
+		// 										text: '',
+		// 										img: '',
+		// 										inner: [
+		// 											{
+		// 												id: 5004,
+		// 												type: 'block',
+		// 												isOpenContextMenu: false,
+		// 												title: '',
+		// 												subTitle: 'myFn.bind(obj)',
+		// 												text: 'Указать obj(объект) которому будет    \n   принадлежать контекст (возвращает функцию); ',
+		// 												img: '',
+		// 												inner: [],
+		// 											},
+		// 											{
+		// 												id: 5005,
+		// 												type: 'block',
+		// 												isOpenContextMenu: false,
+		// 												title: '',
+		// 												subTitle: 'myFn.bind(obj)',
+		// 												text: 'Указать obj(объект) которому будет ' +
+		// 													'принадлежать контекст (возвращает функцию); ',
+		// 												img: '',
+		// 												inner: [],
+		// 											}
+		// 										],
+		// 									}
+		// 								]
+		// 							},
+		// 							{
+		// 								id: 8,
+		// 								type: 'file',
+		// 								name: 'fileName2',
+		// 								isOpen: false,
+		// 								isOpenContextMenu: false,
+		// 								fileMain: []
+		// 							},
+		// 							{
+		// 								id: 9,
+		// 								type: 'file',
+		// 								name: 'fileName3',
+		// 								isOpen: false,
+		// 								isOpenContextMenu: false,
+		// 								fileMain: []
+		// 							},
+		// 						]
+		// 					},
+		// 					{
+		// 						id: 5,
+		// 						type: 'folder',
+		// 						name: 'name',
+		// 						isOpen: false,
+		// 						isOpenContextMenu: false,
+		// 						folderItems: [
+		// 							{
+		// 								id: 10,
+		// 								type: 'folder',
+		// 								name: 'name',
+		// 								isOpen: false,
+		// 								isOpenContextMenu: false,
+		// 								folderItems: [
+		// 									{
+		// 										id: 11,
+		// 										type: 'folder',
+		// 										name: 'name',
+		// 										isOpen: false,
+		// 										isOpenContextMenu: false,
+		// 										folderItems: [
+		// 											{
+		// 												id: 12,
+		// 												type: 'folder',
+		// 												name: 'name',
+		// 												isOpen: false,
+		// 												isOpenContextMenu: false,
+		// 												folderItems: [
+		// 													{
+		// 														id: 13,
+		// 														type: 'file',
+		// 														name: 'fileName',
+		// 														isOpen: false,
+		// 														isOpenContextMenu: false,
+		// 														fileMain: []
+		// 													},
+		// 													{
+		// 														id: 14,
+		// 														type: 'file',
+		// 														name: 'fileName',
+		// 														isOpen: false,
+		// 														isOpenContextMenu: false,
+		// 														fileMain: []
+		// 													},
+		// 													{
+		// 														id: 15,
+		// 														type: 'file',
+		// 														name: 'fileName',
+		// 														isOpen: false,
+		// 														isOpenContextMenu: false,
+		// 														fileMain: []
+		// 													},
+		// 												]
+		// 											},
+		// 										]
+		// 									},
+		// 								]
+		// 							},
+		// 						]
+		// 					},
+		// 					{
+		// 						id: 6,
+		// 						type: 'folder',
+		// 						name: 'name',
+		// 						isOpen: false,
+		// 						isOpenContextMenu: false,
+		// 						folderItems: [],
+		// 					}
+		// 				]
+		// 			},
+		// 			{
+		// 				id: 3,
+		// 				type: 'file',
+		// 				name: 'fileName',
+		// 				isOpen: false,
+		// 				isOpenContextMenu: false,
+		// 				fileMain: []
+		// 			},
+		// 		],
+		// 	},
+		// },
 
 	],
-
-	isMenuSection: false,
-	isMenuNavItems: false,
-	isMenuNavItem: false,
-	isMenuBlock: false,
 };
 
 //вспомогательные функции
+function closeAllOpenContextMenuItem(items) {
+	for (let i = 0; i < items.length; i++) {
+		if (items[i].isOpenContextMenu) {
+			items[i].isOpenContextMenu = false;
+		}
+		if (items[i].nav) closeAllOpenContextMenuItem(items[i].nav.navItems);
+		if (items[i].folderItems && items[i].isOpenContextMenu) {
+			items[i].isOpenContextMenu = false;
+		}
+		if (items[i].folderItems) closeAllOpenContextMenuItem(items[i].folderItems);
+		if (items[i].fileMain) closeAllOpenContextMenuItem(items[i].fileMain);
+		if (items[i].inner) closeAllOpenContextMenuItem(items[i].inner);
+	}
+
+}
+
 let element;
 
 function searchNavItemID(array, id) {
@@ -296,22 +311,6 @@ function changeContextMenuItem(array, id) {
 	return element
 }
 
-function closeAllOpenContextMenuItem(items) {
-	for (let i = 0; i < items.length; i++) {
-		if (items[i].isOpenContextMenu) {
-			items[i].isOpenContextMenu = false;
-		}
-		if (items[i].panelNav) closeAllOpenContextMenuItem(items[i].panelNav.navItems);
-		if (items[i].folderItems && items[i].isOpenContextMenu) {
-			items[i].isOpenContextMenu = false;
-		}
-		if (items[i].folderItems) closeAllOpenContextMenuItem(items[i].folderItems);
-		if (items[i].fileMain) closeAllOpenContextMenuItem(items[i].fileMain);
-		if (items[i].inner) closeAllOpenContextMenuItem(items[i].inner);
-	}
-
-}
-
 function deleteNavItemID(array, id) {
 
 	for (let i = 0; i < array.length; i++) {
@@ -345,19 +344,18 @@ function deleteBlockID(array, id) {
 }
 
 function searchListBlock(array, id) {
-
 	for (let i = 0; i < array.length; i++) {
 		if (array[i].id === id) {
 			list.list = array;
 			list.index = i;
 			return list;
 		}
-		if (array[i].panelNav && array[i].panelNav.id === id) {
+		if (array[i].nav && array[i].nav.id === id) {
 			list.list = array;
 			list.index = i;
 			return list;
 		}
-		if (array[i].panelNav) searchListBlock(array[i].panelNav.navItems, id);
+		if (array[i].nav) searchListBlock(array[i].nav.navItems, id);
 		if (array[i].folderItems) searchListBlock(array[i].folderItems, id)
 		if (array[i].fileMain) searchListBlock(array[i].fileMain, id)
 		if (array[i].inner) searchListBlock(array[i].inner, id)
@@ -366,79 +364,50 @@ function searchListBlock(array, id) {
 }
 
 //Reducer
+let stateWorkDAL;
 export const SectionReducer = (state = initialState, action) => {
 	let stateCopy = JSON.parse(JSON.stringify(state));
 	switch (action.type) {
-		case 'MENU_SECTION_SHOW': {
-			stateCopy.isMenuSection = true;
+		case 'UPDATE_STATE_WORK_DAL': {
+			stateWorkDAL = stateCopy;
 			return stateCopy;
 		}
-		case 'MENU_PANEL_NAV_SHOW': {
-			stateCopy.isMenuNavItems = true;
-			return stateCopy;
-		}
-		case 'MENU_NAV_ITEM_SHOW': {
-			stateCopy.isMenuNavItem = !stateCopy.isMenuNavItem;
-			return stateCopy;
-		}
-		case 'MENU_SECTION_ITEM_SHOW': {
-			stateCopy.items[action.position].isMenuSectionItem = true;
-			return stateCopy;
-		}
-		case 'CLOSE_OPEN_MENU': {
-			closeAllOpenContextMenuItem(stateCopy.items);
-			stateCopy.isMenuSection = false;
-			stateCopy.isMenuNavItems = false;
-			stateCopy.isMenuNavItem = false;
-			stateCopy.items.map(el => {
-				el.isMenuSectionItem = false;
-			});
-			return stateCopy;
-		}
+		// Section
 		case 'ADD_SECTION_ITEM': {
-			stateCopy.items.push({
-				id: stateCopy.idCount++,
-				name: 'Name',
-				url: '',
-				position: stateCopy.items.length,
-				isActive: false,
-				isMenuSectionItem: false,
-				panelNav: {
-					isNavShow: false,
-					parentName: 'Name',
-					navItems: [],
-				},
-			});
-			return stateCopy;
+			return stateWorkDAL;
 		}
-		case 'CHANGE_SECTION_ITEM': {
-			let sectionItem = stateCopy.items.find(el=> el.id === action.id);
-			sectionItem.panelNav.parentName = action.name;
-			sectionItem.name = action.name;
-			action.url !== '' ? sectionItem.url = action.url : false;
-			return stateCopy;
-		}
-		case 'DELETE_SECTION_ITEM': {
-			stateCopy.items.splice(action.position, 1);
-			return stateCopy;
-		}
-		case 'CHANGE_POSITION_SECTION_ITEM': {
-			let element = searchListBlock(stateCopy.items, action.id);
-			if (action.side === 'up') {
-				if (element.index > 0) {
-					let elemCopy = element.list[element.index - 1];
-					element.list[element.index - 1] = element.list[element.index];
-					element.list[element.index] = elemCopy;
-				}
-			} else if (action.side === 'down') {
-				if (element.index + 1 < element.list.length) {
-					let elemCopy = element.list[element.index + 1];
-					element.list[element.index + 1] = element.list[element.index];
-					element.list[element.index] = elemCopy;
+		case 'ACTIVATE_SECTION_ITEM': {
+			for (let i = 0; i < stateCopy.sectionItems.length; i++) {
+				if (action.id === stateCopy.sectionItems[i].id) {
+					stateCopy.sectionItems[i].nav.isNavShow = true;
+					stateCopy.sectionItems[i].isActive = true;
+				} else {
+					stateCopy.sectionItems[i].nav.isNavShow = false;
+					stateCopy.sectionItems[i].isActive = false;
 				}
 			}
 			return stateCopy;
 		}
+		case 'CHANGE_IS_OPEN_CONTEXT_MENU': {
+			let element = changeContextMenuItem(stateCopy.sectionItems, action.id);
+			element.isOpenContextMenu = action.isOpenContextMenu;
+			return stateCopy;
+		}
+		case 'CLOSE_ALL_IS_OPEN_CONTEXT_MENU': {
+			closeAllOpenContextMenuItem(stateCopy.sectionItems);
+			return stateCopy;
+		}
+		case 'CHANGE_POSITION_SECTION_ITEM': {
+			return stateWorkDAL;
+		}
+		case 'DELETE_SECTION_ITEM': {
+			return stateWorkDAL;
+		}
+		case 'CHANGE_SECTION_ITEM': {
+			return stateWorkDAL;
+		}
+		//
+
 		case 'SHOW_CHANGE_SECTION_ITEM': {
 			stateCopy.items[action.position].isChangeSectionItem = true;
 			return stateCopy;
@@ -449,19 +418,7 @@ export const SectionReducer = (state = initialState, action) => {
 			})
 			return stateCopy;
 		}
-		case 'ACTIVATE_SECTION_ITEM': {
 
-			for (let i = 0; i < stateCopy.items.length; i++) {
-				if (action.id === stateCopy.items[i].id) {
-					stateCopy.items[i].panelNav.isNavShow = true;
-					stateCopy.items[i].isActive = true;
-				} else {
-					stateCopy.items[i].panelNav.isNavShow = false;
-					stateCopy.items[i].isActive = false;
-				}
-			}
-			return stateCopy;
-		}
 		case 'ADD_PANEL_NAV_ITEM': {
 			stateCopy.items.find((el, index) => {
 				return el.isActive;
@@ -495,16 +452,7 @@ export const SectionReducer = (state = initialState, action) => {
 			element.isOpen = !element.isOpen;
 			return stateCopy;
 		}
-		case 'CHANGE_IS_OPEN_CONTEXT_MENU': {
 
-			let element = changeContextMenuItem(stateCopy.items, action.id);
-			element.isOpenContextMenu = !element.isOpenContextMenu;
-			return stateCopy;
-		}
-		case 'CLOSE_ALL_IS_OPEN_CONTEXT_MENU': {
-			closeAllOpenContextMenuItem(stateCopy.items);
-			return stateCopy;
-		}
 		case 'ADD_FOLDER_NAV_ITEM': {
 			let element = searchNavItemID(stateCopy.items, action.id);
 			element.isOpen = true;
@@ -581,15 +529,15 @@ export const SectionReducer = (state = initialState, action) => {
 			let element = searchBlockID(stateCopy.items, action.id);
 			element.inner.push(
 				{
-				id: stateCopy.idCount++,
-				type: 'block',
-				isOpenContextMenu: false,
-				title: '',
-				subTitle: '',
-				text: '',
-				img: '',
-				inner: [],
-			}
+					id: stateCopy.idCount++,
+					type: 'block',
+					isOpenContextMenu: false,
+					title: '',
+					subTitle: '',
+					text: '',
+					img: '',
+					inner: [],
+				}
 			);
 			return stateCopy;
 		}
@@ -634,61 +582,139 @@ export const SectionReducer = (state = initialState, action) => {
 	}
 };
 
-//menuSectionShow AC:
-export const menuSectionShow = () => {
+//AC UPDATE_STATE_WORK_DAL:
+export const updateStateWorkDAL = () => {
 	return {
-		type: 'MENU_SECTION_SHOW',
+		type: 'UPDATE_STATE_WORK_DAL',
 	}
 };
-//menuPanelNavShow AC:
-export const menuPanelNavShow = () => {
-	return {
-		type: 'MENU_PANEL_NAV_SHOW',
-	}
-};
-//menuNavItemShow AC:
-export const menuNavItemShow = () => {
-	return {
-		type: 'MENU_NAV_ITEM_SHOW',
-	}
-};
-//menuSectionItemShow AC:
-export const menuSectionItemShow = (position) => {
-	return {
-		type: 'MENU_SECTION_ITEM_SHOW',
-		position: position,
-	}
-};
-//addSectionItem AC:
-export const addSectionItem = () => {
+//AC ADD_SECTION_ITEM:
+export const addSectionItemAC = (userId) => {
 	return {
 		type: 'ADD_SECTION_ITEM',
+		userId: userId,
 	}
 };
-//changeSectionItem AC:
-export const changeSectionItem = (id, name, url) => {
+//	THUNK addSectionItem:
+export const addSectionItem = (userId) => {
+
+	return (dispatch) => {
+		dispatch(updateStateWorkDAL());
+		stateWorkDAL.sectionItems.push({
+			id: new Date().getTime(),
+			name: 'Name',
+			url: '',
+			position: stateWorkDAL.sectionItems.length,
+			isActive: false,
+			isOpenContextMenu: false,
+			nav: {
+				parentName: 'Name',
+				navItems: [],
+			},
+		});
+		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
+		.then((resolve) => {
+			dispatch(addSectionItemAC(userId));
+		});
+	}
+};
+//AC ACTIVATE_SECTION_ITEM:
+export const activateSectionItem = (id) => {
 	return {
-		type: 'CHANGE_SECTION_ITEM',
+		type: 'ACTIVATE_SECTION_ITEM',
 		id: id,
-		name: name,
-		url: url,
 	}
 };
-//deleteSectionItem AC:
-export const deleteSectionItem = (position) => {
+//changeIsOpenContextMenu AC:
+export const changeIsOpenContextMenu = (id, isOpenContextMenu) => {
 	return {
-		type: 'DELETE_SECTION_ITEM',
-		position: position,
+		type: 'CHANGE_IS_OPEN_CONTEXT_MENU',
+		id: id,
+		isOpenContextMenu: isOpenContextMenu,
+	}
+};
+//closeAllIsOpenContextMenu AC:
+export const closeAllIsOpenContextMenu = () => {
+	return {
+		type: 'CLOSE_ALL_IS_OPEN_CONTEXT_MENU',
 	}
 };
 //changePositionSectionItem AC:
-export const changePositionSectionItem = (id, side) => {
+export const changePositionSectionItemAC = (id, side) => {
 	return {
 		type: 'CHANGE_POSITION_SECTION_ITEM',
 		id: id,
 		side: side,
 	}
 };
+//	THUNK changePositionSectionItem:
+export const changePositionSectionItem = (id, side, userId) => {
+	return (dispatch) => {
+		dispatch(closeAllIsOpenContextMenu());
+		dispatch(updateStateWorkDAL());
+
+		let element = searchListBlock(stateWorkDAL.sectionItems, id);
+		if (side === 'up') {
+			if (element.index > 0) {
+				let elemCopy = element.list[element.index - 1];
+				element.list[element.index - 1] = element.list[element.index];
+				element.list[element.index] = elemCopy;
+			}
+		} else if (side === 'down' && element.index + 1 < element.list.length) {
+			let elemCopy = element.list[element.index + 1];
+			element.list[element.index + 1] = element.list[element.index];
+			element.list[element.index] = elemCopy;
+		}
+		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
+		.then((resolve) => {
+			dispatch(changePositionSectionItemAC());
+		});
+	}
+};
+//AC DELETE_SECTION_ITEM:
+export const deleteSectionItemAC = () => {
+	return {
+		type: 'DELETE_SECTION_ITEM',
+	}
+};
+//	THUNK deleteSectionItem:
+export const deleteSectionItem = (id, userId) => {
+	return (dispatch) => {
+		dispatch(closeAllIsOpenContextMenu());
+		dispatch(updateStateWorkDAL());
+
+		let index = stateWorkDAL.sectionItems.findIndex(el => el.id === id);
+		stateWorkDAL.sectionItems.splice(index, 1);
+		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
+		.then((resolve) => {
+			dispatch(deleteSectionItemAC());
+		});
+	}
+};
+//AC CHANGE_SECTION_ITEM:
+export const changeSectionItemAC = () => {
+	return {
+		type: 'CHANGE_SECTION_ITEM',
+	}
+};
+//	THUNK deleteSectionItem:
+export const changeSectionItem = (name, url, id, userId) => {
+	return (dispatch) => {
+		dispatch(closeAllIsOpenContextMenu());
+		dispatch(updateStateWorkDAL());
+debugger
+		let element = stateWorkDAL.sectionItems.find(el => el.id === id);
+		name !== ''
+			? element.name = name
+			: element.url = url;
+
+		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
+		.then((resolve) => {
+			dispatch(changeSectionItemAC());
+		});
+	}
+};
+
 //showChangeSectionItem AC:
 export const showChangeSectionItem = (position) => {
 	return {
@@ -700,13 +726,6 @@ export const showChangeSectionItem = (position) => {
 export const unShowChangeSectionItem = () => {
 	return {
 		type: 'UN_SHOW_CHANGE_SECTION_ITEM',
-	}
-};
-//activateSectionItem AC:
-export const activateSectionItem = (id) => {
-	return {
-		type: 'ACTIVATE_SECTION_ITEM',
-		id: id,
 	}
 };
 //addPanelNavItem AC:
@@ -730,19 +749,7 @@ export const openFile = (id) => {
 		id: id,
 	}
 };
-//changeIsOpenContextMenu AC:
-export const changeIsOpenContextMenu = (id) => {
-	return {
-		type: 'CHANGE_IS_OPEN_CONTEXT_MENU',
-		id: id,
-	}
-};
-//closeAllIsOpenContextMenu AC:
-export const closeAllIsOpenContextMenu = () => {
-	return {
-		type: 'CLOSE_ALL_IS_OPEN_CONTEXT_MENU',
-	}
-};
+
 //addFolderNavItem AC:
 export const addFolderNavItem = (id) => {
 	return {
@@ -789,7 +796,6 @@ export const addBlockInActiveFile = (id) => {
 };
 
 //main context menu
-
 //addBlockInBlock AC:
 export const addBlockInBlock = (id) => {
 	return {
@@ -806,7 +812,7 @@ export const changeTitleInBlock = (id, title) => {
 	}
 };
 //changeSubTitleInBlock AC:
-export const changeSubTitleInBlock = (id,subTitle) => {
+export const changeSubTitleInBlock = (id, subTitle) => {
 	return {
 		type: 'CHANGE_SUB_TITLE_IN_BLOCK',
 		id: id,

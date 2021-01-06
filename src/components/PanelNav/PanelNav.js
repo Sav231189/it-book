@@ -2,12 +2,11 @@ import React from 'react';
 import './PanelNav.css';
 import {NavItems} from "../NavItems/NavItems";
 import {connect} from "react-redux";
-import {changeIsOpenMenu, closeOpenMenu} from "../../redux/reducers/AppReducer";
-import {addPanelNavItem, menuPanelNavShow} from "../../redux/reducers/SectionReducer";
+import {addPanelNavItem} from "../../redux/reducers/SectionReducer";
 
 export function PanelNavContainer(props) {
 	const showMenuNavItems = (e) => {
-		if (!props.isOpenMenu) {
+		if (!props.isOpenContextMenu) {
 			if (e.target.clientHeight + 20 > e.clientY) {
 				e.target.lastChild.style = `top: ${e.clientY - 75}px; left: ${e.clientX - 75}px;`;
 				props.menuPanelNavShow();
@@ -58,12 +57,9 @@ export function PanelNavContainer(props) {
 const mstp = (state) => {
 	return {
 		isMenuNavItems: state.section.isMenuNavItems,
-		isOpenMenu: state.app.isOpenMenu,
+		isOpenContextMenu: state.app.isOpenContextMenu,
 	}
 };
 export const PanelNav = connect(mstp, {
-	changeIsOpenMenu,
-	closeOpenMenu,
-	menuPanelNavShow,
 	addPanelNavItem,
 })(PanelNavContainer);

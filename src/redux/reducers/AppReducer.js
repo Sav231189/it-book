@@ -2,19 +2,33 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 const initialState = {
-	isOpenMenu: false,
+	isContextMenu: false,
+	isContextMenuSection: false,
 	isAuth: false,
 	name: '',
+	userId: "",
 };
 
 export const AppReducer = (state = initialState, action) => {
 	let stateCopy = JSON.parse(JSON.stringify(state));
 
 	switch (action.type) {
-		case 'CHANGE_OPEN_MENU': {
-			stateCopy.isOpenMenu = action.isOpenMenu;
+		case 'CHANGE_IS_CONTEXT_MENU': {
+			stateCopy.isContextMenu = action.isContextMenu;
 			return stateCopy;
 		}
+		case 'CHANGE_IS_CONTEXT_MENU_SECTION': {
+			stateCopy.isContextMenuSection = action.isContextMenuSection;
+			return stateCopy;
+		}
+		case 'CLOSE_ALL_CONTEXT_MENU': {
+			stateCopy.isContextMenu = false;
+			stateCopy.isContextMenuSection = false;
+			return stateCopy;
+		}
+
+
+
 		case 'IS_LOGIN': {
 			stateCopy.isAuth = action.isLogin;
 			return stateCopy
@@ -23,24 +37,46 @@ export const AppReducer = (state = initialState, action) => {
 			stateCopy.name = action.name;
 			return stateCopy
 		}
+		case 'ADD_USER_ID': {
+			stateCopy.userId = action.id;
+			return stateCopy
+		}
 		default :
 			return state;
 	}
 };
 
-//CHANGE_OPEN_MENU AC:
-export const changeIsOpenMenu = (isOpenMenu) => {
+//AC CHANGE_OPEN_CONTEXT_MENU:
+export const changeIsContextMenu = (isContextMenu) => {
 	return {
-		type: 'CHANGE_OPEN_MENU',
-		isOpenMenu: isOpenMenu
+		type: 'CHANGE_IS_CONTEXT_MENU',
+		isContextMenu: isContextMenu,
+
 	}
 };
-//CLOSE_OPEN_MENU AC
-export const closeOpenMenu = () => {
+//AC CLOSE_ALL_CONTEXT_MENU:
+export const closeAllContextMenu = () => {
 	return {
-		type: 'CLOSE_OPEN_MENU',
+		type: 'CLOSE_ALL_CONTEXT_MENU',
 	}
 };
+//AC CHANGE_IS_SECTION_CONTEXT_MENU:
+export const changeIsContextMenuSection = (isContextMenuSection) => {
+	return {
+		type: 'CHANGE_IS_CONTEXT_MENU_SECTION',
+		isContextMenuSection: isContextMenuSection,
+	}
+};
+//AC CHANGE_IS_SECTION_ITEM_CONTEXT_MENU:
+export const changeOpenSectionItemContextMenu = (isSectionItemContextMenu) => {
+	return {
+		type: 'CHANGE_IS_SECTION_ITEM_CONTEXT_MENU',
+		isSectionItemContextMenu: isSectionItemContextMenu,
+	}
+};
+
+
+
 //IS_LOGIN AC
 export const isLogin = (isLogin) => {
 	return {
@@ -55,8 +91,15 @@ export const changeName = (name) => {
 		name: name,
 	}
 };
+//ADD_USER_ID
+export const addUserId = (id) => {
+	return {
+		type: 'ADD_USER_ID',
+		id: id,
+	}
+};
 
-//registration THUNK
+//THUNK registration
 export const registration = (email, password) => {
 	return (dispatch) => {
 		firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
@@ -68,7 +111,7 @@ export const registration = (email, password) => {
 		})
 	}
 };
-//checkLogin THUNK
+//THUNK checkLogin
 export const checkLogin = (email,password) => {
 	return (dispatch) => {
 		firebase.auth().signInWithEmailAndPassword(email, password)
@@ -83,18 +126,19 @@ export const checkLogin = (email,password) => {
 		})
 	}
 };
-// getAuth THUNK
+//THUNK getAuth
 export const getAuth = () => {
 	return (dispatch)=>{
 			firebase.auth().onAuthStateChanged(user => {
 			if (user) {
 				dispatch(isLogin(true));
+				dispatch(addUserId(user.uid));
 				dispatch(changeName(user.email.slice(0,user.email.indexOf('@'))));
 			}
 		})
 	}
 };
-// updatePassword THUNK
+//THUNK  updatePassword
 export const updatePassword = (newPassword) => {
 	return (dispatch) => {
 		firebase.auth().currentUser.updatePassword(newPassword).then(function () {
@@ -104,7 +148,7 @@ export const updatePassword = (newPassword) => {
 		});
 	}
 };
-// outLogin THUNK
+//THUNK  outLogin
 export const outLogin = () => {
 	return (dispatch) => {
 		firebase.auth().signOut().then(() => {
@@ -114,8 +158,7 @@ export const outLogin = () => {
 		});
 	}
 };
-
-// sendPasswordResetEmail THUNK
+//THUNK  sendPasswordResetEmail
 export const sendPasswordResetEmail = (email) => {
 	return (dispatch) => {
 		firebase.auth().sendPasswordResetEmail(email).then(function() {

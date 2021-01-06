@@ -1,58 +1,33 @@
-import React from 'react';
+import React,{useState} from 'react';
 import './Section.css'
 import {connect} from "react-redux";
 import {SectionItem} from "../sectionItem/SectionItem";
 import {
-	activateSectionItem,
-	addSectionItem, changePositionSectionItem, changeSectionItem,
-	deleteSectionItem,
-	menuSectionItemShow,
-	menuSectionShow, showChangeSectionItem, unShowChangeSectionItem
-} from "../../redux/reducers/SectionReducer";
-import {changeIsOpenMenu, closeOpenMenu} from "../../redux/reducers/AppReducer";
+	changeIsContextMenu, changeIsContextMenuSection,
+	changeOpenSectionContextMenu,
+} from "../../redux/reducers/AppReducer";
+import {addSectionItem} from "../../redux/reducers/SectionReducer";
 
 export function SectionComponent(props) {
-	// console.log("render Section")
-	const showMenuSection = (e) => {
-		if (!props.isOpenMenu) {
+
+	const showMenuContextSection = (e) => {
+		if (!props.isContextMenu && !props.isContextMenuSection) {
 			if (e.target.clientHeight - 25 > e.clientY) {
 				e.target.lastChild.style = `top: ${e.clientY - 60}px; left: ${e.clientX}px;`;
-				props.menuSectionShow();
-				props.changeIsOpenMenu(true);
+				props.changeIsContextMenu(true);
+				props.changeIsContextMenuSection(true);
 			}
-		}else {
-			props.closeOpenMenu()
-			props.changeIsOpenMenu(false);
+			e.preventDefault();
+			e.stopPropagation();
 		}
 	};
 
-
 	return (
-		<div className="section" onContextMenu={showMenuSection}>
-			{/*вывод элементов section*/}
-			{props.items.map((el,index) => <SectionItem
-				key={el.id}
-				url={el.url}
-				name={el.name}
-				isMenuSectionItem={el.isMenuSectionItem}
-				isActive={el.isActive}
-				id={el.id}
-				position={index}
-				length={props.items.length}
-				isChangeSectionItem={el.isChangeSectionItem}
-				showChangeSectionItem={props.showChangeSectionItem}
-				unShowChangeSectionItem={props.unShowChangeSectionItem}
-				isOpenMenu={props.isOpenMenu}
-				changeIsOpenMenu={props.changeIsOpenMenu}
-				menuSectionItemShow={props.menuSectionItemShow}
-				deleteSectionItem={props.deleteSectionItem}
-				activateSectionItem={props.activateSectionItem}
-				changeSectionItem={props.changeSectionItem}
-				changePositionSectionItem={props.changePositionSectionItem}
-			/>)}
+		<div className="section" onContextMenu={showMenuContextSection}>
+			{props.sectionItems.map((el) => <SectionItem key={el.id} element={el}/>)}
 			{/*context menu section*/}
-			<div className="menuSection" style={props.isMenuSection ? {display: 'block'} : {display: 'none'}}>
-				<span onClick={props.addSectionItem}>Добавить +</span>
+			<div className="menuSection" style={props.isContextMenuSection ? {display: 'block'} : {display: 'none'}}>
+				<span onClick={(e)=>props.addSectionItem(props.userId)}>Добавить +</span>
 			</div>
 		</div>
 	);
@@ -60,24 +35,18 @@ export function SectionComponent(props) {
 
 const mstp = (state) => {
 	return {
-		items: state.section.items,
-		isMenuSection: state.section.isMenuSection,
-		isOpenMenu: state.app.isOpenMenu,
+		isContextMenu: state.app.isContextMenu,
+		isContextMenuSection: state.app.isContextMenuSection,
+
+		sectionItems: state.section.sectionItems,
+		userId: state.app.userId,
 	}
 };
-export const Section = connect(
-	mstp,
-	{
-		menuSectionShow,
-		menuSectionItemShow,
-		changeIsOpenMenu,
-		closeOpenMenu,
-		addSectionItem,
-		deleteSectionItem,
-		showChangeSectionItem,
-		unShowChangeSectionItem,
-		activateSectionItem,
-		changeSectionItem,
-		changePositionSectionItem,
-	}
-)(SectionComponent);
+let changeContextMenuItem;
+export const Section = connect(mstp, {
+	changeIsContextMenu,
+	changeIsContextMenuSection,
+
+	addSectionItem,
+})(SectionComponent);
+

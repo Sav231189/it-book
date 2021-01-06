@@ -140,14 +140,34 @@
   background-color: #3c3f41;
   color: #bebebe;
 }
-.item .menuSectionItem span {
+.item .menuSectionItem .menuItem {
   display: block;
-  padding: 5px 15px 5px 20px;
+  padding: 5px 20px 5px 20px;
   cursor: pointer;
 }
+.item .menuSectionItem .menuItem:hover {
+  background-color: #737373;
+}
+.item .menuSectionItem span {
+  display: block;
+  padding: 5px 20px 5px 20px;
+}
 .item .menuSectionItem span:hover {
-  background-color: rgba(96, 135, 166, 0.82);
-  color: white;
+  background-color: #737373;
+}
+.item .menuSectionItem input {
+  padding: 0 10px;
+  width: 100%;
+  height: 30px;
+  font-size: 16px;
+  background-color: #999999;
+}
+.item .menuSectionItem .save_btn {
+  background-color: #046c00;
+  text-align: center;
+}
+.item .menuSectionItem .save_btn:hover {
+  background-color: #05a800;
 }
 
 /*# sourceMappingURL=SectionItem.css.map */

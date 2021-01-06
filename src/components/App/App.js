@@ -1,32 +1,33 @@
-import React, {useEffect} from "react";
+import React, {useEffect,useState} from "react";
 import './App.css';
 import {Header} from "../header/Header";
 import {Panel} from "../panel/Panel";
 import {PanelMoreBtn} from "../panelMoreBtn/PanelMoreBtn";
 import {connect} from "react-redux";
 import {
-	changeIsOpenMenu,
-	checkLogin,
-	closeOpenMenu,
+	changeIsContextMenu,
+	checkLogin, closeAllContextMenu,
 	getAuth,
 	outLogin,
 	registration, sendPasswordResetEmail, updatePassword
 } from "../../redux/reducers/AppReducer";
-import {closeAllIsOpenContextMenu} from "../../redux/reducers/SectionReducer";
 import {Main} from "../Main/Main";
 import {Start} from "../Start/Start";
+import {changePanelShow} from "../../redux/reducers/PanelReducer";
+import {closeAllIsOpenContextMenu} from "../../redux/reducers/SectionReducer";
 
 function AppComponent(props) {
 
 	useEffect(() => {
 		props.getAuth();
-	}, [])
+	}, []);
 
 	const closeAllMenu = (e) => {
-		if (props.isOpenMenu) {
-			props.closeOpenMenu();
+		console.log("app click")
+		if (props.isContextMenu) {
+			props.changeIsContextMenu(false);
+			props.closeAllContextMenu();
 			props.closeAllIsOpenContextMenu();
-			props.changeIsOpenMenu(false);
 		}
 	};
 
@@ -34,15 +35,24 @@ function AppComponent(props) {
 		<div>
 			{!props.isAuth
 				?
-				<Start checkLogin={props.checkLogin} sendPasswordResetEmail={props.sendPasswordResetEmail} registration={props.registration}/>
+				<Start checkLogin={props.checkLogin}
+							 sendPasswordResetEmail={props.sendPasswordResetEmail}
+							 registration={props.registration}
+				/>
 				:
 				<div className="app" onClick={closeAllMenu} onContextMenu={closeAllMenu}>
-					<Header outLogin={props.outLogin} name={props.name} updatePassword={props.updatePassword}/>
-					<Panel/>
-					<PanelMoreBtn/>
-					<div className='mainBox' style={!props.panelShow ? {width: 'calc(100% - 10px)'} : null}>
-						<Main/>
-					</div>
+
+					<Header outLogin={props.outLogin} name={props.name}
+									updatePassword={props.updatePassword}
+					/>
+
+					<Panel showPanel={props.showPanel} userId={props.userId}/>
+					<PanelMoreBtn changePanelShow={props.changePanelShow}/>
+
+					{/*<div className='mainBox' style={!props.panelShow ? {width: 'calc(100% - 10px)'} : null}>*/}
+					{/*	<Main/>*/}
+					{/*</div>*/}
+
 				</div>
 			}
 		</div>
@@ -51,28 +61,20 @@ function AppComponent(props) {
 
 const mstp = (state) => {
 	return {
-		isOpenMenu: state.app.isOpenMenu,
-		panelShow: state.panel.show,
+		isContextMenu: state.app.isContextMenu,
+
+		showPanel: state.panel.showPanel,
 		isAuth: state.app.isAuth,
 		name: state.app.name,
 	}
 };
-const mdtp = (dispatch) => {
-	return {
-		closeOpenMenu,
-		changeIsOpenMenu,
-		closeAllIsOpenContextMenu,
-		checkLogin,
-		// checkLogin: (email,password) => checkLogin(email,password)(dispatch),
-		outLogin: () => outLogin(dispatch),
-		getAuth: () => getAuth(dispatch),
-		registration: (email, password) => registration(email, password)(dispatch),
-	}
-};
 export const App = connect(mstp, {
-	closeOpenMenu,
-	changeIsOpenMenu,
+	changeIsContextMenu,
+	closeAllContextMenu,
 	closeAllIsOpenContextMenu,
+
+	changePanelShow,
+
 	checkLogin,
 	outLogin,
 	getAuth,

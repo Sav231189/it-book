@@ -2,21 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5ade667-796b-4e33-abca-7c3a979b8322" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Start/Start.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Start/Start.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/firebaseConfig.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DAL/DAL_Section.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/App/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/header/Header.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/header/Header.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/header/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/header/Header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PanelNav/PanelNav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PanelNav/PanelNav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/section/Section.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/section/Section.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/section/Section.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/redux/reducers/AppReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/AppReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/PanelReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/PanelReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/redux/redux.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/redux.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -59,6 +67,7 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">

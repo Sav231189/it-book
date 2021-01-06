@@ -117,15 +117,13 @@ export function BlockComponent(props) {
 }
 const mstp = (state) => {
 	return {
-		isOpenMenu: state.app.isOpenMenu,
+		isOpenContextMenu: state.app.isOpenContextMenu,
 		panelShow: state.panel.show,
 	}
 };
 export const Block = connect(mstp, {
-	changeIsOpenMenu,
 	closeAllIsOpenContextMenu,
 	changeIsOpenContextMenu,
-	closeOpenMenu,
 	addBlockInBlock,
 	changeTitleInBlock,
 	changeSubTitleInBlock,
