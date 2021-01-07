@@ -1,81 +1,112 @@
-.navItem {
+.NavItem {
+  display: block;
   font-family: Roboto, sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 16px;
   color: #868686;
+  pointer-events: none;
 }
-.navItem .navStep {
-  width: 10px;
-  margin: 0 2px;
+.NavItem .navStep {
+  width: 14px;
+  margin-right: 6px;
   height: 1px;
   background-color: rgba(134, 134, 134, 0.24);
+  pointer-events: visible;
 }
-.navItem .navElement {
-  padding: 2px 0;
-  display: flex;
+.NavItem .navElement {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
+  padding: 2px 8px 2px 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  pointer-events: auto;
+}
+.NavItem .navElement:hover {
+  background-color: #2d2d2d;
+}
+.NavItem .navElement .folder {
+  display: inline-flex;
   align-items: center;
-  cursor: pointer;
 }
-.navItem .navElement svg.closeFolderImg {
-  padding: 4px 4px;
-  display: block;
-  width: 18px;
-  height: auto;
+.NavItem .navElement .folder svg {
+  width: 14px;
+  height: 14px;
   transform: rotate(-90deg);
-  cursor: pointer;
   fill: #a5a5a5;
 }
-.navItem .navElement svg.closeFolderImg.emptyFolder {
+.NavItem .navElement .folder.emptyFolder {
+  color: rgba(134, 134, 134, 0.24);
+}
+.NavItem .navElement .folder.emptyFolder svg {
   fill: rgba(134, 134, 134, 0.24);
 }
-.navItem .navElement svg.fileImg {
-  padding: 0 4px;
-  display: block;
-  width: 18px;
-  height: auto;
+.NavItem .navElement .folder span {
+  margin-left: 5px;
+}
+.NavItem .navElement .file {
+  display: inline-flex;
+  align-items: center;
+}
+.NavItem .navElement .file svg {
+  width: 14px;
+  height: 14px;
   fill: #a5a5a5;
-  cursor: pointer;
 }
-.navItem .navElement .navElementName {
-  cursor: pointer;
+.NavItem .navElement .file span {
+  margin-left: 4px;
 }
-.navItem .navElement.active svg.closeFolderImg {
+.NavItem .navElement.active .folder svg {
   transform: rotate(0deg);
 }
-.navItem .navElement.active svg.fileImg {
-  fill: #07ff0070;
+.NavItem .navElement.active .folder.emptyFolder svg {
+  transform: rotate(-90deg);
 }
-.navItem .fileActive {
+.NavItem .navElement.active .file {
   color: #07ff0070;
 }
-.navItem .menuNavItem {
+.NavItem .navElement.active .file svg {
+  fill: #07ff0070;
+}
+.NavItem .menuNavItem {
+  pointer-events: visible;
   display: none;
   position: absolute;
-  z-index: 1;
+  z-index: 21;
   top: 0;
   left: 0;
   background-color: #3c3f41;
   color: #bebebe;
-}
-.navItem .menuNavItem span {
-  display: block;
-  padding: 5px 15px 5px 20px;
   cursor: pointer;
-  width: 160px;
 }
-.navItem .menuNavItem span:hover {
-  background-color: rgba(96, 135, 166, 0.82);
-  color: white;
+.NavItem .menuNavItem .menuItem {
+  display: block;
+  padding: 5px 20px 5px 20px;
 }
-.navItem .saveNameBtn {
-  display: inline-block;
-  height: 100%;
-  padding: 0 5px;
-  margin-left: 2px;
-  background-color: #b7b7b7;
-  color: #2d2d2d;
-  font-size: 13px;
+.NavItem .menuNavItem .menuItem:hover {
+  background-color: #737373;
+}
+.NavItem .menuNavItem span {
+  display: block;
+  padding: 5px 20px 5px 20px;
+}
+.NavItem .menuNavItem span:hover {
+  background-color: #737373;
+}
+.NavItem .menuNavItem input {
+  padding: 0 10px;
+  width: 100%;
+  height: 30px;
+  font-size: 16px;
+  background-color: #999999;
+}
+.NavItem .menuNavItem .save_btn {
+  background-color: #046c00;
+  text-align: center;
+}
+.NavItem .menuNavItem .save_btn:hover {
+  background-color: #05a800;
 }
 
 /*# sourceMappingURL=NavItem.css.map */

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useRef} from 'react';
 import './SectionItem.css'
 import logoSection from '../../img/logo.png';
 import {connect} from "react-redux";
@@ -13,6 +13,8 @@ import {
 
 export function SectionItemComponent(props) {
 
+	const refContextMenu = useRef(null);
+
 	const [isChangeName, setIsChangeName] = useState(false);
 	const [isChangeImg, setIsChangeImg] = useState(false);
 
@@ -20,9 +22,8 @@ export function SectionItemComponent(props) {
 	const [newImgURL, setNewImgURL] = useState('');
 
 	const showSectionItemContextMenu = (e) => {
-		console.log('showSectionItemContextMenu')
 		if (!props.isContextMenu && !props.element.isOpenContextMenu ) {
-			e.target.parentElement.lastChild.style = `top: ${e.clientY - 60}px; left: ${e.clientX}px;`;
+			refContextMenu.current.style= `top: ${e.clientY - 60}px; left: ${e.clientX}px;`;
 			props.changeIsContextMenu(true);
 			props.changeIsOpenContextMenu(props.element.id,true);
 			// e.preventDefault();
@@ -58,8 +59,10 @@ export function SectionItemComponent(props) {
 		isChangeName
 			?	props.changeSectionItem(newName,'',props.element.id,props.userId)
 			: props.changeSectionItem('',newImgURL,props.element.id,props.userId);
-		setIsChangeName('');
-		setIsChangeImg('');
+		setNewName('');
+		setNewImgURL('');
+		setIsChangeName(false);
+		setIsChangeImg(false);
 	};
 
 
@@ -67,7 +70,7 @@ export function SectionItemComponent(props) {
 		<div className="item"
 				 onContextMenu={showSectionItemContextMenu}
 				 onClick={activateSectionItem}>
-			{props.element.isActive && <div className='isActiveSectionItem'></div>}
+			{props.element.isActive && <div className='isActiveSectionItem'> </div>}
 			{props.element.url !== ''
 				?
 				<img src={props.url} alt={props.name}/>
@@ -79,7 +82,7 @@ export function SectionItemComponent(props) {
 				<span> {props.element.name} </span>
 			</div>
 
-			<div className="menuSectionItem"
+			<div ref={refContextMenu} className="menuSectionItem"
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
 				{!isChangeName
 					? <div><span className="menuItem" onClick={changeName}> Change Name </span>
@@ -114,26 +117,6 @@ const mstp = (state) => {
 	return {
 		isContextMenu: state.app.isContextMenu,
 		userId: state.app.userId,
-
-		// userId={props.userId}
-		// key={el.id}
-		// url={el.url}
-		// name={el.name}
-		// isMenuSectionItem={el.isMenuSectionItem}
-		// isActive={el.isActive}
-		// id={el.id}
-		// position={index}
-		// length={props.items.length}
-		// isChangeSectionItem={el.isChangeSectionItem}
-		// showChangeSectionItem={props.showChangeSectionItem}
-		// unShowChangeSectionItem={props.unShowChangeSectionItem}
-		// isOpenMenu={props.isOpenMenu}
-		// changeIsOpenMenu={props.changeIsOpenMenu}
-		// menuSectionItemShow={props.menuSectionItemShow}
-		// deleteSectionItem={props.deleteSectionItem}
-		// activateSectionItem={props.activateSectionItem}
-		// changeSectionItem={props.changeSectionItem}
-		// changePositionSectionItem={props.changePositionSectionItem}
 	}
 };
 export const SectionItem = connect(

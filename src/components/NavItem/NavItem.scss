@@ -1,98 +1,129 @@
-.navItem {
-
+.NavItem {
+  display: block;
 
   font-family: Roboto,sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 16px;
   color: #868686;
-
-  //cursor: default;
-
-
+  pointer-events: none;
   .navStep {
-    width: 10px;
-    margin: 0 2px;
+    width: 14px;
+    margin-right: 6px;
     height: 1px;
     background-color: rgba(134, 134, 134, 0.24);
-
+    pointer-events: visible;
   }
 
   .navElement {
-    padding: 2px 0;
-    display: flex;
-    align-items: center;
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
 
-    //cursor: default;
+    padding: 2px 8px 2px 4px;
     cursor: pointer;
-    svg.closeFolderImg {
-      padding: 4px 4px;
-      display: block;
-      width: 18px;
-      height: auto;
-      transform: rotate(-90deg);
-      cursor: pointer;
-      fill: #a5a5a5;
 
+    border-radius: 4px;
+    pointer-events: auto;
+    &:hover {
+      background-color: #2d2d2d;
+    }
+
+    .folder {
+      display: inline-flex;
+      align-items: center;
+      svg {
+        width: 14px;
+        height: 14px;
+        transform: rotate(-90deg);
+        fill: #a5a5a5;
+      }
       &.emptyFolder {
-        fill: rgba(134, 134, 134, 0.24);
+        color: rgba(134, 134, 134, 0.24);
+        svg {
+          fill: rgba(134, 134, 134, 0.24);
+        }
+      }
+      span {
+        margin-left: 5px;
       }
     }
-    svg.fileImg {
-      padding: 0 4px;
-      display: block;
-      width: 18px;
-      height: auto;
-      fill: #a5a5a5;
-      //transform: rotate(-90deg);
-      cursor: pointer;
+    .file {
+      display: inline-flex;
+      align-items: center;
+      svg {
+        width: 14px;
+        height: 14px;
+        fill: #a5a5a5;
+        //transform: rotate(-90deg);
 
-    }
-    .navElementName {
-      cursor: pointer;
+      }
+      span {
+        margin-left: 4px;
+      }
     }
   }
   .navElement.active {
-
-    svg.closeFolderImg {
-      transform: rotate(0deg);
+    .folder {
+      svg {
+        transform: rotate(0deg);
+      }
+      &.emptyFolder {
+        svg {
+          transform: rotate(-90deg);
+        }
+      }
     }
-    svg.fileImg {
-      fill: #07ff0070;
+    .file {
+      color: #07ff0070;
+      svg {
+        fill: #07ff0070;
+      }
     }
-  }
-
-  .fileActive {
-    color: #07ff0070;
   }
 
   .menuNavItem {
+    pointer-events: visible;
     display: none;
     position: absolute;
-    z-index: 1;
+    z-index: 21;
     top: 0;
     left: 0;
     background-color: #3c3f41;
     color: #bebebe;
+    cursor: pointer;
 
+    .menuItem {
+      display: block;
+      padding: 5px 20px 5px 20px;
+
+
+      &:hover {
+        background-color: #737373;
+      }
+
+    }
     span {
       display: block;
-      padding: 5px 15px 5px 20px;
-      cursor: pointer;
-      width: 160px;
+      padding: 5px 20px 5px 20px;
+
       &:hover {
-        background-color: rgba(96, 135, 166, 0.82);
-        color: white;
+        background-color: #737373;
       }
     }
-  }
-  .saveNameBtn {
-    display: inline-block;
-    height: 100%;
-    padding: 0 5px;
-    margin-left: 2px;
-    background-color: #b7b7b7;
-    color: #2d2d2d;
-    font-size: 13px;
+    input {
+      padding: 0 10px;
+      width: 100%;
+      height: 30px;
+      font-size: 16px;
+      background-color: #999999;
+    }
+    .save_btn {
+      background-color: #046c00;
+      text-align: center;
+      &:hover {
+        background-color: #05a800;
+      }
+    }
   }
 }

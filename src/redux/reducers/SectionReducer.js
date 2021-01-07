@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
-import {addSectionItemDAL, setSectionItemDAL} from "../../DAL/DAL_Section";
+import {addSectionItemDAL, setNavInSectionDAL, setSectionItemDAL} from "../../DAL/DAL_Section";
 
 const initialState = {
 	idCount: 20,
@@ -212,7 +212,7 @@ function closeAllOpenContextMenuItem(items) {
 		if (items[i].isOpenContextMenu) {
 			items[i].isOpenContextMenu = false;
 		}
-		if (items[i].nav) closeAllOpenContextMenuItem(items[i].nav.navItems);
+		if (items[i].nav) closeAllOpenContextMenuItem(items[i].nav.folderItems);
 		if (items[i].folderItems && items[i].isOpenContextMenu) {
 			items[i].isOpenContextMenu = false;
 		}
@@ -225,32 +225,16 @@ function closeAllOpenContextMenuItem(items) {
 
 let element;
 
-function searchNavItemID(array, id) {
-
+function searchItemID(array, id) {
+	// debugger
 	for (let i = 0; i < array.length; i++) {
 		if (array[i].id === id) {
 			return element = array[i];
 		}
-		if (array[i].panelNav && array[i].panelNav === id) {
-			return element = array[i].panelNav;
-		} else if (array[i].panelNav) searchNavItemID(array[i].panelNav.navItems, id)
-		if (array[i].folderItems && array[i].id === id) {
-			return element = array[i];
-		} else if (array[i].folderItems) searchNavItemID(array[i].folderItems, id)
-	}
-	return element
-}
-
-function searchBlockID(array, id) {
-
-	for (let i = 0; i < array.length; i++) {
-		if (array[i].id === id) {
-			return element = array[i];
+		if (array[i].nav && array[i].nav.id === id) {
+			return element = array[i].nav;
 		}
-		if (array[i].panelNav && array[i].panelNav.id === id) {
-			return element = array[i].panelNav;
-		}
-		if (array[i].panelNav) changeContextMenuItem(array[i].panelNav.navItems, id);
+		if (array[i].nav) changeContextMenuItem(array[i].nav.folderItems, id);
 		if (array[i].folderItems) changeContextMenuItem(array[i].folderItems, id)
 		if (array[i].fileMain) changeContextMenuItem(array[i].fileMain, id)
 		if (array[i].inner) changeContextMenuItem(array[i].inner, id)
@@ -286,7 +270,7 @@ function closeAllFile(items, isParentActive = false) {
 			if (items[i].type === 'file') {
 				items[i].isOpen = false;
 			}
-			if (items[i].panelNav) closeAllFile(items[i].panelNav.navItems, true);
+			if (items[i].nav) closeAllFile(items[i].nav.folderItems, true);
 			if (items[i].folderItems && items[i].type === 'file') {
 				items[i].isOpen = false;
 			}
@@ -296,14 +280,15 @@ function closeAllFile(items, isParentActive = false) {
 }
 
 function changeContextMenuItem(array, id) {
+	// debugger
 	for (let i = 0; i < array.length; i++) {
 		if (array[i].id === id) {
 			return element = array[i];
 		}
-		if (array[i].panelNav && array[i].panelNav.id === id) {
-			return element = array[i].panelNav;
+		if (array[i].nav && array[i].nav.id === id) {
+			return element = array[i].nav;
 		}
-		if (array[i].panelNav) changeContextMenuItem(array[i].panelNav.navItems, id);
+		if (array[i].nav) changeContextMenuItem(array[i].nav.folderItems, id);
 		if (array[i].folderItems) changeContextMenuItem(array[i].folderItems, id)
 		if (array[i].fileMain) changeContextMenuItem(array[i].fileMain, id)
 		if (array[i].inner) changeContextMenuItem(array[i].inner, id)
@@ -372,6 +357,15 @@ export const SectionReducer = (state = initialState, action) => {
 			stateWorkDAL = stateCopy;
 			return stateCopy;
 		}
+		case 'CHANGE_IS_OPEN_CONTEXT_MENU': {
+			let element = changeContextMenuItem(stateCopy.sectionItems, action.id);
+			element.isOpenContextMenu = action.isOpenContextMenu;
+			return stateCopy;
+		}
+		case 'CLOSE_ALL_IS_OPEN_CONTEXT_MENU': {
+			closeAllOpenContextMenuItem(stateCopy.sectionItems);
+			return stateCopy;
+		}
 		// Section
 		case 'ADD_SECTION_ITEM': {
 			return stateWorkDAL;
@@ -388,15 +382,6 @@ export const SectionReducer = (state = initialState, action) => {
 			}
 			return stateCopy;
 		}
-		case 'CHANGE_IS_OPEN_CONTEXT_MENU': {
-			let element = changeContextMenuItem(stateCopy.sectionItems, action.id);
-			element.isOpenContextMenu = action.isOpenContextMenu;
-			return stateCopy;
-		}
-		case 'CLOSE_ALL_IS_OPEN_CONTEXT_MENU': {
-			closeAllOpenContextMenuItem(stateCopy.sectionItems);
-			return stateCopy;
-		}
 		case 'CHANGE_POSITION_SECTION_ITEM': {
 			return stateWorkDAL;
 		}
@@ -406,52 +391,23 @@ export const SectionReducer = (state = initialState, action) => {
 		case 'CHANGE_SECTION_ITEM': {
 			return stateWorkDAL;
 		}
+		//Nav
+		case 'ADD_NAV_ITEM': {
+			return stateWorkDAL;
+		}
+		case 'CHANGE_IS_OPEN_ITEM': {
+			let element = searchItemID(stateCopy.sectionItems, action.id);
+			if (element.type === 'file'){
+					 closeAllFile(stateCopy.sectionItems)
+			}
+			element.isOpen = !element.isOpen;
+			return stateCopy;
+		}
+
+
 		//
 
-		case 'SHOW_CHANGE_SECTION_ITEM': {
-			stateCopy.items[action.position].isChangeSectionItem = true;
-			return stateCopy;
-		}
-		case 'UN_SHOW_CHANGE_SECTION_ITEM': {
-			stateCopy.items.map(el => {
-				el.isChangeSectionItem = false
-			})
-			return stateCopy;
-		}
 
-		case 'ADD_PANEL_NAV_ITEM': {
-			stateCopy.items.find((el, index) => {
-				return el.isActive;
-			}).panelNav.navItems.push(
-				action.typeItemPanelNav === 'folder'
-					? {
-						id: stateCopy.idCount++,
-						type: 'folder',
-						isOpen: false,
-						name: 'new Folder',
-						folderItems: []
-					}
-					: {
-						id: stateCopy.idCount++,
-						type: 'file',
-						isOpen: false,
-						name: 'new File',
-						fileMain: []
-					},
-			);
-			return stateCopy;
-		}
-		case 'OPEN_CLOSE_FOLDER': {
-			let element = searchNavItemID(stateCopy.items, action.id);
-			element.isOpen = !element.isOpen;
-			return stateCopy;
-		}
-		case 'OPEN_FILE': {
-			closeAllFile(stateCopy.items);
-			let element = searchNavItemID(stateCopy.items, action.id);
-			element.isOpen = !element.isOpen;
-			return stateCopy;
-		}
 
 		case 'ADD_FOLDER_NAV_ITEM': {
 			let element = searchNavItemID(stateCopy.items, action.id);
@@ -483,6 +439,7 @@ export const SectionReducer = (state = initialState, action) => {
 			);
 			return stateCopy;
 		}
+
 		case 'DELETE_NAV_ITEM': {
 			deleteNavItemID(stateCopy.items, action.id)
 			return stateCopy;
@@ -589,10 +546,9 @@ export const updateStateWorkDAL = () => {
 	}
 };
 //AC ADD_SECTION_ITEM:
-export const addSectionItemAC = (userId) => {
+export const addSectionItemAC = () => {
 	return {
 		type: 'ADD_SECTION_ITEM',
-		userId: userId,
 	}
 };
 //	THUNK addSectionItem:
@@ -609,7 +565,7 @@ export const addSectionItem = (userId) => {
 			isOpenContextMenu: false,
 			nav: {
 				parentName: 'Name',
-				navItems: [],
+				folderItems: [],
 			},
 		});
 		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
@@ -697,58 +653,93 @@ export const changeSectionItemAC = () => {
 		type: 'CHANGE_SECTION_ITEM',
 	}
 };
-//	THUNK deleteSectionItem:
+//	THUNK changeSectionItem:
 export const changeSectionItem = (name, url, id, userId) => {
 	return (dispatch) => {
 		dispatch(closeAllIsOpenContextMenu());
 		dispatch(updateStateWorkDAL());
-debugger
 		let element = stateWorkDAL.sectionItems.find(el => el.id === id);
-		name !== ''
-			? element.name = name
-			: element.url = url;
-
+		if (name !== '') {
+			element.name = name;
+			element.nav.parentName = name;
+		}else element.url = url;
 		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
 		.then((resolve) => {
 			dispatch(changeSectionItemAC());
 		});
 	}
 };
+//AC ADD_NAV_ITEM:
+export const addNavItemAC = () => {
+	return {
+		type: 'ADD_NAV_ITEM',
+	}
+};
+//	THUNK addNavItem:
+export const addNavItem = (typeItemNav,id,userId) => {
 
-//showChangeSectionItem AC:
-export const showChangeSectionItem = (position) => {
-	return {
-		type: 'SHOW_CHANGE_SECTION_ITEM',
-		position: position,
+	return (dispatch) => {
+		dispatch(closeAllIsOpenContextMenu());
+		dispatch(updateStateWorkDAL());
+		let el = searchItemID(stateWorkDAL.sectionItems, id);
+		if (el.nav) {
+			el.nav.folderItems.push(
+				typeItemNav === 'folder'
+					? {
+						id: new Date().getTime(),
+						type: 'folder',
+						isOpen: false,
+						isOpenContextMenu: false,
+						name: 'new Folder',
+						folderItems: []
+					}
+					: {
+						id: new Date().getTime(),
+						type: 'file',
+						isOpen: false,
+						isOpenContextMenu: false,
+						name: 'new File',
+						fileMain: []
+					},
+			);
+		}else {
+			el.folderItems.push(
+				typeItemNav === 'folder'
+					? {
+						id: new Date().getTime(),
+						type: 'folder',
+						isOpen: false,
+						isOpenContextMenu: false,
+						name: 'new Folder',
+						folderItems: []
+					}
+					: {
+						id: new Date().getTime(),
+						type: 'file',
+						isOpen: false,
+						isOpenContextMenu: false,
+						name: 'new File',
+						fileMain: []
+					},
+			);
+		}
+		setNavInSectionDAL(stateWorkDAL.sectionItems, userId)
+		.then((resolve) => {
+			dispatch(addNavItemAC());
+		});
 	}
 };
-//unShowChangeSectionItem AC:
-export const unShowChangeSectionItem = () => {
+//CHANGE_IS_OPEN_ITEM AC:
+export const changeIsOpenItem = (id) => {
 	return {
-		type: 'UN_SHOW_CHANGE_SECTION_ITEM',
-	}
-};
-//addPanelNavItem AC:
-export const addPanelNavItem = (typeItemPanelNav) => {
-	return {
-		type: 'ADD_PANEL_NAV_ITEM',
-		typeItemPanelNav: typeItemPanelNav,
-	}
-};
-//openCloseFolder AC:
-export const openCloseFolder = (id) => {
-	return {
-		type: 'OPEN_CLOSE_FOLDER',
+		type: 'CHANGE_IS_OPEN_ITEM',
 		id: id,
 	}
 };
-//openFile AC:
-export const openFile = (id) => {
-	return {
-		type: 'OPEN_FILE',
-		id: id,
-	}
-};
+
+
+
+
 
 //addFolderNavItem AC:
 export const addFolderNavItem = (id) => {

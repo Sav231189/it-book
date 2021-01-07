@@ -23,7 +23,6 @@ function AppComponent(props) {
 	}, []);
 
 	const closeAllMenu = (e) => {
-		console.log("app click")
 		if (props.isContextMenu) {
 			props.changeIsContextMenu(false);
 			props.closeAllContextMenu();

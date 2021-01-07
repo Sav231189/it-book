@@ -4,6 +4,7 @@ import "firebase/auth";
 const initialState = {
 	isContextMenu: false,
 	isContextMenuSection: false,
+	isContextMenuNav: false,
 	isAuth: false,
 	name: '',
 	userId: "",
@@ -17,13 +18,18 @@ export const AppReducer = (state = initialState, action) => {
 			stateCopy.isContextMenu = action.isContextMenu;
 			return stateCopy;
 		}
+		case 'CLOSE_ALL_CONTEXT_MENU': {
+			stateCopy.isContextMenu = false;
+			stateCopy.isContextMenuSection = false;
+			stateCopy.isContextMenuNav = false;
+			return stateCopy;
+		}
 		case 'CHANGE_IS_CONTEXT_MENU_SECTION': {
 			stateCopy.isContextMenuSection = action.isContextMenuSection;
 			return stateCopy;
 		}
-		case 'CLOSE_ALL_CONTEXT_MENU': {
-			stateCopy.isContextMenu = false;
-			stateCopy.isContextMenuSection = false;
+		case 'CHANGE_IS_CONTEXT_MENU_NAV': {
+			stateCopy.isContextMenuNav = action.isContextMenuNav;
 			return stateCopy;
 		}
 
@@ -67,11 +73,11 @@ export const changeIsContextMenuSection = (isContextMenuSection) => {
 		isContextMenuSection: isContextMenuSection,
 	}
 };
-//AC CHANGE_IS_SECTION_ITEM_CONTEXT_MENU:
-export const changeOpenSectionItemContextMenu = (isSectionItemContextMenu) => {
+//AC CHANGE_IS_NAV_CONTEXT_MENU:
+export const changeIsContextMenuNav = (isContextMenuNav) => {
 	return {
-		type: 'CHANGE_IS_SECTION_ITEM_CONTEXT_MENU',
-		isSectionItemContextMenu: isSectionItemContextMenu,
+		type: 'CHANGE_IS_CONTEXT_MENU_NAV',
+		isContextMenuNav: isContextMenuNav,
 	}
 };
 

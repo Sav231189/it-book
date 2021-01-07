@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useRef} from 'react';
 import './Section.css'
 import {connect} from "react-redux";
 import {SectionItem} from "../sectionItem/SectionItem";
@@ -10,10 +10,12 @@ import {addSectionItem} from "../../redux/reducers/SectionReducer";
 
 export function SectionComponent(props) {
 
+	const refContextMenu = useRef(null);
+
 	const showMenuContextSection = (e) => {
 		if (!props.isContextMenu && !props.isContextMenuSection) {
 			if (e.target.clientHeight - 25 > e.clientY) {
-				e.target.lastChild.style = `top: ${e.clientY - 60}px; left: ${e.clientX}px;`;
+				refContextMenu.current.style = `top: ${e.clientY - 60}px; left: ${e.clientX}px;`;
 				props.changeIsContextMenu(true);
 				props.changeIsContextMenuSection(true);
 			}
@@ -25,8 +27,7 @@ export function SectionComponent(props) {
 	return (
 		<div className="section" onContextMenu={showMenuContextSection}>
 			{props.sectionItems.map((el) => <SectionItem key={el.id} element={el}/>)}
-			{/*context menu section*/}
-			<div className="menuSection" style={props.isContextMenuSection ? {display: 'block'} : {display: 'none'}}>
+			<div ref={refContextMenu} className="menuSection" style={props.isContextMenuSection ? {display: 'block'} : {display: 'none'}}>
 				<span onClick={(e)=>props.addSectionItem(props.userId)}>Добавить +</span>
 			</div>
 		</div>
