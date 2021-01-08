@@ -1,6 +1,5 @@
-import React,{useState} from 'react';
+import React, {useRef, useState} from 'react';
 import './Block.css';
-import {getFileMain} from "../../selectors/MainSelector";
 import {connect} from "react-redux";
 import {changeIsOpenMenu, closeOpenMenu} from "../../redux/reducers/AppReducer";
 import {
@@ -12,6 +11,7 @@ import {
 
 
 export function BlockComponent(props) {
+	const refContextMenu = useRef(null);
 
 	let [title, setTitle] = useState(props.element.title);
 	let [subTitle, setSubTitle] = useState(props.element.subTitle);
@@ -21,20 +21,15 @@ export function BlockComponent(props) {
 	let [isChangeSubTitle, setIsChangeSubTitle] = useState(false);
 	let [isChangeText, setIsChangeText] = useState(false);
 
-	const showContextMenuBlock = (e) => {
-		if (!props.isOpenMenu && !props.element.isOpenContextMenu) {
-			e.currentTarget.lastChild.style
-				= `top: ${e.clientY - 70}px; left: ${props.panelShow ? e.clientX - 460 : e.clientX}px; display: block;`;
-			props.closeAllIsOpenContextMenu();
-			props.changeIsOpenMenu(true);
-			props.changeIsOpenContextMenu(props.element.id);
-		} else {
-			props.closeOpenMenu();
-			props.closeAllIsOpenContextMenu();
-			props.changeIsOpenMenu(false);
+
+	const showNavItemContextMenu = (e) => {
+		if (!props.isContextMenu && !props.element.isOpenContextMenu) {
+			refContextMenu.current.style = `top: ${e.clientY - 55}px; left: ${e.clientX }px;`;
+			props.changeIsContextMenu(true);
+			props.changeIsOpenContextMenu(props.element.id, true);
+			// e.stopPropagation();
+			// e.preventDefault();
 		}
-		e.stopPropagation();
-		e.preventDefault();
 	};
 
 	const addBlockInBlock = () => {
@@ -99,18 +94,36 @@ export function BlockComponent(props) {
 			}
 
 			{/* contextMenu */}
-			<div className="contextMenuBlock" style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
-				<span onClick={addBlockInBlock}> + Add Block </span>
+			<div ref={refContextMenu} className="contextMenuBlock"
+					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
+				{!isRenameMode
+					? <div><span className="menuItem" onClick={changeName}> Change Name </span></div>
+					: <div><input type="text" onClick={changeName} placeholder='new Name'
+												onChange={(e) => setName(e.currentTarget.value)}
+												value={name}/>
+						<span className="menuItem save_btn" onClick={saveChange}>Save</span>
+					</div>
+				}
 				<hr style={{background: 'grey', height: "1px"}}/>
-				<span onClick={()=>{setTitle(title === '' ? 'new Title' : title);setIsChangeTitle(true);}}> Change Title </span>
-				<span onClick={()=>{setSubTitle(subTitle ==='' ? 'new Sub-Title' : subTitle);setIsChangeSubTitle(true);}}> Change Sub-Title </span>
-				<span onClick={()=>{setText(text === '' ? 'new text' : text);setIsChangeText(true);}}> Change Text </span>
+				<span onClick={() => {}}>position UP</span>
+				<span onClick={() => {}}>position DOWN</span>
 				<hr style={{background: 'grey', height: "1px"}}/>
-				<span onClick={() => changePositionBlock('up')}> position UP </span>
-				<span onClick={() => changePositionBlock('down')}> position DOWN </span>
-				<hr style={{background: 'grey', height: "1px"}}/>
-				<span onClick={deleteBlock}> - Delete Block </span>
+				<span onClick={() => {props.deleteNavItem(props.element.id,props.userId)}}>Удалить</span>
 			</div>
+
+
+			{/*<div className="showNavItemContextMenu" style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>*/}
+			{/*	<span onClick={addBlockInBlock}> + Add Block </span>*/}
+			{/*	<hr style={{background: 'grey', height: "1px"}}/>*/}
+			{/*	<span onClick={()=>{setTitle(title === '' ? 'new Title' : title);setIsChangeTitle(true);}}> Change Title </span>*/}
+			{/*	<span onClick={()=>{setSubTitle(subTitle ==='' ? 'new Sub-Title' : subTitle);setIsChangeSubTitle(true);}}> Change Sub-Title </span>*/}
+			{/*	<span onClick={()=>{setText(text === '' ? 'new text' : text);setIsChangeText(true);}}> Change Text </span>*/}
+			{/*	<hr style={{background: 'grey', height: "1px"}}/>*/}
+			{/*	<span onClick={() => changePositionBlock('up')}> position UP </span>*/}
+			{/*	<span onClick={() => changePositionBlock('down')}> position DOWN </span>*/}
+			{/*	<hr style={{background: 'grey', height: "1px"}}/>*/}
+			{/*	<span onClick={deleteBlock}> - Delete Block </span>*/}
+			{/*</div>*/}
 
 		</div>
 	);
@@ -118,7 +131,6 @@ export function BlockComponent(props) {
 const mstp = (state) => {
 	return {
 		isOpenContextMenu: state.app.isOpenContextMenu,
-		panelShow: state.panel.show,
 	}
 };
 export const Block = connect(mstp, {

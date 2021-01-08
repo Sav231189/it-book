@@ -2,28 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5ade667-796b-4e33-abca-7c3a979b8322" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/selectors/NavSelector.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/clear.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/clear.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/clear.scss" beforeDir="false" afterPath="$PROJECT_DIR$/public/clear.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DAL/DAL_Section.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAL/DAL_Section.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/App/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/App/App.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/App/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/App/App.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Main.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Main.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Main.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Nav/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Nav/Nav.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItems/NavItems.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItems/NavItems.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItems/NavItems.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItems/NavItems.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PanelNav/PanelNav.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Nav/Nav.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PanelNav/PanelNav.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Nav/Nav.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PanelNav/PanelNav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Nav/Nav.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PanelNav/PanelNav.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Nav/Nav.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/Header.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/Header.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/Header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/section/Section.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/section/Section.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/section/Section.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/section/Section.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css" afterDir="false" />
@@ -31,7 +44,10 @@
       <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/redux/reducers/AppReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/AppReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/PanelReducer.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/redux.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/redux.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/selectors/MainSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/selectors/MainSelector.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -131,7 +147,7 @@
       <workItem from="1609661967055" duration="27292000" />
       <workItem from="1609758021574" duration="12817000" />
       <workItem from="1609836555912" duration="22893000" />
-      <workItem from="1610014336957" duration="24912000" />
+      <workItem from="1610014336957" duration="65860000" />
     </task>
     <servers />
   </component>

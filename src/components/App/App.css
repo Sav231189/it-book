@@ -1,18 +1,23 @@
 .app {
-  position: relative;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   background: #272727;
   font-family: "JetBrains Mono", monospace;
   overflow: hidden;
 }
+.app .appWindow {
+  position: relative;
+  height: calc(100vh - 65px);
+  display: flex;
+  flex-direction: row;
+}
 .app .mainBox {
-  position: absolute;
-  z-index: 1;
-  top: 70px;
-  right: 5px;
-  width: calc(100% - 465px);
-  height: calc(100% - 75px);
+  width: 100%;
+  position: relative;
+  transition: all 0.4s linear 0s;
+}
+.app .mainBox.true {
+  padding-left: 390px;
   transition: all 0.4s linear 0s;
 }
 

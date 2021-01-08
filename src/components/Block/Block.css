@@ -32,61 +32,41 @@
   letter-spacing: 0.005em;
 }
 .Block .contextMenuBlock {
-  display: none;
   position: absolute;
   z-index: 1;
   top: 0;
   left: 0;
   background-color: #3c3f41;
   color: #bebebe;
-  font-family: Roboto, sans-serif;
-  font-size: 14px;
+}
+.Block .contextMenuBlock .menuItem {
+  display: block;
+  padding: 5px 20px 5px 20px;
+  cursor: pointer;
+}
+.Block .contextMenuBlock .menuItem:hover {
+  background-color: #737373;
 }
 .Block .contextMenuBlock span {
   display: block;
-  padding: 5px 15px 5px 20px;
-  cursor: pointer;
-  width: 160px;
+  padding: 5px 20px 5px 20px;
 }
 .Block .contextMenuBlock span:hover {
-  background-color: rgba(96, 135, 166, 0.82);
-  color: white;
+  background-color: #737373;
 }
-.Block .saveNameBtn {
-  display: inline-block;
-  height: 100%;
-  padding: 0 5px;
-  margin-left: 2px;
-  background-color: #b7b7b7;
-  color: #2d2d2d;
-  font-size: 13px;
-}
-.Block input {
-  background-color: #1F1F1F;
-}
-.Block .inputTitle {
-  padding: 0;
-  font-size: 18px;
-  text-indent: 2px;
-  letter-spacing: 0.1em;
-  color: #BC5151;
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  border: 1px solid #333333;
-}
-.Block .inputSubTitle {
-  padding: 2px 0;
-  font-size: 16px;
-  color: #59BC51;
-  letter-spacing: 0.005em;
-  border: 1px solid #333333;
-}
-.Block textarea {
+.Block .contextMenuBlock input {
+  padding: 0 10px;
   width: 100%;
-  min-height: 100px;
-  background-color: #1F1F1F;
-  color: #919191;
-  resize: vertical;
-  border: 1px solid #333333;
+  height: 30px;
+  font-size: 16px;
+  background-color: #999999;
+}
+.Block .contextMenuBlock .save_btn {
+  background-color: #046c00;
+  text-align: center;
+}
+.Block .contextMenuBlock .save_btn:hover {
+  background-color: #05a800;
 }
 
 /*# sourceMappingURL=Block.css.map */

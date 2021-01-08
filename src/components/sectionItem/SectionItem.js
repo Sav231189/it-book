@@ -22,7 +22,7 @@ export function SectionItemComponent(props) {
 	const [newImgURL, setNewImgURL] = useState('');
 
 	const showSectionItemContextMenu = (e) => {
-		if (!props.isContextMenu && !props.element.isOpenContextMenu ) {
+		if (!props.isContextMenu && !props.element.isOpenContextMenu && props.element.isActive) {
 			refContextMenu.current.style= `top: ${e.clientY - 60}px; left: ${e.clientX}px;`;
 			props.changeIsContextMenu(true);
 			props.changeIsOpenContextMenu(props.element.id,true);
@@ -67,7 +67,7 @@ export function SectionItemComponent(props) {
 
 
 	return (
-		<div className="item"
+		<div className={`item ${props.element.isActive}`}
 				 onContextMenu={showSectionItemContextMenu}
 				 onClick={activateSectionItem}>
 			{props.element.isActive && <div className='isActiveSectionItem'> </div>}

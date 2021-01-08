@@ -10,8 +10,9 @@
   border-radius: 10%;
 
   background: #545454;
-  box-shadow: 1px -1px 10px -3px rgb(0 0 0 / 77%);
-  border: #8c8c8ce8 solid 1px;
+
+  //box-shadow: 1px -1px 10px -3px rgb(0 0 0 / 77%);
+  //border: #8c8c8ce8 solid 1px;
 
   .isActiveSectionItem {
     position: absolute;
@@ -20,6 +21,7 @@
     height: 40px;
     background-color: #ccccccb8;
     border-radius: 0 5px 5px 0;
+
   }
   img {
     width: 100%;
@@ -29,6 +31,7 @@
     //pointer-events: none;
     overflow: hidden;
     cursor: pointer;
+    filter: opacity(.6);
   }
   .nameBlock {
     display: none;
@@ -36,9 +39,9 @@
     span {
       position: absolute;
       z-index: 1;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
+      left: -5px;
+      bottom: 10px;
+      //transform: translateY(-50%);
       padding: 5px 10px;
       background-color: #6f757a;
       border-radius: 5px;
@@ -98,4 +101,11 @@
   }
 
 
+}
+.item.true {
+  box-shadow: 1px -1px 9px 1px rgb(0 0 0 / 77%);
+  border: #c7c7c7e8 solid 1px;
+  img {
+    filter: opacity(1);
+  }
 }

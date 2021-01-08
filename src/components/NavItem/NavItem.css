@@ -109,4 +109,8 @@
   background-color: #05a800;
 }
 
+.NavItem.true .navElement {
+  background-color: #2d2d2d;
+}
+
 /*# sourceMappingURL=NavItem.css.map */

@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
+
 //firebase firestore function
 export async function setSectionItemDAL (sectionItems,userId) {
 	return await firebase.firestore().collection(userId)
@@ -9,7 +10,38 @@ export async function setSectionItemDAL (sectionItems,userId) {
 		console.log(err.message)
 	});
 }
+export async function deleteSectionItemDAL (id,userId) {
+	return await firebase.firestore().collection(userId)
+	.doc(id.toString()).delete().then(()=>{
+		return '1';
+	}).catch((err)=>{
+		console.log(err.message)
+	});
+}
+export async function updateSectionItemDAL (activeSection,userId) {
+	return await firebase.firestore().collection(userId)
+	.doc(activeSection.id.toString()).set({folderItems: activeSection.folderItems}).then(()=>{
+		return '1';
+	}).catch((err)=>{
+		console.log(err.message)
+	});
+}
+export async function getSectionItemDAL (userId) {
+
+	return  await firebase.firestore().collection(userId)
+	.doc("sectionItems").get().then(function(doc) {
+		if (doc.exists) {
+			return  doc.data();
+		} else {
+			console.log("No such document!");
+		}
+	}).catch(function(error) {
+		console.log("Error getting document:", error);
+	});
+}
+
 export async function setNavInSectionDAL (sectionItems,userId) {
+
 	let id = null;
 	let number = null;
 	for (let i = 0; i < sectionItems.length; i++) {
@@ -18,11 +50,27 @@ export async function setNavInSectionDAL (sectionItems,userId) {
 			number = i;
 		}
 	}
-	console.log(id);
 	return await firebase.firestore().collection(userId)
-	.doc(id.toString()).set({nav: sectionItems[number].nav}).then(()=>{
-		return '1';
+	.doc(id.toString()).set({folderItems: sectionItems[number].folderItems})
+	.then(()=>{
+		return 'success setNavItem';
 	}).catch((err)=>{
 		console.log(err.message)
 	});
+}
+export async function getNavItemsDAL (sectionItem,userId) {
+	const snapshot = await firebase.firestore().collection(userId).get();
+	if (snapshot.size > 1 && sectionItem){
+		return await firebase.firestore().collection(userId).doc(sectionItem.id.toString())
+		.get().then(function(doc) {
+			if (doc.exists) {
+				return  doc.data();
+			} else {
+				console.log("No such document!");
+			}
+		}).catch(function(error) {
+			console.log("Error getting document:", error);
+		});
+	}else return 0;
+
 }

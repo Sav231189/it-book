@@ -1,25 +1,33 @@
 .Main {
-  height: calc(100vh - 75px);
+  height: calc(100vh - 80px);
+  width: 100%;
   overflow: auto;
+  margin: 5px 10px 5px 10px;
+  background-color: rgba(8, 65, 0, 0.16);
+  transition: all 0.4s linear 0s;
 }
-.Main .contextMenuMain {
-  display: none;
+.Main .menuNav {
   position: absolute;
-  z-index: 2;
+  z-index: 1;
   top: 0;
   left: 0;
   background-color: #3c3f41;
   color: #bebebe;
 }
-.Main .contextMenuMain span {
+.Main .menuNav span {
   display: block;
   padding: 5px 15px 5px 20px;
   cursor: pointer;
   width: 160px;
 }
-.Main .contextMenuMain span:hover {
+.Main .menuNav span:hover {
   background-color: rgba(96, 135, 166, 0.82);
   color: white;
+}
+
+.Main.true {
+  margin-left: 390px;
+  transition: all 0.4s linear 0s;
 }
 
 /*# sourceMappingURL=Main.css.map */

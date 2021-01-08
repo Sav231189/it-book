@@ -1,6 +1,5 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from "redux-thunk";
-import {PanelReducer} from "./reducers/PanelReducer";
 import {SectionReducer} from "./reducers/SectionReducer";
 import {AppReducer} from "./reducers/AppReducer";
 
@@ -19,7 +18,6 @@ const enhancer = composeEnhancers(
 
 const reducers = combineReducers({
 	app: AppReducer,
-	panel: PanelReducer,
 	section: SectionReducer,
 });
 

@@ -1,14 +1,17 @@
-import React,{useRef} from 'react';
+import React,{useRef,useEffect} from 'react';
 import './Section.css'
 import {connect} from "react-redux";
 import {SectionItem} from "../sectionItem/SectionItem";
 import {
 	changeIsContextMenu, changeIsContextMenuSection,
-	changeOpenSectionContextMenu,
 } from "../../redux/reducers/AppReducer";
-import {addSectionItem} from "../../redux/reducers/SectionReducer";
+import {addSectionItem, getData} from "../../redux/reducers/SectionReducer";
 
 export function SectionComponent(props) {
+
+	useEffect(()=>{
+		props.getData(props.userId);
+	},[props.userId]);
 
 	const refContextMenu = useRef(null);
 
@@ -49,5 +52,6 @@ export const Section = connect(mstp, {
 	changeIsContextMenuSection,
 
 	addSectionItem,
+	getData,
 })(SectionComponent);
 

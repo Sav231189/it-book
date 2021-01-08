@@ -11,6 +11,9 @@
 
   font-family: Monaco,sans-serif;
   white-space: pre-wrap;
+  &:first-child {
+    //margin-top: 5px;
+  }
   &:hover {
     border: 1px solid #585858;
   }
@@ -33,8 +36,9 @@
     color: #919191;
     letter-spacing: 0.005em;
   }
+
   .contextMenuBlock {
-    display: none;
+    //display: none;
     position: absolute;
     z-index: 1;
     top: 0;
@@ -42,55 +46,97 @@
     background-color: #3c3f41;
     color: #bebebe;
 
-    font-family: Roboto,sans-serif;
-    font-size: 14px;
-    span {
+    .menuItem {
       display: block;
-      padding: 5px 15px 5px 20px;
+      padding: 5px 20px 5px 20px;
       cursor: pointer;
-      width: 160px;
 
       &:hover {
-        background-color: rgba(96, 135, 166, 0.82);
-        color: white;
+        background-color: #737373;
+      }
+
+    }
+    span {
+      display: block;
+      padding: 5px 20px 5px 20px;
+
+      &:hover {
+        background-color: #737373;
+      }
+    }
+    input {
+      padding: 0 10px;
+      width: 100%;
+      height: 30px;
+      font-size: 16px;
+      background-color: #999999;
+    }
+    .save_btn {
+      background-color: #046c00;
+      text-align: center;
+      &:hover {
+        background-color: #05a800;
       }
     }
   }
-  .saveNameBtn {
-    display: inline-block;
-    height: 100%;
-    padding: 0 5px;
-    margin-left: 2px;
-    background-color: #b7b7b7;
-    color: #2d2d2d;
-    font-size: 13px;
-  }
-
-  input {
-    background-color: #1F1F1F;
-  }
-  .inputTitle {
-    padding: 0;
-    font-size: 18px;
-    text-indent: 2px;
-    letter-spacing: 0.1em;
-    color: #BC5151;
-    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px solid #333333;
-  }
-  .inputSubTitle {
-    padding: 2px 0;
-    font-size: 16px;
-    color: #59BC51;
-    letter-spacing: 0.005em;
-    border: 1px solid #333333;
-  }
-  textarea {
-    width: 100%;
-    min-height: 100px;
-    background-color: #1F1F1F;
-    color: #919191;
-    resize: vertical;
-    border: 1px solid #333333;
-  }
+  //.contextMenuBlock {
+  //  display: none;
+  //  position: absolute;
+  //  z-index: 1;
+  //  top: 0;
+  //  left: 0;
+  //  background-color: #3c3f41;
+  //  color: #bebebe;
+  //
+  //  font-family: Roboto,sans-serif;
+  //  font-size: 14px;
+  //  span {
+  //    display: block;
+  //    padding: 5px 15px 5px 20px;
+  //    cursor: pointer;
+  //    width: 160px;
+  //
+  //    &:hover {
+  //      background-color: rgba(96, 135, 166, 0.82);
+  //      color: white;
+  //    }
+  //  }
+  //}
+  //.saveNameBtn {
+  //  display: inline-block;
+  //  height: 100%;
+  //  padding: 0 5px;
+  //  margin-left: 2px;
+  //  background-color: #b7b7b7;
+  //  color: #2d2d2d;
+  //  font-size: 13px;
+  //}
+  //
+  //input {
+  //  background-color: #1F1F1F;
+  //}
+  //.inputTitle {
+  //  padding: 0;
+  //  font-size: 18px;
+  //  text-indent: 2px;
+  //  letter-spacing: 0.1em;
+  //  color: #BC5151;
+  //  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  //  border: 1px solid #333333;
+  //}
+  //.inputSubTitle {
+  //  padding: 2px 0;
+  //  font-size: 16px;
+  //  color: #59BC51;
+  //  letter-spacing: 0.005em;
+  //  border: 1px solid #333333;
+  //}
+  //textarea {
+  //  width: 100%;
+  //  min-height: 100px;
+  //  background-color: #1F1F1F;
+  //  color: #919191;
+  //  resize: vertical;
+  //  border: 1px solid #333333;
+  //}
 }

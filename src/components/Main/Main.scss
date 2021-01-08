@@ -1,10 +1,14 @@
 .Main {
-  height: calc(100vh - 75px);
+  height: calc(100vh - 80px);
+  width: 100%;
   overflow: auto;
-  .contextMenuMain {
-    display: none;
+  margin: 5px 10px 5px 10px;
+  background-color: rgba(8, 65, 0, 0.16);
+  transition: all .4s linear 0s;
+  .menuNav {
+    //display: none;
     position: absolute;
-    z-index: 2;
+    z-index: 1;
     top: 0;
     left: 0;
     background-color: #3c3f41;
@@ -21,4 +25,8 @@
       }
     }
   }
+}
+.Main.true {
+  margin-left: 390px;
+  transition: all .4s linear 0s;
 }

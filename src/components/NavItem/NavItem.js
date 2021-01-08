@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import './NavItem.css';
 import {connect} from "react-redux";
 import {
@@ -9,9 +9,10 @@ import {
 	changeNameNavItem,
 	changePositionNavItem,
 	closeAllIsOpenContextMenu,
-	deleteNavItem,
+	deleteNavItem, getNavItem,
 } from "../../redux/reducers/SectionReducer";
 import {changeIsContextMenu} from "../../redux/reducers/AppReducer";
+import {getActiveSectionItem} from "../../selectors/NavSelector";
 
 export const NavItemComponent = (props) => {
 
@@ -41,13 +42,9 @@ export const NavItemComponent = (props) => {
 	};
 
 	const saveChange = () => {
-		props.changeSectionItem(name, '', props.element.id, props.userId);
+		props.changeNameNavItem(props.element.id, name, props.userId,props.activeSectionItem);
 		setName('');
 		setIsRenameMode(false);
-	};
-
-	const addBlockInActiveFile = (e) => {
-		props.addBlockInActiveFile(props.element.id);
 	};
 
 	const changeIsOpenItem = (e) => {
@@ -60,13 +57,6 @@ export const NavItemComponent = (props) => {
 		}
 	};
 
-	const saveRename = (e) => {
-		e.stopPropagation();
-		e.preventDefault();
-		props.changeNameNavItem(props.element.id, name);
-		setRenameMode(false);
-	};
-
 	const changePositionUp = (e) => {
 		props.changePositionNavItem(props.element.id, "up");
 		e.preventDefault();
@@ -77,7 +67,7 @@ export const NavItemComponent = (props) => {
 	};
 
 	return (
-		<div className='NavItem'>
+		<div className={`NavItem ${props.element.isOpenContextMenu}`}>
 			<div className={`navElement ${props.element.isOpen && "active"}`} onClick={changeIsOpenItem} onContextMenu={showNavItemContextMenu}>
 				{props.element.type === "folder" &&
 				<div
@@ -135,7 +125,7 @@ export const NavItemComponent = (props) => {
 						<span onClick={() => {
 						}}>position DOWN</span>
 						<hr style={{background: 'grey', height: "1px"}}/>
-						<span onClick={() => {
+						<span onClick={() => {props.deleteNavItem(props.element.id,props.userId)
 						}}>Удалить</span>
 					</div>
 					:
@@ -153,11 +143,10 @@ export const NavItemComponent = (props) => {
 						<span onClick={() => {}}>position UP</span>
 						<span onClick={() => {}}>position DOWN</span>
 						<hr style={{background: 'grey', height: "1px"}}/>
-						<span onClick={() => {}}>Удалить</span>
+						<span onClick={() => {props.deleteNavItem(props.element.id,props.userId)}}>Удалить</span>
 					</div>
 				}
 		</div>
-
 	);
 };
 
@@ -167,6 +156,7 @@ export const NavItem = connect(
 			isMenuNavItem: state.section.isMenuNavItem,
 			isOpenMenu: state.app.isOpenMenu,
 			userId: state.app.userId,
+			activeSectionItem: getActiveSectionItem(state.section),
 		}
 	},
 	{
@@ -174,13 +164,13 @@ export const NavItem = connect(
 		changeIsOpenContextMenu,
 		addNavItem,
 		changeIsOpenItem,
+		deleteNavItem,
 
 
 
 		closeAllIsOpenContextMenu,
 		addFolderNavItem,
 		addFileNavItem,
-		deleteNavItem,
 		changeNameNavItem,
 		changePositionNavItem,
 		addBlockInActiveFile,

@@ -5,15 +5,17 @@ const initialState = {
 	isContextMenu: false,
 	isContextMenuSection: false,
 	isContextMenuNav: false,
+	isContextMenuMain: false,
 	isAuth: false,
 	name: '',
 	userId: "",
+	showPanel: true,
 };
 
 export const AppReducer = (state = initialState, action) => {
 	let stateCopy = JSON.parse(JSON.stringify(state));
-
 	switch (action.type) {
+
 		case 'CHANGE_IS_CONTEXT_MENU': {
 			stateCopy.isContextMenu = action.isContextMenu;
 			return stateCopy;
@@ -22,6 +24,7 @@ export const AppReducer = (state = initialState, action) => {
 			stateCopy.isContextMenu = false;
 			stateCopy.isContextMenuSection = false;
 			stateCopy.isContextMenuNav = false;
+			stateCopy.isContextMenuMain = false;
 			return stateCopy;
 		}
 		case 'CHANGE_IS_CONTEXT_MENU_SECTION': {
@@ -32,8 +35,10 @@ export const AppReducer = (state = initialState, action) => {
 			stateCopy.isContextMenuNav = action.isContextMenuNav;
 			return stateCopy;
 		}
-
-
+		case 'CHANGE_IS_CONTEXT_MENU_MAIN': {
+			stateCopy.isContextMenuMain = action.isContextMenuMain;
+			return stateCopy;
+		}
 
 		case 'IS_LOGIN': {
 			stateCopy.isAuth = action.isLogin;
@@ -46,6 +51,11 @@ export const AppReducer = (state = initialState, action) => {
 		case 'ADD_USER_ID': {
 			stateCopy.userId = action.id;
 			return stateCopy
+		}
+
+		case 'CHANGE_PANEL_SHOW': {
+			stateCopy.showPanel = !stateCopy.showPanel;
+			return stateCopy;
 		}
 		default :
 			return state;
@@ -80,8 +90,13 @@ export const changeIsContextMenuNav = (isContextMenuNav) => {
 		isContextMenuNav: isContextMenuNav,
 	}
 };
-
-
+//AC CHANGE_IS_CONTEXT_MENU_MAIN:
+export const changeIsContextMenuMain = (isContextMenuMain) => {
+	return {
+		type: 'CHANGE_IS_CONTEXT_MENU_MAIN',
+		isContextMenuMain: isContextMenuMain,
+	}
+};
 
 //IS_LOGIN AC
 export const isLogin = (isLogin) => {
@@ -175,3 +190,9 @@ export const sendPasswordResetEmail = (email) => {
 	}
 };
 
+//AC CHANGE_PANEL_SHOW:
+export const changePanelShow = () => {
+	return {
+		type: 'CHANGE_PANEL_SHOW',
+	}
+};

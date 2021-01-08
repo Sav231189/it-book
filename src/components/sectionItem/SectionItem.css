@@ -8,8 +8,6 @@
   cursor: pointer;
   border-radius: 10%;
   background: #545454;
-  box-shadow: 1px -1px 10px -3px rgba(0, 0, 0, 0.77);
-  border: #8c8c8ce8 solid 1px;
 }
 .item .isActiveSectionItem {
   position: absolute;
@@ -26,6 +24,7 @@
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
+  filter: opacity(0.6);
 }
 .item .nameBlock {
   display: none;
@@ -34,9 +33,8 @@
 .item .nameBlock span {
   position: absolute;
   z-index: 1;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+  left: -5px;
+  bottom: 10px;
   padding: 5px 10px;
   background-color: #6f757a;
   border-radius: 5px;
@@ -83,6 +81,14 @@
 }
 .item .menuSectionItem .save_btn:hover {
   background-color: #05a800;
+}
+
+.item.true {
+  box-shadow: 1px -1px 9px 1px rgba(0, 0, 0, 0.77);
+  border: #c7c7c7e8 solid 1px;
+}
+.item.true img {
+  filter: opacity(1);
 }
 
 /*# sourceMappingURL=SectionItem.css.map */
