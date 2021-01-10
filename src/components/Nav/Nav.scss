@@ -1,9 +1,16 @@
 .Nav {
-  //position: relative;
-  //z-index: 1;
-  padding: 5px;
-  width: 100%;
-  height: calc(100% - 25px);
+  position: relative;
+  z-index: 1;
+  padding: 5px 5px 20px;
+  width: 330px;
+  //width: 100%;
+  //max-width: 310px;
+  height: calc(100% + 20px);
+  background: #323232;
+  //overflow-x: hidden;
+  overflow: auto;
+
+  border-left: rgba(197, 197, 197, 0.25) solid 2px;
 
   .previewNav {
     position: absolute;
@@ -18,13 +25,33 @@
     align-items: center;
   }
   .panelNavTitle {
+    margin-right: 20px;
     text-align: center;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    color: #964949d9;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.98);
     span {
+      padding: 2px 12px;
     }
+    div {
+      width: 50%;
+      height: 1px;
+      background-color: #964949d9;
+      box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.98);
+      &:first-child {
+        justify-self: end;
+      }
+      &:last-child {
+        justify-self: start;
+      }
+    }
+
   }
   .menuNav {
     //display: none;
-    position: absolute;
+    position: fixed;
     z-index: 1;
     top: 0;
     left: 0;

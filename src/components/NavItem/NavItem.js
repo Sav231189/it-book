@@ -3,18 +3,23 @@ import './NavItem.css';
 import {connect} from "react-redux";
 import {
 	addBlockInActiveFile,
-	addFileNavItem,
-	addFolderNavItem, addNavItem,
+	addNavItem, changeActiveFileName,
 	changeIsOpenContextMenu, changeIsOpenItem,
 	changeNameNavItem,
 	changePositionNavItem,
 	closeAllIsOpenContextMenu,
-	deleteNavItem, getNavItem,
+	deleteNavItem,
 } from "../../redux/reducers/SectionReducer";
-import {changeIsContextMenu} from "../../redux/reducers/AppReducer";
+import {changeIsContextMenu, changePanelShow} from "../../redux/reducers/AppReducer";
 import {getActiveSectionItem} from "../../selectors/NavSelector";
 
 export const NavItemComponent = (props) => {
+
+	useEffect(()=> {
+		if (props.element.type === 'file' && props.element.isOpen){
+			props.changeActiveFileName(props.element.name);
+		}
+	},[props.activeFileName]);
 
 	const refContextMenu = useRef(null);
 
@@ -29,10 +34,30 @@ export const NavItemComponent = (props) => {
 
 	const showNavItemContextMenu = (e) => {
 		if (!props.isContextMenu && !props.element.isOpenContextMenu) {
-			refContextMenu.current.style = `top: ${e.clientY - 55}px; left: ${e.clientX }px;`;
-			props.changeIsContextMenu(true);
-			props.changeIsOpenContextMenu(props.element.id, true);
+			if (e.clientY <  window.innerHeight - 220){
+				if (e.clientX < window.innerWidth - 160) {
+					refContextMenu.current.style = `top: ${e.clientY +2}px; left: ${e.clientX +2}px;`;
+					props.changeIsContextMenu(true);
+					props.changeIsOpenContextMenu(props.element.id, true);
+				}else {
+					refContextMenu.current.style = `top: ${e.clientY +2}px; left: ${e.clientX -162}px;`;
+					props.changeIsContextMenu(true);
+					props.changeIsOpenContextMenu(props.element.id, true);
+				}
+			}else {
+				if (e.clientX < window.innerWidth - 160) {
+					refContextMenu.current.style = `top: ${e.clientY -177}px; left: ${e.clientX +2}px;`;
+					props.changeIsContextMenu(true);
+					props.changeIsOpenContextMenu(props.element.id, true);
+				}else {
+					refContextMenu.current.style = `top: ${e.clientY - 177}px; left: ${e.clientX - 162}px;`;
+					props.changeIsContextMenu(true);
+					props.changeIsOpenContextMenu(props.element.id, true);
+				}
+			}
 		}
+		e.preventDefault();
+		e.stopPropagation();
 	};
 
 	const changeName = (e) => {
@@ -50,19 +75,22 @@ export const NavItemComponent = (props) => {
 	const changeIsOpenItem = (e) => {
 		if (props.element.type === 'folder') {
 			if (props.element.folderItems.length > 0)
-				props.changeIsOpenItem(props.element.id)
+				props.changeIsOpenItem(props.element.id, props.userId)
 		}
 		if (props.element.type === 'file') {
-			props.changeIsOpenItem(props.element.id)
+			props.changeIsOpenItem(props.element.id, props.userId)
+			if (window.innerWidth < 800){
+				props.changePanelShow();
+			}
 		}
 	};
 
 	const changePositionUp = (e) => {
-		props.changePositionNavItem(props.element.id, "up");
+		props.changePositionNavItem(props.element.id, "up", props.userId);
 		e.preventDefault();
 	};
 	const changePositionDown = (e) => {
-		props.changePositionNavItem(props.element.id, "down");
+		props.changePositionNavItem(props.element.id, "down", props.userId);
 		e.preventDefault();
 	};
 
@@ -120,10 +148,8 @@ export const NavItemComponent = (props) => {
 							</div>
 						}
 						<hr style={{background: 'grey', height: "1px"}}/>
-						<span onClick={() => {
-						}}>position UP</span>
-						<span onClick={() => {
-						}}>position DOWN</span>
+						<span onClick={changePositionUp}>position UP</span>
+						<span onClick={changePositionDown}>position DOWN</span>
 						<hr style={{background: 'grey', height: "1px"}}/>
 						<span onClick={() => {props.deleteNavItem(props.element.id,props.userId)
 						}}>Удалить</span>
@@ -140,8 +166,8 @@ export const NavItemComponent = (props) => {
 							</div>
 						}
 						<hr style={{background: 'grey', height: "1px"}}/>
-						<span onClick={() => {}}>position UP</span>
-						<span onClick={() => {}}>position DOWN</span>
+						<span onClick={changePositionUp}>position UP</span>
+						<span onClick={changePositionDown}>position DOWN</span>
 						<hr style={{background: 'grey', height: "1px"}}/>
 						<span onClick={() => {props.deleteNavItem(props.element.id,props.userId)}}>Удалить</span>
 					</div>
@@ -157,6 +183,7 @@ export const NavItem = connect(
 			isOpenMenu: state.app.isOpenMenu,
 			userId: state.app.userId,
 			activeSectionItem: getActiveSectionItem(state.section),
+			activeFileName: state.section.activeFileName,
 		}
 	},
 	{
@@ -165,14 +192,13 @@ export const NavItem = connect(
 		addNavItem,
 		changeIsOpenItem,
 		deleteNavItem,
-
-
+		changeActiveFileName,
 
 		closeAllIsOpenContextMenu,
-		addFolderNavItem,
-		addFileNavItem,
 		changeNameNavItem,
 		changePositionNavItem,
 		addBlockInActiveFile,
+
+		changePanelShow,
 	}
 )(NavItemComponent);

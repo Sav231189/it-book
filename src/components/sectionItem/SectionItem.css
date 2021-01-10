@@ -1,4 +1,7 @@
 .item {
+  position: relative;
+  left: 0;
+  top: 0;
   margin: 15px 0;
   width: 40px;
   height: 40px;
@@ -10,8 +13,8 @@
   background: #545454;
 }
 .item .isActiveSectionItem {
-  position: absolute;
-  left: 0;
+  position: relative;
+  left: -10px;
   width: 4px;
   height: 40px;
   background-color: #ccccccb8;
@@ -28,26 +31,23 @@
 }
 .item .nameBlock {
   display: none;
-  position: relative;
 }
-.item .nameBlock span {
-  position: absolute;
-  z-index: 1;
-  left: -5px;
-  bottom: 10px;
+.item:hover .nameBlock {
   padding: 5px 10px;
+  display: inline-flex;
+  position: fixed;
+  max-width: 300px;
+  z-index: 12;
   background-color: #6f757a;
   border-radius: 5px;
   font-family: "JetBrains Mono", monospace;
   color: #2d2d2d;
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
 }
-.item img:hover + .nameBlock {
-  display: inline-block;
-}
 .item .menuSectionItem {
-  position: absolute;
-  z-index: 1;
+  position: fixed;
+  z-index: 22;
+  width: 170px;
   top: 0;
   left: 0;
   background-color: #3c3f41;

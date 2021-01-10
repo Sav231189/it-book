@@ -3,8 +3,10 @@ import "firebase/firestore";
 
 //firebase firestore function
 export async function setSectionItemDAL (sectionItems,userId) {
+	let copy = JSON.parse(JSON.stringify(sectionItems));
+	copy.map(el => el.folderItems = []);
 	return await firebase.firestore().collection(userId)
-	.doc("sectionItems").set({sectionItems: sectionItems}).then(()=>{
+	.doc("sectionItems").set({sectionItems: copy}).then(()=>{
 		return '1';
 	}).catch((err)=>{
 		console.log(err.message)
@@ -58,10 +60,11 @@ export async function setNavInSectionDAL (sectionItems,userId) {
 		console.log(err.message)
 	});
 }
-export async function getNavItemsDAL (sectionItem,userId) {
+export async function getNavItemsDAL (id = 0,userId) {
+
 	const snapshot = await firebase.firestore().collection(userId).get();
-	if (snapshot.size > 1 && sectionItem){
-		return await firebase.firestore().collection(userId).doc(sectionItem.id.toString())
+	if (snapshot.size > 1 && id !== 0){
+		return await firebase.firestore().collection(userId).doc(id.toString())
 		.get().then(function(doc) {
 			if (doc.exists) {
 				return  doc.data();

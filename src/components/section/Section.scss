@@ -1,15 +1,17 @@
 .section {
-  max-width: 75px;
-  //height: 100%;
-  //width: 100%;
-  border-right: rgba(197, 197, 197, 0.25) solid 2px;
+  margin-right: -30px;
+  margin-bottom: 54px;
+  max-height: calc(100% - 0px);
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   .menuSection {
     //display: none;
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
+    position: fixed;
+    width: 140px;
+    z-index: 12;
     background-color: #3c3f41;
     color: #bebebe;
 

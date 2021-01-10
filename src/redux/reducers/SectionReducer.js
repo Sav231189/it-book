@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import {
-	addSectionItemDAL, deleteSectionItemDAL,
+	deleteSectionItemDAL,
 	getNavItemsDAL,
 	getSectionItemDAL,
 	setNavInSectionDAL,
@@ -210,6 +210,7 @@ const initialState = {
 		// },
 
 	],
+	activeFileName: '',
 };
 
 //вспомогательные функции
@@ -245,7 +246,6 @@ function searchItemID(array = [], id) {
 		}
 		if (array[i].folderItems) searchItemID(array[i].folderItems, id);
 		if (array[i].fileMain) searchItemID(array[i].fileMain, id);
-		if (array[i].inner) searchItemID(array[i].inner, id);
 	}
 	return element
 }
@@ -258,70 +258,13 @@ function searchListAndItemID(array = [], id) {
 		if (array[i].id && array[i].id === id) {
 			listAndIndex.list = array;
 			listAndIndex.index = i;
-			return;
+			return listAndIndex;
 		}
 		if (array[i].folderItems) searchListAndItemID(array[i].folderItems, id);
 		if (array[i].fileMain) searchListAndItemID(array[i].fileMain, id);
-		if (array[i].inner) searchListAndItemID(array[i].inner, id);
 	}
 	return listAndIndex
 }
-function searchListBlock(array, id) {
-	for (let i = 0; i < array.length; i++) {
-		if (array[i].id === id) {
-			listAndIndex.list = array;
-			listAndIndex.index = i;
-			return listAndIndex;
-		}
-		if (array[i].nav && array[i].nav.id === id) {
-			listAndIndex.list = array;
-			listAndIndex.index = i;
-			return listAndIndex;
-		}
-		if (array[i].folderItems) searchListBlock(array[i].folderItems, id);
-		if (array[i].fileMain) searchListBlock(array[i].fileMain, id);
-		if (array[i].inner) searchListBlock(array[i].inner, id);
-	}
-	return listAndIndex
-}
-
-
-//
-// let list = {list: [], index: null};
-// function searchListNavItemID(array, id) {
-// 	for (let i = 0; i < array.length; i++) {
-// 		if (array[i].id === id) {
-// 			list.list = array;
-// 			list.index = i;
-// 			return list;
-// 		}
-// 		if (array[i].panelNav && array[i].panelNav === id) {
-// 			return list.list = array;
-// 		} else if (array[i].panelNav) searchListNavItemID(array[i].panelNav.navItems, id)
-// 		if (array[i].folderItems && array[i].id === id) {
-// 			list.list = array;
-// 			list.index = i;
-// 			return list;
-// 		} else if (array[i].folderItems) searchListNavItemID(array[i].folderItems, id)
-// 	}
-// 	return list
-// }
-//
-// function deleteBlockID(array, id) {
-// 	for (let i = 0; i < array.length; i++) {
-// 		if (array[i].id === id) {
-// 			return array.splice(i, 1);
-// 		}
-// 		if (array[i].panelNav && array[i].panelNav.id === id) {
-// 			return array.splice(i, 1);
-// 		}
-// 		if (array[i].panelNav) deleteBlockID(array[i].panelNav.navItems, id);
-// 		if (array[i].folderItems) deleteBlockID(array[i].folderItems, id)
-// 		if (array[i].fileMain) deleteBlockID(array[i].fileMain, id)
-// 		if (array[i].inner) deleteBlockID(array[i].inner, id)
-// 	}
-// }
-//
 
 
 //Reducer
@@ -329,8 +272,13 @@ let stateWorkDAL;
 export const SectionReducer = (state = initialState, action) => {
 	let stateCopy = JSON.parse(JSON.stringify(state));
 	switch (action.type) {
+
 		case 'UPDATE_STATE_WORK_DAL': {
 			stateWorkDAL = stateCopy;
+			return stateCopy;
+		}
+		case 'CHANGE_ACTIVE_FILE_NAME': {
+			stateCopy.activeFileName = action.name;
 			return stateCopy;
 		}
 		case 'CHANGE_IS_OPEN_CONTEXT_MENU': {
@@ -342,6 +290,7 @@ export const SectionReducer = (state = initialState, action) => {
 			closeAllOpenContextMenuItem(stateCopy.sectionItems);
 			return stateCopy;
 		}
+
 		// Section
 		case 'ADD_SECTION_ITEM': {
 			return stateWorkDAL;
@@ -377,14 +326,14 @@ export const SectionReducer = (state = initialState, action) => {
 			return stateWorkDAL;
 		}
 		case 'GET_NAV_ITEM': {
-
 			searchItemID(stateCopy.sectionItems, action.idSectionItem).folderItems = action.folderItems;
 			return stateCopy;
 		}
 		case 'CHANGE_IS_OPEN_ITEM': {
 			let element = searchItemID(stateCopy.sectionItems, action.id);
 			if (element.type === 'file') {
-				closeAllFile(stateCopy.sectionItems)
+				closeAllFile(stateCopy.sectionItems);
+				stateCopy.activeFileName = element.name;
 			}
 			element.isOpen = !element.isOpen;
 			return stateCopy;
@@ -400,58 +349,8 @@ export const SectionReducer = (state = initialState, action) => {
 			listAndIndex.list.splice(listAndIndex.index, 1);
 			return stateCopy;
 		}
-
-		//Main
-		case 'ADD_BLOCK_IN_ACTIVE_FILE': {
-			let element = searchItemID(stateCopy.sectionItems, action.id);
-			element.fileMain.push({
-				id: new Date().getTime(),
-				type: 'block',
-				isOpenContextMenu: false,
-				title: '',
-				subTitle: '',
-				text: '',
-				img: '',
-				inner: [],
-			});
-			return stateCopy;
-		}
-
-		//
-
-		case 'ADD_FOLDER_NAV_ITEM': {
-			let element = searchNavItemID(stateCopy.items, action.id);
-			element.isOpen = true;
-			element.folderItems.push(
-				{
-					id: stateCopy.idCount++,
-					type: 'folder',
-					name: 'name',
-					isOpen: false,
-					isOpenContextMenu: false,
-					folderItems: [],
-				}
-			);
-			return stateCopy;
-		}
-		case 'ADD_FILE_NAV_ITEM': {
-			let element = searchNavItemID(stateCopy.items, action.id);
-			element.isOpen = true;
-			element.folderItems.push(
-				{
-					id: stateCopy.idCount++,
-					type: 'file',
-					name: 'fileName',
-					isOpen: false,
-					isOpenContextMenu: false,
-					fileMain: []
-				}
-			);
-			return stateCopy;
-		}
-
 		case 'CHANGE_POSITION_NAV_ITEM': {
-			let element = searchListNavItemID(stateCopy.items, action.id);
+			let element = searchListAndItemID(stateCopy.sectionItems, action.id);
 			if (action.side === 'up') {
 				if (element.index > 0) {
 					let elemCopy = element.list[element.index - 1];
@@ -468,43 +367,43 @@ export const SectionReducer = (state = initialState, action) => {
 			return stateCopy;
 		}
 
-
-		//main context menu
-		case 'ADD_BLOCK_IN_BLOCK': {
-			let element = searchBlockID(stateCopy.items, action.id);
-			element.inner.push(
-				{
-					id: stateCopy.idCount++,
-					type: 'block',
-					isOpenContextMenu: false,
-					title: '',
-					subTitle: '',
-					text: '',
-					img: '',
-					inner: [],
-				}
-			);
+		//Main
+		case 'ADD_BLOCK_IN_ACTIVE_FILE': {
+			let element = searchItemID(stateCopy.sectionItems, action.id);
+			element.fileMain.push({
+				id: new Date().getTime(),
+				type: 'block',
+				isOpenContextMenu: false,
+				title: '',
+				subTitle: '',
+				text: '',
+				img: '',
+				fileMain: [],
+			});
 			return stateCopy;
 		}
 		case 'CHANGE_TITLE_IN_BLOCK': {
-			let element = searchBlockID(stateCopy.items, action.id);
+			let element = searchItemID(stateCopy.sectionItems, action.id);
 			element.title = action.title;
 			return stateCopy;
 		}
 		case 'CHANGE_SUB_TITLE_IN_BLOCK': {
-			let element = searchBlockID(stateCopy.items, action.id);
+			let element = searchItemID(stateCopy.sectionItems, action.id);
 			element.subTitle = action.subTitle;
 			return stateCopy;
 		}
 		case 'CHANGE_TEXT_IN_BLOCK': {
-			let element = searchBlockID(stateCopy.items, action.id);
+			let element = searchItemID(stateCopy.sectionItems, action.id);
 			element.text = action.text;
 			return stateCopy;
 		}
 		case 'DELETE_BLOCK': {
-			deleteBlockID(stateCopy.items, action.id);
+			let element = searchListAndItemID(stateCopy.sectionItems, action.id);
+			element.list.splice(element.index,1)
 			return stateCopy;
 		}
+		//
+
 		case 'CHANGE_POSITION_BLOCK': {
 			let element = searchListBlock(stateCopy.items, action.id);
 			if (action.side === 'up') {
@@ -533,37 +432,11 @@ export const updateStateWorkDAL = () => {
 		type: 'UPDATE_STATE_WORK_DAL',
 	}
 };
-//AC ADD_SECTION_ITEM:
-export const addSectionItemAC = () => {
+//AC changeActiveFileName:
+export const changeActiveFileName = (name) => {
 	return {
-		type: 'ADD_SECTION_ITEM',
-	}
-};
-//	THUNK addSectionItem:
-export const addSectionItem = (userId) => {
-
-	return (dispatch) => {
-		dispatch(updateStateWorkDAL());
-		stateWorkDAL.sectionItems.push({
-			id: new Date().getTime(),
-			name: 'Name',
-			url: '',
-			position: stateWorkDAL.sectionItems.length,
-			isActive: false,
-			isOpenContextMenu: false,
-			folderItems: [],
-		});
-		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
-		.then((resolve) => {
-			dispatch(addSectionItemAC());
-		});
-	}
-};
-//AC ACTIVATE_SECTION_ITEM:
-export const activateSectionItem = (id) => {
-	return {
-		type: 'ACTIVATE_SECTION_ITEM',
-		id: id,
+		type: 'CHANGE_ACTIVE_FILE_NAME',
+		name: name,
 	}
 };
 //changeIsOpenContextMenu AC:
@@ -580,139 +453,7 @@ export const closeAllIsOpenContextMenu = () => {
 		type: 'CLOSE_ALL_IS_OPEN_CONTEXT_MENU',
 	}
 };
-//changePositionSectionItem AC:
-export const changePositionSectionItemAC = (id, side) => {
-	return {
-		type: 'CHANGE_POSITION_SECTION_ITEM',
-		id: id,
-		side: side,
-	}
-};
-//	THUNK changePositionSectionItem:
-export const changePositionSectionItem = (id, side, userId) => {
-	return (dispatch) => {
-		dispatch(closeAllIsOpenContextMenu());
-		dispatch(updateStateWorkDAL());
 
-		let element = searchListBlock(stateWorkDAL.sectionItems, id);
-		if (side === 'up') {
-			if (element.index > 0) {
-				let elemCopy = element.list[element.index - 1];
-				element.list[element.index - 1] = element.list[element.index];
-				element.list[element.index] = elemCopy;
-			}
-		} else if (side === 'down' && element.index + 1 < element.list.length) {
-			let elemCopy = element.list[element.index + 1];
-			element.list[element.index + 1] = element.list[element.index];
-			element.list[element.index] = elemCopy;
-		}
-		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
-		.then((resolve) => {
-			dispatch(changePositionSectionItemAC());
-		});
-	}
-};
-//AC DELETE_SECTION_ITEM:
-export const deleteSectionItemAC = () => {
-	return {
-		type: 'DELETE_SECTION_ITEM',
-	}
-};
-//	THUNK deleteSectionItem:
-export const deleteSectionItem = (id, userId) => {
-	return (dispatch) => {
-		dispatch(closeAllIsOpenContextMenu());
-		dispatch(updateStateWorkDAL());
-
-		let index = stateWorkDAL.sectionItems.findIndex(el => el.id === id);
-		stateWorkDAL.sectionItems.splice(index, 1);
-		deleteSectionItemDAL(id, userId).then(resolve => {
-			setSectionItemDAL(stateWorkDAL.sectionItems, userId)
-			.then((resolve) => {
-				dispatch(deleteSectionItemAC());
-			});
-		});
-	}
-};
-//AC DELETE_NAV_ITEM:
-export const deleteNavItemAC = (id) => {
-	return {
-		type: 'DELETE_NAV_ITEM',
-		id: id,
-	}
-};
-//	THUNK deleteNavItem:
-export const deleteNavItem = (id,userId) => {
-	return (dispatch) => {
-		dispatch(closeAllIsOpenContextMenu());
-		dispatch(deleteNavItemAC(id));
-		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(()=>{
-			setSectionItemDAL(stateWorkDAL.sectionItems,userId).then()
-		});
-	}
-};
-//AC CHANGE_SECTION_ITEM:
-export const changeSectionItemAC = () => {
-	return {
-		type: 'CHANGE_SECTION_ITEM',
-	}
-};
-//	THUNK changeSectionItem:
-export const changeSectionItem = (name, url, id, userId) => {
-	return (dispatch) => {
-		dispatch(closeAllIsOpenContextMenu());
-		dispatch(updateStateWorkDAL());
-		let element = stateWorkDAL.sectionItems.find(el => el.id === id);
-		if (name !== '') {
-			element.name = name;
-		} else element.url = url;
-		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
-		.then((resolve) => {
-			dispatch(changeSectionItemAC());
-		});
-	}
-};
-//AC ADD_NAV_ITEM:
-export const addNavItemAC = () => {
-	return {
-		type: 'ADD_NAV_ITEM',
-	}
-};
-//	THUNK addNavItem:
-export const addNavItem = (typeItemNav, id, userId) => {
-
-	return (dispatch) => {
-		dispatch(closeAllIsOpenContextMenu());
-		dispatch(updateStateWorkDAL());
-		let el = searchItemID(stateWorkDAL.sectionItems, id);
-		if (el.folderItems) {
-			el.folderItems.push(
-				typeItemNav === 'folder'
-					? {
-						id: new Date().getTime(),
-						type: 'folder',
-						isOpen: false,
-						isOpenContextMenu: false,
-						name: 'new Folder',
-						folderItems: []
-					}
-					: {
-						id: new Date().getTime(),
-						type: 'file',
-						isOpen: false,
-						isOpenContextMenu: false,
-						name: 'new File',
-						fileMain: []
-					},
-			);
-		}
-		setNavInSectionDAL(stateWorkDAL.sectionItems, userId)
-		.then((resolve) => {
-			dispatch(addNavItemAC());
-		});
-	}
-};
 //AC GET_NAV_ITEM:
 export const getNavItemAC = (folderItems, idSectionItem) => {
 	return {
@@ -738,21 +479,23 @@ export const getData = (userId = '') => {
 				if (data) {
 					dispatch(getSectionItemsAC(data.sectionItems));
 					dispatch(updateStateWorkDAL());
-
 					let activeSectionItem = stateWorkDAL.sectionItems.find(el => el.isActive);
-					getNavItemsDAL(activeSectionItem, userId)
-					.then((data) => {
-						if (data && data.folderItems) {
-							dispatch(getNavItemAC(data.folderItems, activeSectionItem.id))
-						}
-					});
-
+					if (activeSectionItem) {
+						getNavItemsDAL(activeSectionItem.id, userId)
+						.then((data) => {
+							if (data && data.folderItems) {
+								dispatch(getNavItemAC(data.folderItems, activeSectionItem.id))
+								dispatch(closeAllIsOpenContextMenu());
+							}
+						});
+					}
 					for (let i = 0; i < stateWorkDAL.sectionItems.length; i++) {
 						if (!stateWorkDAL.sectionItems[i].isActive) {
-							getNavItemsDAL(stateWorkDAL.sectionItems[i], userId)
+							getNavItemsDAL(stateWorkDAL.sectionItems[i].id, userId)
 							.then((data) => {
 								if (data && data.folderItems) {
 									dispatch(getNavItemAC(data.folderItems, stateWorkDAL.sectionItems[i].id))
+									dispatch(closeAllIsOpenContextMenu());
 								}
 							});
 						}
@@ -779,13 +522,206 @@ export const getData = (userId = '') => {
 		// });
 	}
 };
-//CHANGE_IS_OPEN_ITEM AC:
-export const changeIsOpenItem = (id) => {
+
+//AC ADD_SECTION_ITEM:
+export const addSectionItemAC = () => {
+	return {
+		type: 'ADD_SECTION_ITEM',
+	}
+};
+//	THUNK addSectionItem:
+export const addSectionItem = (userId) => {
+
+	return (dispatch) => {
+		dispatch(updateStateWorkDAL());
+		stateWorkDAL.sectionItems.push({
+			id: new Date().getTime(),
+			name: 'Name',
+			url: '',
+			position: stateWorkDAL.sectionItems.length,
+			isActive: false,
+			isOpenContextMenu: false,
+			folderItems: [],
+		});
+		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
+		.then((resolve) => {
+			dispatch(addSectionItemAC());
+		});
+	}
+};
+
+//AC ACTIVATE_SECTION_ITEM:
+export const activateSectionItemAC = (id) => {
+	return {
+		type: 'ACTIVATE_SECTION_ITEM',
+		id: id,
+	}
+};
+//THUNK activateSectionItem:
+export const activateSectionItem = (id, userId) => {
+	return (dispatch) => {
+		dispatch(activateSectionItemAC(id));
+		dispatch(changeActiveFileName(""));
+		dispatch(updateStateWorkDAL());
+		setSectionItemDAL(stateWorkDAL.sectionItems, userId).then();
+	}
+};
+
+//AC changePositionSectionItem:
+export const changePositionSectionItemAC = (id, side) => {
+	return {
+		type: 'CHANGE_POSITION_SECTION_ITEM',
+		id: id,
+		side: side,
+	}
+};
+//	THUNK changePositionSectionItem:
+export const changePositionSectionItem = (id, side, userId) => {
+	return (dispatch) => {
+		dispatch(closeAllIsOpenContextMenu());
+		dispatch(updateStateWorkDAL());
+		let element = searchListAndItemID(stateWorkDAL.sectionItems, id);
+		if (side === 'up') {
+			if (element.index > 0) {
+				let elemCopy = element.list[element.index - 1];
+				element.list[element.index - 1] = element.list[element.index];
+				element.list[element.index] = elemCopy;
+			}
+		} else if (side === 'down' && element.index + 1 < element.list.length) {
+			let elemCopy = element.list[element.index + 1];
+			element.list[element.index + 1] = element.list[element.index];
+			element.list[element.index] = elemCopy;
+		}
+		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
+		.then((resolve) => {
+			dispatch(changePositionSectionItemAC());
+		});
+	}
+};
+
+//AC DELETE_SECTION_ITEM:
+export const deleteSectionItemAC = () => {
+	return {
+		type: 'DELETE_SECTION_ITEM',
+	}
+};
+//	THUNK deleteSectionItem:
+export const deleteSectionItem = (id, userId) => {
+	return (dispatch) => {
+		dispatch(closeAllIsOpenContextMenu());
+		dispatch(updateStateWorkDAL());
+
+		let index = stateWorkDAL.sectionItems.findIndex(el => el.id === id);
+		stateWorkDAL.sectionItems.splice(index, 1);
+		deleteSectionItemDAL(id, userId).then(resolve => {
+			setSectionItemDAL(stateWorkDAL.sectionItems, userId)
+			.then((resolve) => {
+				dispatch(deleteSectionItemAC());
+			});
+		});
+	}
+};
+
+//AC DELETE_NAV_ITEM:
+export const deleteNavItemAC = (id) => {
+	return {
+		type: 'DELETE_NAV_ITEM',
+		id: id,
+	}
+};
+//	THUNK deleteNavItem:
+export const deleteNavItem = (id,userId) => {
+	return (dispatch) => {
+		dispatch(closeAllIsOpenContextMenu());
+		dispatch(deleteNavItemAC(id));
+		dispatch(updateStateWorkDAL());
+		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(()=>{
+			setSectionItemDAL(stateWorkDAL.sectionItems,userId).then()
+		});
+	}
+};
+
+//AC CHANGE_SECTION_ITEM:
+export const changeSectionItemAC = () => {
+	return {
+		type: 'CHANGE_SECTION_ITEM',
+	}
+};
+//	THUNK changeSectionItem:
+export const changeSectionItem = (name, url, id, userId) => {
+	return (dispatch) => {
+		dispatch(closeAllIsOpenContextMenu());
+		dispatch(updateStateWorkDAL());
+		let element = stateWorkDAL.sectionItems.find(el => el.id === id);
+		if (name !== '') {
+			element.name = name;
+		} else element.url = url;
+		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
+		.then((resolve) => {
+			dispatch(changeSectionItemAC());
+		});
+	}
+};
+
+//AC ADD_NAV_ITEM:
+export const addNavItemAC = () => {
+	return {
+		type: 'ADD_NAV_ITEM',
+	}
+};
+//	THUNK addNavItem:
+export const addNavItem = (typeItemNav, id, userId) => {
+
+	return (dispatch) => {
+		dispatch(closeAllIsOpenContextMenu());
+		dispatch(updateStateWorkDAL());
+		let el = searchItemID(stateWorkDAL.sectionItems, id);
+		if (el.folderItems) {
+			el.folderItems.push(
+				typeItemNav === 'folder'
+					? {
+						id: new Date().getTime(),
+						type: 'folder',
+						isOpen: true,
+						isOpenContextMenu: false,
+						name: 'new Folder',
+						folderItems: []
+					}
+					: {
+						id: new Date().getTime(),
+						type: 'file',
+						isOpen: false,
+						isOpenContextMenu: false,
+						name: 'new File',
+						fileMain: []
+					},
+			);
+		}
+		setNavInSectionDAL(stateWorkDAL.sectionItems, userId)
+		.then((resolve) => {
+			dispatch(addNavItemAC());
+		});
+	}
+};
+
+//AC CHANGE_IS_OPEN_ITEM:
+export const changeIsOpenItemAC = (id) => {
 	return {
 		type: 'CHANGE_IS_OPEN_ITEM',
 		id: id,
 	}
 };
+//	THUNK changeIsOpenItem:
+export const changeIsOpenItem = (id, userId) => {
+
+	return (dispatch) => {
+		dispatch(changeIsOpenItemAC(id));
+		dispatch(updateStateWorkDAL());
+		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(()=>{
+		});
+	}
+};
+
 //changeNameNavItem AC:
 export const changeNameNavItemAC = (id, name, userId) => {
 	return {
@@ -799,10 +735,30 @@ export const changeNameNavItem = (id, name, userId, activeSection) => {
 
 	return (dispatch) => {
 		dispatch(changeNameNavItemAC(id, name));
+		dispatch(changeActiveFileName(name));
 		dispatch(updateStateWorkDAL());
 		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
 	}
 };
+
+//AC changePositionUpNavItem:
+export const changePositionNavItemAC = (id, side) => {
+	return {
+		type: 'CHANGE_POSITION_NAV_ITEM',
+		id: id,
+		side: side,
+	}
+};
+//	THUNK changePositionNavItem:
+export const changePositionNavItem = (id, side, userId) => {
+
+	return (dispatch) => {
+		dispatch(changePositionNavItemAC(id, side));
+		dispatch(updateStateWorkDAL());
+		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
+	}
+};
+
 //AC ADD_BLOCK_IN_ACTIVE_FILE:
 export const addBlockInActiveFileAC = (id) => {
 	return {
@@ -819,87 +775,78 @@ export const addBlockInActiveFile = (activeFile, userId) => {
 	}
 };
 
-
-
-
-
-//changePositionUpNavItem AC:
-export const changePositionNavItem = (id, side) => {
-	return {
-		type: 'CHANGE_POSITION_NAV_ITEM',
-		id: id,
-		side: side,
-	}
-};
-//addBlockInActiveFile AC:
-// export const addBlockInActiveFile = (id) => {
-// 	return {
-// 		type: 'ADD_BLOCK_IN_ACTIVE_FILE',
-// 		id: id,
-// 	}
-// };
-
-
-
-
-
-
-//addFolderNavItem AC:
-export const addFolderNavItem = (id) => {
-	return {
-		type: 'ADD_FOLDER_NAV_ITEM',
-		id: id,
-	}
-};
-//addFolderNavItem AC:
-export const addFileNavItem = (id) => {
-	return {
-		type: 'ADD_FILE_NAV_ITEM',
-		id: id,
-	}
-};
-
-
-
-//main context menu
-//addBlockInBlock AC:
-export const addBlockInBlock = (id) => {
-	return {
-		type: 'ADD_BLOCK_IN_BLOCK',
-		id: id,
-	}
-};
-//changeTitleInBlock AC:
-export const changeTitleInBlock = (id, title) => {
+//AC changeTitleInBlock:
+export const changeTitleInBlockAC = (id, title) => {
 	return {
 		type: 'CHANGE_TITLE_IN_BLOCK',
 		id: id,
 		title: title,
 	}
 };
-//changeSubTitleInBlock AC:
-export const changeSubTitleInBlock = (id, subTitle) => {
+//	THUNK changeTitleInBlock:
+export const changeTitleInBlock = (activeFile,title, userId) => {
+	return (dispatch) => {
+		dispatch(changeTitleInBlockAC(activeFile.id,title));
+		dispatch(updateStateWorkDAL());
+		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
+	}
+};
+
+//AC changeSubTitleInBlockAC:
+export const changeSubTitleInBlockAC = (id, subTitle) => {
 	return {
 		type: 'CHANGE_SUB_TITLE_IN_BLOCK',
 		id: id,
 		subTitle: subTitle,
 	}
 };
-//changeTextInBlock AC:
-export const changeTextInBlock = (id, text) => {
+//THUNK changeSubTitleInBlock:
+export const changeSubTitleInBlock = (activeFile,subTitle, userId) => {
+	return (dispatch) => {
+		dispatch(changeSubTitleInBlockAC(activeFile.id,subTitle));
+		dispatch(updateStateWorkDAL());
+		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
+	}
+};
+
+//AC changeTextInBlockAC:
+export const changeTextInBlockAC = (id, text) => {
 	return {
 		type: 'CHANGE_TEXT_IN_BLOCK',
 		id: id,
 		text: text,
 	}
 };
-//deleteBlock AC:
-export const deleteBlock = (id) => {
+//THUNK changeTextInBlock:
+export const changeTextInBlock = (activeFile,text, userId) => {
+	return (dispatch) => {
+		dispatch(changeTextInBlockAC(activeFile.id,text));
+		dispatch(updateStateWorkDAL());
+		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
+	}
+};
+
+//AC deleteBlockAC:
+export const deleteBlockAC = (id) => {
 	return {
 		type: 'DELETE_BLOCK',
 		id: id,
 	}
 };
+//THUNK deleteBlock:
+export const deleteBlock = (id, userId) => {
+	return (dispatch) => {
+		dispatch(deleteBlockAC(id));
+		dispatch(updateStateWorkDAL());
+		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
+	}
+};
+
+
+
+
+
+
 //changePositionBlock AC:
 export const changePositionBlock = (id, side) => {
 	return {

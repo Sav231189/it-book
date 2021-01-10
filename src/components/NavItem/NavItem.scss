@@ -8,6 +8,7 @@
   color: #868686;
   pointer-events: none;
   .navStep {
+    min-width: 14px;
     width: 14px;
     margin-right: 6px;
     height: 1px;
@@ -33,6 +34,7 @@
       display: inline-flex;
       align-items: center;
       svg {
+        min-width: 14px;
         width: 14px;
         height: 14px;
         transform: rotate(-90deg);
@@ -85,7 +87,8 @@
   .menuNavItem {
     pointer-events: visible;
     display: none;
-    position: absolute;
+    position: fixed;
+    width: 160px;
     z-index: 21;
     top: 0;
     left: 0;

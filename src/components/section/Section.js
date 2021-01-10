@@ -17,8 +17,8 @@ export function SectionComponent(props) {
 
 	const showMenuContextSection = (e) => {
 		if (!props.isContextMenu && !props.isContextMenuSection) {
-			if (e.target.clientHeight - 25 > e.clientY) {
-				refContextMenu.current.style = `top: ${e.clientY - 60}px; left: ${e.clientX}px;`;
+			if (e.clientY < window.innerHeight - 30) {
+				refContextMenu.current.style = `top: ${e.clientY+2}px; left: ${e.clientX+2}px;`;
 				props.changeIsContextMenu(true);
 				props.changeIsContextMenuSection(true);
 			}
@@ -27,8 +27,14 @@ export function SectionComponent(props) {
 		}
 	};
 
+	const scrolling = (e) => {
+		// console.log(e.currentTarget.scrollHeight);
+		// console.log(e.currentTarget.scrollHeight);
+	};
+
 	return (
-		<div className="section" onContextMenu={showMenuContextSection}>
+		<div className="section" onContextMenu={showMenuContextSection}
+		onWheel={scrolling}>
 			{props.sectionItems.map((el) => <SectionItem key={el.id} element={el}/>)}
 			<div ref={refContextMenu} className="menuSection" style={props.isContextMenuSection ? {display: 'block'} : {display: 'none'}}>
 				<span onClick={(e)=>props.addSectionItem(props.userId)}>Добавить +</span>

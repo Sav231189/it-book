@@ -1,13 +1,36 @@
 .Main {
+  padding-top: 30px;
   height: calc(100vh - 80px);
-  width: 100%;
-  overflow: auto;
-  margin: 5px 10px 5px 10px;
-  background-color: rgba(8, 65, 0, 0.16);
+  width: calc(100% + 30px);
+  overflow-x: hidden;
+  margin: 5px -30px 5px 10px;
+  transition: all 0.4s linear 0s;
+  background-color: #2929299c;
+}
+.Main .mainWrapper {
+  padding: 1px 0;
+  margin-right: 40px;
+  outline: #383838cf solid 1px;
+  background: #1f1f1f;
+}
+.Main .mainTitle {
+  display: block;
+  position: fixed;
+  width: calc(100% - 399px);
+  top: 70px;
+  background-color: #2f2f2f;
+  padding: 6px 20px;
+  text-align: center;
+  box-shadow: 10px 0px 22px 2px #00000052;
+  color: grey;
+  transition: all 0.4s linear 0s;
+}
+.Main .mainTitle.true {
+  width: calc(100% - 19px);
   transition: all 0.4s linear 0s;
 }
 .Main .menuNav {
-  position: absolute;
+  position: fixed;
   z-index: 1;
   top: 0;
   left: 0;

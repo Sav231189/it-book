@@ -7,10 +7,11 @@
   height: calc(100vh - 80px);
   max-width: 370px;
   width: 100%;
+  overflow: hidden;
 
   display: grid;
-  grid-template-columns: 50px 1fr;
-  padding: 5px 10px;
+  grid-template-columns: 60px 1fr;
+  padding: 0px 10px 5px 0;
 
 
   background: #323232;

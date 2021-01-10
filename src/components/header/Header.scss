@@ -4,8 +4,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #2F2222;
-  box-shadow: 0px 4px 4px rgba(118, 118, 118, 0.25);
+  background: #333333;
+  box-shadow: 3px 3px 8px rgb(23 23 23);
   border-radius: 0 0 10px 10px;
   grid-column: span 2;
   .logo {
@@ -17,7 +17,7 @@
     font-size: 44px;
     color: #808080;
     background-color: transparent;
-    text-shadow: 1px 1px 5px rgba(153, 153, 153, 0.43);
+    text-shadow: 1px 1px 5px rgb(0 0 0);
   }
   .lk {
     position: relative;
@@ -26,7 +26,7 @@
     margin-right: 15px;
 
     cursor: pointer;
-    box-shadow: 0px 0px 11px 3px rgba(37, 24, 24 ,25);
+    box-shadow: 0px 0px 11px 3px #10101087;
     border-radius: 50%;
 
     img {

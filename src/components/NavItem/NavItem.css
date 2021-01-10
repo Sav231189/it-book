@@ -8,6 +8,7 @@
   pointer-events: none;
 }
 .NavItem .navStep {
+  min-width: 14px;
   width: 14px;
   margin-right: 6px;
   height: 1px;
@@ -31,6 +32,7 @@
   align-items: center;
 }
 .NavItem .navElement .folder svg {
+  min-width: 14px;
   width: 14px;
   height: 14px;
   transform: rotate(-90deg);
@@ -72,7 +74,8 @@
 .NavItem .menuNavItem {
   pointer-events: visible;
   display: none;
-  position: absolute;
+  position: fixed;
+  width: 160px;
   z-index: 21;
   top: 0;
   left: 0;

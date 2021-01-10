@@ -14,6 +14,7 @@ import {
 export function SectionItemComponent(props) {
 
 	const refContextMenu = useRef(null);
+	const nameBlock = useRef(null);
 
 	const [isChangeName, setIsChangeName] = useState(false);
 	const [isChangeImg, setIsChangeImg] = useState(false);
@@ -22,16 +23,25 @@ export function SectionItemComponent(props) {
 	const [newImgURL, setNewImgURL] = useState('');
 
 	const showSectionItemContextMenu = (e) => {
-		if (!props.isContextMenu && !props.element.isOpenContextMenu && props.element.isActive) {
-			refContextMenu.current.style= `top: ${e.clientY - 60}px; left: ${e.clientX}px;`;
-			props.changeIsContextMenu(true);
-			props.changeIsOpenContextMenu(props.element.id,true);
-			// e.preventDefault();
-			// e.stopPropagation();
+
+		if (!props.isContextMenu && !props.element.isOpenContextMenu) {
+			if (e.clientY < window.innerHeight - 190) {
+				refContextMenu.current.style= `top: ${e.clientY + 10}px; left: ${e.clientX + 10}px;`;
+				props.changeIsContextMenu(true);
+				props.changeIsOpenContextMenu(props.element.id,true);
+				props.activateSectionItem(props.element.id, props.userId);
+			}else {
+				refContextMenu.current.style= `top: ${e.clientY -160}px; left: ${e.clientX }px;`;
+				props.changeIsContextMenu(true);
+				props.changeIsOpenContextMenu(props.element.id,true);
+				props.activateSectionItem(props.element.id, props.userId);
+			}
+			e.preventDefault();
+			e.stopPropagation();
 		}
 	};
 	const activateSectionItem = () => {
-		props.activateSectionItem(props.element.id);
+		props.activateSectionItem(props.element.id, props.userId);
 	};
 	const changeName = (e) => {
 		setIsChangeName(true);
@@ -65,11 +75,17 @@ export function SectionItemComponent(props) {
 		setIsChangeImg(false);
 	};
 
+	const namePosition = (e)=> {
+		console.log(e.currentTarget.getBoundingClientRect().y);
+		nameBlock.current.style= `top: ${e.currentTarget.getBoundingClientRect().y - 20}px; left: ${e.currentTarget.getBoundingClientRect().x + 30}px;`;
+	};
+
 
 	return (
 		<div className={`item ${props.element.isActive}`}
 				 onContextMenu={showSectionItemContextMenu}
-				 onClick={activateSectionItem}>
+				 onClick={activateSectionItem}
+				 onPointerOver={namePosition}>
 			{props.element.isActive && <div className='isActiveSectionItem'> </div>}
 			{props.element.url !== ''
 				?
@@ -78,9 +94,7 @@ export function SectionItemComponent(props) {
 				<img src={logoSection} alt={logoSection.name}/>
 			}
 
-			<div className="nameBlock">
-				<span> {props.element.name} </span>
-			</div>
+			<div ref={nameBlock} className="nameBlock">{props.element.name}</div>
 
 			<div ref={refContextMenu} className="menuSectionItem"
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
@@ -88,7 +102,7 @@ export function SectionItemComponent(props) {
 					? <div><span className="menuItem" onClick={changeName}> Change Name </span>
 
 					</div>
-					: <div><input type="text" onClick={changeName} placeholder='new Name'
+					: <div><input type="text" maxLength={28} onClick={changeName} placeholder='new Name'
 												onChange={(e) => setNewName(e.currentTarget.value)}
 												value={newName}/>
 						<span className="menuItem save_btn" onClick={saveChange}>Save</span>

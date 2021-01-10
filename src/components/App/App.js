@@ -22,7 +22,6 @@ function AppComponent(props) {
 	}, []);
 
 	const closeAllMenu = (e) => {
-		console.log("app")
 		if (props.isContextMenu) {
 			props.changeIsContextMenu(false);
 			props.closeAllContextMenu();
@@ -31,7 +30,7 @@ function AppComponent(props) {
 	};
 
 	return (
-		<div className="app">
+		<div className="app" >
 			{!props.isAuth
 				?
 				<Start checkLogin={props.checkLogin}

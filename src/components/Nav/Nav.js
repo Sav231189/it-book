@@ -11,10 +11,26 @@ export function NavContainer(props) {
 
 	const showMenuContextNav = (e) => {
 		if (!props.isContextMenu && !props.isContextMenuNav && props.activeSectionItem ) {
-			if (e.target.clientHeight - 25 > e.clientY) {
-				refContextMenu.current.style = `top: ${e.clientY - 65}px; left: ${e.clientX }px;`;
-				props.changeIsContextMenu(true);
-				props.changeIsContextMenuNav(true);
+			if (e.clientY <  window.innerHeight - 80){
+				if (e.clientX < window.innerWidth - 160) {
+					refContextMenu.current.style = `top: ${e.clientY +2}px; left: ${e.clientX +2}px;`;
+					props.changeIsContextMenu(true);
+					props.changeIsContextMenuNav(true);
+				}else {
+					refContextMenu.current.style = `top: ${e.clientY +2}px; left: ${e.clientX -162}px;`;
+					props.changeIsContextMenu(true);
+					props.changeIsContextMenuNav(true);
+				}
+			}else {
+				if (e.clientX < window.innerWidth - 160) {
+					refContextMenu.current.style = `top: ${e.clientY -67}px; left: ${e.clientX +2}px;`;
+					props.changeIsContextMenu(true);
+					props.changeIsContextMenuNav(true);
+				}else {
+					refContextMenu.current.style = `top: ${e.clientY - 67}px; left: ${e.clientX - 162}px;`;
+					props.changeIsContextMenu(true);
+					props.changeIsContextMenuNav(true);
+				}
 			}
 			e.preventDefault();
 			e.stopPropagation();
@@ -35,7 +51,7 @@ export function NavContainer(props) {
 					</div>
 					:
 					<div className='panelNavTitle'>
-						<span>{props.activeSectionItem.name}</span>
+						<div> </div><span>{props.activeSectionItem.name}</span><div> </div>
 					</div>
 			}
 			{props.activeSectionItem &&
