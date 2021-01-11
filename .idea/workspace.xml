@@ -4,8 +4,10 @@
     <list default="true" id="e5ade667-796b-4e33-abca-7c3a979b8322" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DAL/DAL_Section.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/DAL/DAL_Section.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/App/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/App/App.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/App/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/App/App.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Block/Block.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Block/Block.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Block/Block.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.js" afterDir="false" />
@@ -18,28 +20,29 @@
       <change beforePath="$PROJECT_DIR$/src/components/Nav/Nav.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Nav/Nav.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Nav/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Nav/Nav.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Nav/Nav.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Nav/Nav.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Start/Start.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Start/Start.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Start/Start.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Start/Start.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Start/Start.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Start/Start.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Start/Start.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Start/Start.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/header/Header.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/Header.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/header/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/header/Header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/panel/Panel.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panel/Panel.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/panelMoreBtn/PanelMoreBtn.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/section/Section.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/section/Section.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/section/Section.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/section/Section.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/section/Section.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/img/more.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/redux/reducers/AppReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/AppReducer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/selectors/MainSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/selectors/MainSelector.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -140,7 +143,7 @@
       <workItem from="1609758021574" duration="12817000" />
       <workItem from="1609836555912" duration="22893000" />
       <workItem from="1610014336957" duration="66065000" />
-      <workItem from="1610265168404" duration="49934000" />
+      <workItem from="1610265168404" duration="71848000" />
     </task>
     <servers />
   </component>

@@ -1,7 +1,8 @@
 .header {
   margin: 0 5px 5px;
-  height: 60px;
-  display: flex;
+  height: 50px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   justify-content: space-between;
   align-items: center;
   background: #333333;
@@ -10,9 +11,9 @@
   grid-column: span 2;
 }
 .header .logo {
-  margin-left: 20px;
+  justify-self: center;
   font-family: Aladin, sans-serif;
-  font-size: 44px;
+  font-size: 42px;
   color: #808080;
   background-color: transparent;
   text-shadow: 1px 1px 5px black;
@@ -21,7 +22,7 @@
   position: relative;
   width: 40px;
   height: 40px;
-  margin-right: 15px;
+  margin: 0 15px;
   cursor: pointer;
   box-shadow: 0px 0px 11px 3px #10101087;
   border-radius: 50%;
@@ -36,6 +37,12 @@
   top: 45px;
   right: 0;
 }
+.header .lk .menu .menuName {
+  text-align: center;
+  background-color: #520000c9;
+  color: #d8d8d8c9;
+  padding: 5px 15px;
+}
 .header .lk .menu .menuItem {
   padding: 5px 15px;
   width: 200px;
@@ -45,6 +52,12 @@
 }
 .header .lk .menu .menuItem:hover {
   background-color: #737373;
+}
+.header .lk .menu .menuItemSave {
+  background-color: green;
+}
+.header .lk .menu .menuItemSave:hover {
+  background-color: #005900;
 }
 .header .lk .menu input {
   padding: 0 10px;

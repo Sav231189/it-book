@@ -4,21 +4,38 @@
   background: #272727;
   font-family: 'JetBrains Mono', monospace;
   overflow: hidden;
+  @media (max-width: 390px) {
+  }
 
   .appWindow {
     position: relative;
-    height: calc(100vh - 65px);
+    height: calc(100vh - 55px);
     //padding: 10px 0;
     display: flex;
     flex-direction: row;
 
-    //margin: 60px 0 0;
+    @media (max-width: 390px) {
+      height: calc(100vh - 25px);
+      top: 5px;
+    }
+    .loadingApp.true {
+      position: absolute;
+      z-index: 100;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #232323;
+      font-size: 42px;
+      color: #8e1f1f;
 
-    //transition: all .4s linear 0s;
-    //display: grid;
-    //grid-template-columns: 370px 1fr;
+      div {
+        position: relative;
+        bottom: 50px;
+      }
+    }
   }
-
   .mainBox {
     width: 100%;
     position: relative;

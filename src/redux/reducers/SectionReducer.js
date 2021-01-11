@@ -7,6 +7,7 @@ import {
 	setNavInSectionDAL,
 	setSectionItemDAL, updateSectionItemDAL
 } from "../../DAL/DAL_Section";
+import {changeLoading} from "./AppReducer";
 
 const initialState = {
 	idCount: 20,
@@ -402,10 +403,8 @@ export const SectionReducer = (state = initialState, action) => {
 			element.list.splice(element.index,1)
 			return stateCopy;
 		}
-		//
-
 		case 'CHANGE_POSITION_BLOCK': {
-			let element = searchListBlock(stateCopy.items, action.id);
+			let element = searchListAndItemID(stateCopy.sectionItems, action.id);
 			if (action.side === 'up') {
 				if (element.index > 0) {
 					let elemCopy = element.list[element.index - 1];
@@ -475,51 +474,44 @@ export const getData = (userId = '') => {
 	return (dispatch) => {
 		dispatch(updateStateWorkDAL());
 		if (userId !== '') {
+			dispatch(changeLoading(true));
 			getSectionItemDAL(userId).then((data) => {
+				debugger
 				if (data) {
 					dispatch(getSectionItemsAC(data.sectionItems));
 					dispatch(updateStateWorkDAL());
 					let activeSectionItem = stateWorkDAL.sectionItems.find(el => el.isActive);
 					if (activeSectionItem) {
-						getNavItemsDAL(activeSectionItem.id, userId)
-						.then((data) => {
+					let a = getNavItemsDAL(activeSectionItem.id, userId)
+						.then((d) => {
 							if (data && data.folderItems) {
-								dispatch(getNavItemAC(data.folderItems, activeSectionItem.id))
+								dispatch(getNavItemAC(d.folderItems, activeSectionItem.id));
 								dispatch(closeAllIsOpenContextMenu());
 							}
 						});
 					}
+				}
+			}).then((data)=>{
+				debugger
+				if (data) {
 					for (let i = 0; i < stateWorkDAL.sectionItems.length; i++) {
 						if (!stateWorkDAL.sectionItems[i].isActive) {
+							// console.log("? getData")
 							getNavItemsDAL(stateWorkDAL.sectionItems[i].id, userId)
 							.then((data) => {
 								if (data && data.folderItems) {
-									dispatch(getNavItemAC(data.folderItems, stateWorkDAL.sectionItems[i].id))
+									dispatch(getNavItemAC(data.folderItems, stateWorkDAL.sectionItems[i].id));
 									dispatch(closeAllIsOpenContextMenu());
+									console.log("otherNav getData")
 								}
 							});
 						}
 					}
 				}
+			}).then(()=> {
+				dispatch(changeLoading(false));
 			});
 		}
-
-		// stateWorkDAL.sectionItems.push({
-		// 	id: new Date().getTime(),
-		// 	name: 'Name',
-		// 	url: '',
-		// 	position: stateWorkDAL.sectionItems.length,
-		// 	isActive: false,
-		// 	isOpenContextMenu: false,
-		// 	nav: {
-		// 		parentName: 'Name',
-		// 		folderItems: [],
-		// 	},
-		// });
-		// setSectionItemDAL(stateWorkDAL.sectionItems, userId)
-		// .then((resolve) => {
-		// 	dispatch(addSectionItemAC(userId));
-		// });
 	}
 };
 
@@ -842,17 +834,20 @@ export const deleteBlock = (id, userId) => {
 	}
 };
 
-
-
-
-
-
-//changePositionBlock AC:
-export const changePositionBlock = (id, side) => {
+//AC CHANGE_POSITION_BLOCK:
+export const changePositionBlockAC = (id, side) => {
 	return {
 		type: 'CHANGE_POSITION_BLOCK',
 		id: id,
 		side: side,
 	}
 };
+//	THUNK changePositionBlock:
+export const changePositionBlock = (id, side, userId) => {
 
+	return (dispatch) => {
+		dispatch(changePositionBlockAC(id, side));
+		dispatch(updateStateWorkDAL());
+		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
+	}
+};

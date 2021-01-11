@@ -1,10 +1,10 @@
 .Block {
   width: calc(100% - 10px);
   min-height: 30px;
-  margin: 10px 5px;
+  margin: 5px 5px 5px;
+  padding: 5px 0 5px;
   background: #1F1F1F;
   border: 1px solid #333333;
-  border-radius: 0px;
   font-family: Monaco, sans-serif;
   white-space: pre-wrap;
   transition: all 0.2s ease-in 0s;

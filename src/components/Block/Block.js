@@ -71,7 +71,7 @@ export function BlockComponent(props) {
 		props.deleteBlock(props.element.id, props.userId);
 	};
 	const changePositionBlock = (side) => {
-		props.changePositionBlock(props.element.id, side);
+		props.changePositionBlock(props.element.id, side, props.userId);
 	};
 
 	return (

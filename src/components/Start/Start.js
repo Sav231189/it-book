@@ -30,7 +30,11 @@ export function Start(props) {
 	};
 	return (
 		<div className="Start">
-			<div className='logo' onClick={()=>{setIsLogin(false);setIsRegistration(false)}}>
+			<div className='logo' onClick={()=>{
+				setIsLogin(false);
+				setIsRegistration(false);
+				setIsResetPassword(false);
+			}}>
 				<img src={logo} alt="logo"/>
 			</div>
 			{!isLogin && !isRegistration &&
@@ -66,12 +70,14 @@ export function Start(props) {
 			<div className='auth-block'>
 				<div className='login-btn' onClick={() => {
 					setIsLogin(true);
-					setIsRegistration(false)
+					setIsRegistration(false);
+					setIsResetPassword(false);
 				}}>Login
 				</div>
 				<div className='registration-btn' onClick={() => {
 					setIsRegistration(true);
-					setIsLogin(false)
+					setIsLogin(false);
+					setIsResetPassword(false);
 				}}>Registration
 				</div>
 			</div>

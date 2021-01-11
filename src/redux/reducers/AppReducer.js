@@ -6,10 +6,12 @@ const initialState = {
 	isContextMenuSection: false,
 	isContextMenuNav: false,
 	isContextMenuMain: false,
+	isContextMenuLK: false,
 	isAuth: false,
 	name: '',
 	userId: "",
 	showPanel: true,
+	loading: true,
 };
 
 export const AppReducer = (state = initialState, action) => {
@@ -25,6 +27,7 @@ export const AppReducer = (state = initialState, action) => {
 			stateCopy.isContextMenuSection = false;
 			stateCopy.isContextMenuNav = false;
 			stateCopy.isContextMenuMain = false;
+			stateCopy.isContextMenuLK = false;
 			return stateCopy;
 		}
 		case 'CHANGE_IS_CONTEXT_MENU_SECTION': {
@@ -37,6 +40,10 @@ export const AppReducer = (state = initialState, action) => {
 		}
 		case 'CHANGE_IS_CONTEXT_MENU_MAIN': {
 			stateCopy.isContextMenuMain = action.isContextMenuMain;
+			return stateCopy;
+		}
+		case 'CHANGE_IS_CONTEXT_MENU_LK': {
+			stateCopy.isContextMenuLK = action.isContextMenuLK;
 			return stateCopy;
 		}
 
@@ -55,6 +62,10 @@ export const AppReducer = (state = initialState, action) => {
 
 		case 'CHANGE_PANEL_SHOW': {
 			stateCopy.showPanel = !stateCopy.showPanel;
+			return stateCopy;
+		}
+		case 'CHANGE_LOADING': {
+			stateCopy.loading = action.isLogin;
 			return stateCopy;
 		}
 		default :
@@ -95,6 +106,13 @@ export const changeIsContextMenuMain = (isContextMenuMain) => {
 	return {
 		type: 'CHANGE_IS_CONTEXT_MENU_MAIN',
 		isContextMenuMain: isContextMenuMain,
+	}
+};
+//AC CHANGE_IS_CONTEXT_MENU_LK:
+export const changeIsContextMenuLK = (isContextMenuLK) => {
+	return {
+		type: 'CHANGE_IS_CONTEXT_MENU_LK',
+		isContextMenuLK: isContextMenuLK,
 	}
 };
 
@@ -194,5 +212,12 @@ export const sendPasswordResetEmail = (email) => {
 export const changePanelShow = () => {
 	return {
 		type: 'CHANGE_PANEL_SHOW',
+	}
+};
+//AC CHANGE_LOADING:
+export const changeLoading = (isLogin) => {
+	return {
+		type: 'CHANGE_LOADING',
+		isLogin: isLogin,
 	}
 };

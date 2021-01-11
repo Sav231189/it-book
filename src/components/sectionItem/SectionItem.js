@@ -76,7 +76,6 @@ export function SectionItemComponent(props) {
 	};
 
 	const namePosition = (e)=> {
-		console.log(e.currentTarget.getBoundingClientRect().y);
 		nameBlock.current.style= `top: ${e.currentTarget.getBoundingClientRect().y - 20}px; left: ${e.currentTarget.getBoundingClientRect().x + 30}px;`;
 	};
 

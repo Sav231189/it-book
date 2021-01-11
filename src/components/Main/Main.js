@@ -21,7 +21,6 @@ export function MainComponent(props) {
 		}
 	};
 	window.addEventListener('resize',resizeMain);
-
 	useEffect(resizeMain);
 
 	const showMenuContextNav = (e) => {
@@ -54,9 +53,10 @@ export function MainComponent(props) {
 
 	return (
 		<div className={`Main ${props.showPanel}`} onContextMenu={showMenuContextNav}>
-			{props.activeFileName !== "" &&
+			{props.activeFileName !== "" && props.fileMain.length > 0 &&
 			<div className='mainWrapper' ref={refMainWrapper}>
 				<div className={`mainTitle ${!props.showPanel}`} >{props.activeFileName}</div>
+
 				{props.fileMain.map(el =>
 					<Block key={el.id} element={el}/>
 				)}
@@ -67,6 +67,13 @@ export function MainComponent(props) {
 						props.addBlockInActiveFile(props.activeFile, props.userId)
 					}}> + new Block </span>
 				</div>
+			</div>
+			}
+			{props.fileMain.length <= 0 && props.activeFileName.length > 0 && props.activeFile.type &&
+			<div className='noBlockBtn' onClick={(e) => {
+				props.addBlockInActiveFile(props.activeFile, props.userId)
+			}}>
+				ADD <br/> BLOCK
 			</div>
 			}
 		</div>

@@ -1,6 +1,5 @@
 .section {
   margin-right: -30px;
-  margin-bottom: 54px;
   max-height: calc(100% - 0px);
   padding-left: 10px;
   padding-right: 10px;
@@ -23,6 +22,27 @@
         background-color: rgba(96, 135, 166, 0.82);
         color: white;
       }
+    }
+  }
+
+  @keyframes right_click {
+    0% {transform: scale(1);}
+    25% {transform: scale(0.97);}
+    50% {transform: scale(0.94);}
+    75% {transform: scale(0.97);}
+    100% {transform: scale(1);}
+  }
+  .noSectionItem {
+    position: relative;
+
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 40px;
+      margin-top: 30px;
+      fill: #52de59;
+      animation: right_click 0.8s ease-out infinite;
     }
   }
 }

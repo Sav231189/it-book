@@ -1,10 +1,10 @@
 .panel {
-  margin: 5px 5px 10px 10px;
+  margin: 5px 5px 15px 10px;
   position: absolute;
   z-index: 1;
   top: 0;
   left: 0;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 70px);
   max-width: 370px;
   width: 100%;
   overflow: hidden;
@@ -15,6 +15,13 @@
   box-shadow: 0px 0px 30px 3px #1b1b1b;
   border-radius: 5px;
   transition: all 0.4s linear 0s;
+}
+@media (max-width: 390px) {
+  .panel {
+    margin: 0;
+    max-width: 390px;
+    border-radius: 0;
+  }
 }
 
 .panel.true {

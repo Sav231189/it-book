@@ -30,7 +30,7 @@ function AppComponent(props) {
 	};
 
 	return (
-		<div className="app" >
+		<div className="app">
 			{!props.isAuth
 				?
 				<Start checkLogin={props.checkLogin}
@@ -38,18 +38,17 @@ function AppComponent(props) {
 							 registration={props.registration}
 				/>
 				:
-				<div className="app" onClick={closeAllMenu} onContextMenu={closeAllMenu}>
+					<div className="app" onClick={closeAllMenu} onContextMenu={closeAllMenu}>
 
-					<Header outLogin={props.outLogin} name={props.name}
-									updatePassword={props.updatePassword}/>
-
-					<div className='appWindow'>
-						<Panel showPanel={props.showPanel} userId={props.userId}/>
-						<PanelMoreBtn changePanelShow={props.changePanelShow}/>
-						<Main />
+						<Header/>
+						<div className='appWindow'>
+							<div className={`loadingApp ${props.loading}`}>
+								<div>LOADING...</div>
+							</div>
+							<Panel showPanel={props.showPanel} userId={props.userId}/>
+							<Main/>
+						</div>
 					</div>
-
-				</div>
 			}
 		</div>
 	);
@@ -61,6 +60,7 @@ const mstp = (state) => {
 		showPanel: state.app.showPanel,
 		isAuth: state.app.isAuth,
 		name: state.app.name,
+		loading: state.app.loading,
 	}
 };
 export const App = connect(mstp, {
@@ -74,6 +74,4 @@ export const App = connect(mstp, {
 	registration,
 	updatePassword,
 	sendPasswordResetEmail,
-
-	changePanelShow,
 })(AppComponent);

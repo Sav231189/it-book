@@ -1,12 +1,25 @@
+@keyframes arrow_left {
+  0% {
+    right: 20px;
+  }
+  100% {
+    right: 50px;
+  }
+}
 .Nav {
   position: relative;
   z-index: 1;
-  padding: 5px 5px 20px;
+  padding: 5px 5px 25px;
   width: 330px;
   height: calc(100% + 20px);
   background: #323232;
   overflow: auto;
   border-left: rgba(197, 197, 197, 0.25) solid 2px;
+}
+@media (max-width: 390px) {
+  .Nav {
+    width: 350px;
+  }
 }
 .Nav .previewNav {
   position: absolute;
@@ -17,6 +30,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #4383c5c9;
+  text-shadow: 3px 3px 10px #04040485;
+}
+.Nav .previewNav img {
+  display: block;
+  width: 50px;
+  position: relative;
+  right: 20px;
+  animation: arrow_left 0.6s ease-out infinite alternate;
 }
 .Nav .panelNavTitle {
   margin-right: 20px;
@@ -59,6 +81,35 @@
 .Nav .menuNav span:hover {
   background-color: rgba(96, 135, 166, 0.82);
   color: white;
+}
+@keyframes right_click {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(0.97);
+  }
+  50% {
+    transform: scale(0.94);
+  }
+  75% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.Nav .noSectionItem {
+  position: relative;
+}
+.Nav .noSectionItem svg {
+  position: absolute;
+  top: 0;
+  left: 40%;
+  width: 40px;
+  margin-top: 30px;
+  fill: #52de59;
+  animation: right_click 0.8s ease-out infinite;
 }
 
 /*# sourceMappingURL=Nav.css.map */

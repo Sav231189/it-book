@@ -1,20 +1,21 @@
 .header {
   margin: 0 5px 5px;
-  height: 60px;
-  display: flex;
+  height: 50px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   justify-content: space-between;
   align-items: center;
   background: #333333;
   box-shadow: 3px 3px 8px rgb(23 23 23);
   border-radius: 0 0 10px 10px;
   grid-column: span 2;
+
   .logo {
     //display: inline-flex;
-    //align-items: center;
-    margin-left: 20px;
+    justify-self: center;
 
     font-family: Aladin, sans-serif;
-    font-size: 44px;
+    font-size: 42px;
     color: #808080;
     background-color: transparent;
     text-shadow: 1px 1px 5px rgb(0 0 0);
@@ -23,7 +24,7 @@
     position: relative;
     width: 40px;
     height: 40px;
-    margin-right: 15px;
+    margin: 0 15px;
 
     cursor: pointer;
     box-shadow: 0px 0px 11px 3px #10101087;
@@ -39,6 +40,12 @@
       z-index: 4;
       top: 45px;
       right: 0;
+      .menuName {
+        text-align: center;
+        background-color: #520000c9;
+        color: #d8d8d8c9;
+        padding: 5px 15px;
+      }
       .menuItem {
         padding: 5px 15px;
         width: 200px;
@@ -47,6 +54,12 @@
         cursor: pointer;
         &:hover {
           background-color: #737373;
+        }
+      }
+      .menuItemSave {
+        background-color: green;
+        &:hover {
+          background-color: #005900;
         }
       }
       input {

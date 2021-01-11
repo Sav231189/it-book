@@ -7,9 +7,31 @@
 }
 .app .appWindow {
   position: relative;
-  height: calc(100vh - 65px);
+  height: calc(100vh - 55px);
   display: flex;
   flex-direction: row;
+}
+@media (max-width: 390px) {
+  .app .appWindow {
+    height: calc(100vh - 25px);
+    top: 5px;
+  }
+}
+.app .appWindow .loadingApp.true {
+  position: absolute;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #232323;
+  font-size: 42px;
+  color: #8e1f1f;
+}
+.app .appWindow .loadingApp.true div {
+  position: relative;
+  bottom: 50px;
 }
 .app .mainBox {
   width: 100%;
