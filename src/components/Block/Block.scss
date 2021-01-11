@@ -6,18 +6,18 @@
 
   background: #1F1F1F;
   border: 1px solid #333333;
-
+  //box-shadow: inset 0px 0 10px 0px #98989847;
 
   font-family: Monaco, sans-serif;
   white-space: pre-wrap;
-  //&:hover {
-  //  border: 1px solid #585858;
-  //}
-  transition: all .2s ease-in 0s;
-
+  transition: box-shadow .2s ease-in 0s;
+  &:hover {
+      border: 1px solid #414141;
+      box-shadow:  inset 0px 0 8px 0px #4a4a4a73;
+  }
   .blockTitle {
     padding-left: 5px;
-    font-size: 18px;
+    font-size: 17px;
     text-indent: 2px;
     letter-spacing: 0.1em;
     color: #BC5151;
@@ -28,15 +28,15 @@
   }
 
   .blockSubTitle {
-    padding: 3px;
+    //padding: 3px;
     padding-left: 7px;
-    font-size: 16px;
-    color: #59BC51;
+    font-size: 14px;
+    color: #448740;
     letter-spacing: 0.005em;
   }
 
   .blockText {
-    padding: 3px;
+    //padding: 3px;
     padding-left: 7px;
     font-size: 14px;
     color: #919191;
@@ -123,7 +123,11 @@
   }
 }
 
-.Block.active {
-  border: 1px solid #414141;
-  box-shadow: inset 0px 0 10px 0px #98989847;
+.Block.true {
+  border: none;
+  &:hover {
+    outline: 1px solid #262626;
+    box-shadow: none;
+  }
 }
+

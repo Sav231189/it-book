@@ -60,7 +60,7 @@ export async function setNavInSectionDAL (sectionItems,userId) {
 		console.log(err.message)
 	});
 }
-export async function getNavItemsDAL (id = 0,userId) {
+export async function getActiveNavItemsDAL (id = 0,userId) {
 
 	const snapshot = await firebase.firestore().collection(userId).get();
 	if (snapshot.size > 1 && id !== 0){
@@ -74,6 +74,6 @@ export async function getNavItemsDAL (id = 0,userId) {
 		}).catch(function(error) {
 			console.log("Error getting document:", error);
 		});
-	}else return 0;
+	}else return null;
 
 }

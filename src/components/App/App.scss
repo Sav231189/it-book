@@ -18,6 +18,9 @@
       height: calc(100vh - 25px);
       top: 5px;
     }
+    .loadingApp {
+      display: none;
+    }
     .loadingApp.true {
       position: absolute;
       z-index: 100;

@@ -13,7 +13,7 @@
   background: #545454;
 }
 .item .isActiveSectionItem {
-  position: relative;
+  position: absolute;
   left: -10px;
   width: 4px;
   height: 40px;
@@ -24,10 +24,10 @@
   width: 100%;
   height: auto;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 10%;
   overflow: hidden;
   cursor: pointer;
-  filter: opacity(0.6);
+  filter: opacity(0.5);
 }
 .item .nameBlock {
   display: none;

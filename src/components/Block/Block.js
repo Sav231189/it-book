@@ -2,13 +2,14 @@ import React, {useRef, useState} from 'react';
 import './Block.css';
 import {connect} from "react-redux";
 import {
-	addBlockInActiveFile,
+	addBlockInActiveFile, changeBorderInBlock,
 	changeIsOpenContextMenu,
 	changePositionBlock, changeSubTitleInBlock, changeTextInBlock,
 	changeTitleInBlock,
 	closeAllIsOpenContextMenu, deleteBlock
 } from "../../redux/reducers/SectionReducer";
 import {changeIsContextMenu, closeAllContextMenu} from "../../redux/reducers/AppReducer";
+import {getActiveFile} from "../../selectors/MainSelector";
 
 export function BlockComponent(props) {
 	const refContextMenu = useRef(null);
@@ -53,7 +54,7 @@ export function BlockComponent(props) {
 
 	const addBlockInActiveFile = () => {
 		props.closeAllIsOpenContextMenu();
-		props.addBlockInActiveFile(props.element, props.userId);
+		props.addBlockInActiveFile(props.activeFile, props.userId);
 	};
 	const changeTitleInBlock = () => {
 		setIsChangeTitle(false);
@@ -75,7 +76,7 @@ export function BlockComponent(props) {
 	};
 
 	return (
-		<div className='Block'
+		<div className={`Block ${!props.element.isBorder}`}
 				 onPointerOver={(e) => {
 					 e.currentTarget.classList.add("active");
 					 e.stopPropagation();
@@ -125,7 +126,7 @@ export function BlockComponent(props) {
 
 			<div ref={refContextMenu} className="contextMenuBlock"
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
-				<span onClick={addBlockInActiveFile}> + Add Block </span>
+				<span onClick={addBlockInActiveFile}> New Block </span>
 				<hr style={{background: 'grey', height: "1px"}}/>
 				<span onClick={() => {
 					setTitle(title === '' ? 'new Title' : title);
@@ -140,10 +141,12 @@ export function BlockComponent(props) {
 					setIsChangeText(true);
 				}}> Change Text </span>
 				<hr style={{background: 'grey', height: "1px"}}/>
-				<span onClick={() => changePositionBlock('up')}> position UP </span>
-				<span onClick={() => changePositionBlock('down')}> position DOWN </span>
+				<span onClick={() => props.changeBorderInBlock(props.element.id, props.userId)}> Clear Border </span>
 				<hr style={{background: 'grey', height: "1px"}}/>
-				<span onClick={deleteBlock}> - Delete Block </span>
+				<span onClick={() => changePositionBlock('up')}> Position UP </span>
+				<span onClick={() => changePositionBlock('down')}> Position DOWN </span>
+				<hr style={{background: 'grey', height: "1px"}}/>
+				<span onClick={deleteBlock}> Delete Block </span>
 			</div>
 
 		</div>
@@ -154,6 +157,7 @@ const mstp = (state) => {
 	return {
 		isOpenContextMenu: state.app.isOpenContextMenu,
 		userId: state.app.userId,
+		activeFile: getActiveFile(state),
 	}
 };
 export const Block = connect(mstp, {
@@ -166,6 +170,7 @@ export const Block = connect(mstp, {
 	changeTitleInBlock,
 	changeSubTitleInBlock,
 	changeTextInBlock,
+	changeBorderInBlock,
 	deleteBlock,
 	changePositionBlock,
 

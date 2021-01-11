@@ -10,6 +10,7 @@ import {
 	changeIsOpenContextMenu,
 	changePositionSectionItem, changeSectionItem, deleteSectionItem
 } from "../../redux/reducers/SectionReducer";
+import giphy from '../../img/giphy.gif'
 
 export function SectionItemComponent(props) {
 
@@ -86,12 +87,22 @@ export function SectionItemComponent(props) {
 				 onClick={activateSectionItem}
 				 onPointerOver={namePosition}>
 			{props.element.isActive && <div className='isActiveSectionItem'> </div>}
-			{props.element.url !== ''
+			{	props.element.isLoading
 				?
-				<img src={props.url} alt={props.name}/>
-				:
-				<img src={logoSection} alt={logoSection.name}/>
+					<div>
+						{props.element.url !== ''
+							?
+							<img src={props.url} alt={props.name}/>
+							:
+							<img src={logoSection} alt={logoSection.name}/>
+						}
+					</div>
+					:
+				<div>
+					<img src={giphy} alt="giphy"/>
+				</div>
 			}
+
 
 			<div ref={nameBlock} className="nameBlock">{props.element.name}</div>
 

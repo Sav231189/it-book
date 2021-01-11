@@ -55,9 +55,9 @@ export const NavItemComponent = (props) => {
 					props.changeIsOpenContextMenu(props.element.id, true);
 				}
 			}
+			// e.preventDefault();
+			// e.stopPropagation();
 		}
-		e.preventDefault();
-		e.stopPropagation();
 	};
 
 	const changeName = (e) => {
@@ -130,9 +130,11 @@ export const NavItemComponent = (props) => {
 					?
 					<div ref={refContextMenu} className="menuNavItem"
 							 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
+						{ props.step < 7 &&
 						<span onClick={() => {
 							props.addNavItem('folder',props.element.id,props.userId)
 						}}> + new Folder </span>
+						}
 						<span onClick={() => {
 							props.addNavItem('file',props.element.id,props.userId)
 						}}> + new File </span>

@@ -17,6 +17,9 @@
     top: 5px;
   }
 }
+.app .appWindow .loadingApp {
+  display: none;
+}
 .app .appWindow .loadingApp.true {
   position: absolute;
   z-index: 100;

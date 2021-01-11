@@ -17,7 +17,7 @@
   //border: #8c8c8ce8 solid 1px;
 
   .isActiveSectionItem {
-    position: relative;
+    position: absolute;
     left: -10px;
     width: 4px;
     height: 40px;
@@ -29,11 +29,11 @@
     width: 100%;
     height: auto;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 10%;
     //pointer-events: none;
     overflow: hidden;
     cursor: pointer;
-    filter: opacity(.6);
+    filter: opacity(.5);
   }
   .nameBlock {
     display: none;

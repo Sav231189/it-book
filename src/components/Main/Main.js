@@ -9,22 +9,9 @@ import {addBlockInActiveFile} from "../../redux/reducers/SectionReducer";
 export function MainComponent(props) {
 
 	const refContextMenu = useRef(null);
-	const refMainWrapper = useRef(null);
-
-	const resizeMain = () => {
-		if (refMainWrapper.current) {
-			if (refMainWrapper.current.offsetHeight > window.innerHeight-111){
-				refMainWrapper.current.style = "margin-right: 25px;";
-			}else {
-				refMainWrapper.current.style = "margin-right: 40px;";
-			}
-		}
-	};
-	window.addEventListener('resize',resizeMain);
-	useEffect(resizeMain);
 
 	const showMenuContextNav = (e) => {
-		if (!props.isContextMenu && !props.isContextMenuMain && props.activeFileName !== '') {
+		if (!props.isContextMenu && !props.isContextMenuMain && props.activeFileName !== '' && refContextMenu.current) {
 			if (e.clientY < window.innerHeight - 50) {
 				if (e.clientX < window.innerWidth - 160) {
 					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
@@ -53,9 +40,11 @@ export function MainComponent(props) {
 
 	return (
 		<div className={`Main ${props.showPanel}`} onContextMenu={showMenuContextNav}>
+			{props.activeFileName !== '' &&
+			<div className={`mainTitle ${!props.showPanel}`} >{props.activeFileName}</div>
+			}
 			{props.activeFileName !== "" && props.fileMain.length > 0 &&
-			<div className='mainWrapper' ref={refMainWrapper}>
-				<div className={`mainTitle ${!props.showPanel}`} >{props.activeFileName}</div>
+			<div className={`mainWrapper ${!props.showPanel}`}>
 
 				{props.fileMain.map(el =>
 					<Block key={el.id} element={el}/>

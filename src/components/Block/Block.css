@@ -7,11 +7,15 @@
   border: 1px solid #333333;
   font-family: Monaco, sans-serif;
   white-space: pre-wrap;
-  transition: all 0.2s ease-in 0s;
+  transition: box-shadow 0.2s ease-in 0s;
+}
+.Block:hover {
+  border: 1px solid #414141;
+  box-shadow: inset 0px 0 8px 0px #4a4a4a73;
 }
 .Block .blockTitle {
   padding-left: 5px;
-  font-size: 18px;
+  font-size: 17px;
   text-indent: 2px;
   letter-spacing: 0.1em;
   color: #BC5151;
@@ -20,14 +24,12 @@
   align-items: center;
 }
 .Block .blockSubTitle {
-  padding: 3px;
   padding-left: 7px;
-  font-size: 16px;
-  color: #59BC51;
+  font-size: 14px;
+  color: #448740;
   letter-spacing: 0.005em;
 }
 .Block .blockText {
-  padding: 3px;
   padding-left: 7px;
   font-size: 14px;
   color: #919191;
@@ -98,9 +100,12 @@
   border: 1px solid #333333;
 }
 
-.Block.active {
-  border: 1px solid #414141;
-  box-shadow: inset 0px 0 10px 0px #98989847;
+.Block.true {
+  border: none;
+}
+.Block.true:hover {
+  outline: 1px solid #262626;
+  box-shadow: none;
 }
 
 /*# sourceMappingURL=Block.css.map */

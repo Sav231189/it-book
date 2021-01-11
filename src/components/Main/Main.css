@@ -1,6 +1,5 @@
 .Main {
   position: relative;
-  padding-top: 33px;
   height: calc(100vh - 70px);
   width: calc(100% + 30px);
   overflow-x: hidden;
@@ -9,25 +8,28 @@
   background-color: #2929299c;
 }
 .Main .mainWrapper {
+  width: calc(100vw - 400px);
   padding: 1px 0 1px 0;
   margin-right: 40px;
   outline: #383838cf solid 1px;
   background: #1f1f1f;
-}
-.Main .mainTitle {
-  display: block;
-  position: fixed;
-  width: calc(100% - 399px);
-  top: 60px;
-  background-color: #2f2f2f;
-  padding: 6px 20px;
-  text-align: center;
-  box-shadow: 10px 0px 22px 2px #00000052;
-  color: grey;
   transition: all 0.4s linear 0s;
 }
-.Main .mainTitle:hover {
-  background-color: #393939;
+.Main .mainWrapper.true {
+  width: calc(100vw - 20px);
+  transition: all 0.4s linear 0s;
+}
+.Main .mainTitle {
+  width: calc(100vw - 400px);
+  min-height: 30px;
+  margin-bottom: 10px;
+  padding: 5px 0 5px;
+  background: #0a3700;
+  color: #888888;
+  text-align: center;
+  font-family: Monaco, sans-serif;
+  white-space: pre-wrap;
+  transition: all 0.4s linear 0s;
 }
 @media (max-width: 390px) {
   .Main .mainTitle {
@@ -35,7 +37,7 @@
   }
 }
 .Main .mainTitle.true {
-  width: calc(100% - 19px);
+  width: calc(100vw - 20px);
   transition: all 0.4s linear 0s;
 }
 .Main .menuNav {

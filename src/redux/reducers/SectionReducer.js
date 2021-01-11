@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import {
-	deleteSectionItemDAL,
+	deleteSectionItemDAL, getActiveNavItemsDAL,
 	getNavItemsDAL,
 	getSectionItemDAL,
 	setNavInSectionDAL,
@@ -267,7 +267,6 @@ function searchListAndItemID(array = [], id) {
 	return listAndIndex
 }
 
-
 //Reducer
 let stateWorkDAL;
 export const SectionReducer = (state = initialState, action) => {
@@ -276,6 +275,11 @@ export const SectionReducer = (state = initialState, action) => {
 
 		case 'UPDATE_STATE_WORK_DAL': {
 			stateWorkDAL = stateCopy;
+			return stateCopy;
+		}
+		case 'CHANGE_IS_LOADING_SECTION_ITEM': {
+			let element = searchItemID(stateCopy.sectionItems, action.id);
+			element.isLoading = action.isLoading;
 			return stateCopy;
 		}
 		case 'CHANGE_ACTIVE_FILE_NAME': {
@@ -341,7 +345,7 @@ export const SectionReducer = (state = initialState, action) => {
 		}
 		case 'CHANGE_NAME_NAV_ITEM': {
 			let element = searchItemID(stateCopy.sectionItems, action.id);
-			element.name = action.name;
+			element.name = action.name === '' ? ' ' : action.name ;
 			element.isOpenContextMenu = false;
 			return stateCopy;
 		}
@@ -378,6 +382,7 @@ export const SectionReducer = (state = initialState, action) => {
 				title: '',
 				subTitle: '',
 				text: '',
+				isBorder: true,
 				img: '',
 				fileMain: [],
 			});
@@ -398,9 +403,14 @@ export const SectionReducer = (state = initialState, action) => {
 			element.text = action.text;
 			return stateCopy;
 		}
+		case 'CHANGE_BORDER_IN_BLOCK': {
+			let element = searchItemID(stateCopy.sectionItems, action.id);
+			element.isBorder = !element.isBorder;
+			return stateCopy;
+		}
 		case 'DELETE_BLOCK': {
 			let element = searchListAndItemID(stateCopy.sectionItems, action.id);
-			element.list.splice(element.index,1)
+			element.list.splice(element.index, 1)
 			return stateCopy;
 		}
 		case 'CHANGE_POSITION_BLOCK': {
@@ -429,6 +439,14 @@ export const SectionReducer = (state = initialState, action) => {
 export const updateStateWorkDAL = () => {
 	return {
 		type: 'UPDATE_STATE_WORK_DAL',
+	}
+};
+//AC CHANGE_IS_LOADING_SECTION_ITEM:
+export const changeIsLoadingSectionItemAC = (id, isLoading) => {
+	return {
+		type: 'CHANGE_IS_LOADING_SECTION_ITEM',
+		isLoading: isLoading,
+		id: id,
 	}
 };
 //AC changeActiveFileName:
@@ -473,43 +491,47 @@ export const getData = (userId = '') => {
 
 	return (dispatch) => {
 		dispatch(updateStateWorkDAL());
+		dispatch(changeLoading(true));
 		if (userId !== '') {
-			dispatch(changeLoading(true));
-			getSectionItemDAL(userId).then((data) => {
-				debugger
+			getSectionItemDAL(userId)
+			.then((data) => {
 				if (data) {
 					dispatch(getSectionItemsAC(data.sectionItems));
 					dispatch(updateStateWorkDAL());
 					let activeSectionItem = stateWorkDAL.sectionItems.find(el => el.isActive);
 					if (activeSectionItem) {
-					let a = getNavItemsDAL(activeSectionItem.id, userId)
-						.then((d) => {
+						return getActiveNavItemsDAL(activeSectionItem.id, userId)
+						.then((data) => {
+							return {activeNavItems: data, activeSectionItem: activeSectionItem}
+						});
+					} else return {};
+				}
+			})
+			.then((data) => {
+				if (data.activeNavItems && data.activeNavItems.folderItems) {
+					dispatch(getNavItemAC(data.activeNavItems.folderItems, data.activeSectionItem.id));
+					dispatch(closeAllIsOpenContextMenu());
+				}
+				return data
+			})
+			.then((data) => {
+				data.activeSectionItem && dispatch(changeIsLoadingSectionItemAC(data.activeSectionItem.id, true));
+				dispatch(changeLoading(false));
+			})
+			.then(()=>{
+				for (let i = 0; i < stateWorkDAL.sectionItems.length; i++) {
+					if (!stateWorkDAL.sectionItems[i].isActive) {
+						dispatch(changeIsLoadingSectionItemAC(stateWorkDAL.sectionItems[i].id, false));
+						getActiveNavItemsDAL(stateWorkDAL.sectionItems[i].id, userId)
+						.then((data) => {
+							dispatch(changeIsLoadingSectionItemAC(stateWorkDAL.sectionItems[i].id, true));
 							if (data && data.folderItems) {
-								dispatch(getNavItemAC(d.folderItems, activeSectionItem.id));
+								dispatch(getNavItemAC(data.folderItems, stateWorkDAL.sectionItems[i].id));
 								dispatch(closeAllIsOpenContextMenu());
 							}
 						});
 					}
 				}
-			}).then((data)=>{
-				debugger
-				if (data) {
-					for (let i = 0; i < stateWorkDAL.sectionItems.length; i++) {
-						if (!stateWorkDAL.sectionItems[i].isActive) {
-							// console.log("? getData")
-							getNavItemsDAL(stateWorkDAL.sectionItems[i].id, userId)
-							.then((data) => {
-								if (data && data.folderItems) {
-									dispatch(getNavItemAC(data.folderItems, stateWorkDAL.sectionItems[i].id));
-									dispatch(closeAllIsOpenContextMenu());
-									console.log("otherNav getData")
-								}
-							});
-						}
-					}
-				}
-			}).then(()=> {
-				dispatch(changeLoading(false));
 			});
 		}
 	}
@@ -526,15 +548,18 @@ export const addSectionItem = (userId) => {
 
 	return (dispatch) => {
 		dispatch(updateStateWorkDAL());
+		const id = new Date().getTime();
 		stateWorkDAL.sectionItems.push({
-			id: new Date().getTime(),
+			id: id,
 			name: 'Name',
 			url: '',
 			position: stateWorkDAL.sectionItems.length,
 			isActive: false,
 			isOpenContextMenu: false,
+			isLoading: true,
 			folderItems: [],
 		});
+		dispatch(activateSectionItem(id, userId));
 		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
 		.then((resolve) => {
 			dispatch(addSectionItemAC());
@@ -622,13 +647,13 @@ export const deleteNavItemAC = (id) => {
 	}
 };
 //	THUNK deleteNavItem:
-export const deleteNavItem = (id,userId) => {
+export const deleteNavItem = (id, userId) => {
 	return (dispatch) => {
 		dispatch(closeAllIsOpenContextMenu());
 		dispatch(deleteNavItemAC(id));
 		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(()=>{
-			setSectionItemDAL(stateWorkDAL.sectionItems,userId).then()
+		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
+			setSectionItemDAL(stateWorkDAL.sectionItems, userId).then()
 		});
 	}
 };
@@ -709,7 +734,7 @@ export const changeIsOpenItem = (id, userId) => {
 	return (dispatch) => {
 		dispatch(changeIsOpenItemAC(id));
 		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(()=>{
+		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
 		});
 	}
 };
@@ -776,9 +801,9 @@ export const changeTitleInBlockAC = (id, title) => {
 	}
 };
 //	THUNK changeTitleInBlock:
-export const changeTitleInBlock = (activeFile,title, userId) => {
+export const changeTitleInBlock = (activeFile, title, userId) => {
 	return (dispatch) => {
-		dispatch(changeTitleInBlockAC(activeFile.id,title));
+		dispatch(changeTitleInBlockAC(activeFile.id, title));
 		dispatch(updateStateWorkDAL());
 		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
 	}
@@ -793,9 +818,9 @@ export const changeSubTitleInBlockAC = (id, subTitle) => {
 	}
 };
 //THUNK changeSubTitleInBlock:
-export const changeSubTitleInBlock = (activeFile,subTitle, userId) => {
+export const changeSubTitleInBlock = (activeFile, subTitle, userId) => {
 	return (dispatch) => {
-		dispatch(changeSubTitleInBlockAC(activeFile.id,subTitle));
+		dispatch(changeSubTitleInBlockAC(activeFile.id, subTitle));
 		dispatch(updateStateWorkDAL());
 		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
 	}
@@ -810,9 +835,25 @@ export const changeTextInBlockAC = (id, text) => {
 	}
 };
 //THUNK changeTextInBlock:
-export const changeTextInBlock = (activeFile,text, userId) => {
+export const changeTextInBlock = (activeFile, text, userId) => {
 	return (dispatch) => {
-		dispatch(changeTextInBlockAC(activeFile.id,text));
+		dispatch(changeTextInBlockAC(activeFile.id, text));
+		dispatch(updateStateWorkDAL());
+		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
+	}
+};
+
+//AC changeBorderInBlockAC:
+export const changeBorderInBlockAC = (id) => {
+	return {
+		type: 'CHANGE_BORDER_IN_BLOCK',
+		id: id,
+	}
+};
+//THUNK changeBorderInBlock:
+export const changeBorderInBlock = (id, userId) => {
+	return (dispatch) => {
+		dispatch(changeBorderInBlockAC(id));
 		dispatch(updateStateWorkDAL());
 		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
 	}

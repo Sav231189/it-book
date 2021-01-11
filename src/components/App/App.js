@@ -39,7 +39,6 @@ function AppComponent(props) {
 				/>
 				:
 					<div className="app" onClick={closeAllMenu} onContextMenu={closeAllMenu}>
-
 						<Header/>
 						<div className='appWindow'>
 							<div className={`loadingApp ${props.loading}`}>
