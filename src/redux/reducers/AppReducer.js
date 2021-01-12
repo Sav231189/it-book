@@ -7,6 +7,7 @@ const initialState = {
 	isContextMenuNav: false,
 	isContextMenuMain: false,
 	isContextMenuLK: false,
+	isInitialize: false,
 	isAuth: false,
 	name: '',
 	userId: "",
@@ -47,8 +48,12 @@ export const AppReducer = (state = initialState, action) => {
 			return stateCopy;
 		}
 
-		case 'IS_LOGIN': {
+		case 'IS_AUTH': {
 			stateCopy.isAuth = action.isLogin;
+			return stateCopy
+		}
+		case 'IS_INITIALIZE': {
+			stateCopy.isInitialize = action.isInitialize;
 			return stateCopy
 		}
 		case 'CHANGE_NAME': {
@@ -119,8 +124,15 @@ export const changeIsContextMenuLK = (isContextMenuLK) => {
 //IS_LOGIN AC
 export const isLogin = (isLogin) => {
 	return {
-		type: 'IS_LOGIN',
+		type: 'IS_AUTH',
 		isLogin: isLogin,
+	}
+};
+//IS_INITIALIZE AC
+export const changeIsInitializeAC = (isInitialize) => {
+	return {
+		type: 'IS_INITIALIZE',
+		isInitialize: isInitialize,
 	}
 };
 //CHANGE_NAME AC
@@ -168,13 +180,16 @@ export const checkLogin = (email,password) => {
 //THUNK getAuth
 export const getAuth = () => {
 	return (dispatch)=>{
+		dispatch(changeIsInitializeAC(false));
 			firebase.auth().onAuthStateChanged(user => {
 			if (user) {
 				dispatch(isLogin(true));
 				dispatch(addUserId(user.uid));
 				dispatch(changeName(user.email.slice(0,user.email.indexOf('@'))));
 			}
-		})
+			dispatch(changeIsInitializeAC(true));
+		});
+
 	}
 };
 //THUNK  updatePassword

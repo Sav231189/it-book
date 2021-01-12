@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Aladin&family=JetBrains+Mono:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
 .app {
   width: 100vw;
   height: 100vh;
@@ -18,26 +20,7 @@
       height: calc(100vh - 25px);
       top: 5px;
     }
-    .loadingApp {
-      display: none;
-    }
-    .loadingApp.true {
-      position: absolute;
-      z-index: 100;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #232323;
-      font-size: 42px;
-      color: #8e1f1f;
 
-      div {
-        position: relative;
-        bottom: 50px;
-      }
-    }
   }
   .mainBox {
     width: 100%;
@@ -54,5 +37,33 @@
   .mainBox.true {
     padding-left: 390px;
     transition: all .4s linear 0s;
+  }
+
+  .loadingApp {
+    display: none;
+  }
+  .loadingApp.true {
+    position: fixed;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #232323;
+    font-size: 42px;
+    color: #8e1f1f;
+
+    div {
+      position: relative;
+      bottom: 50px;
+
+      img {
+
+      }
+    }
+    .addHeader {
+      bottom: 105px;
+    }
   }
 }

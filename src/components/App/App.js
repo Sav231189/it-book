@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import './App.css';
 import {Header} from "../header/Header";
 import {Panel} from "../panel/Panel";
-import {PanelMoreBtn} from "../panelMoreBtn/PanelMoreBtn";
 import {connect} from "react-redux";
 import {
 	changeIsContextMenu, changePanelShow,
@@ -14,6 +13,7 @@ import {
 import {Main} from "../Main/Main";
 import {Start} from "../Start/Start";
 import {closeAllIsOpenContextMenu} from "../../redux/reducers/SectionReducer";
+import loading from '../../img/ loading.gif';
 
 function AppComponent(props) {
 
@@ -31,23 +31,34 @@ function AppComponent(props) {
 
 	return (
 		<div className="app">
-			{!props.isAuth
+			{ !props.isInitialize
 				?
-				<Start checkLogin={props.checkLogin}
-							 sendPasswordResetEmail={props.sendPasswordResetEmail}
-							 registration={props.registration}
-				/>
+				<div className={`loadingApp ${props.loading}`}>
+					<div><img src={loading} alt="loading"/></div>
+				</div>
 				:
-					<div className="app" onClick={closeAllMenu} onContextMenu={closeAllMenu}>
-						<Header/>
-						<div className='appWindow'>
-							<div className={`loadingApp ${props.loading}`}>
-								<div>LOADING...</div>
+				<div>
+					{!props.isAuth
+						?
+						<Start checkLogin={props.checkLogin}
+									 sendPasswordResetEmail={props.sendPasswordResetEmail}
+									 registration={props.registration}
+						/>
+						:
+						<div className="app" onClick={closeAllMenu} onContextMenu={closeAllMenu}>
+							<Header/>
+							<div className='appWindow'>
+								<div className={`loadingApp ${props.loading}`}>
+									<div className='addHeader'>
+										<img src={loading} alt="loading"/>
+									</div>
+								</div>
+								<Panel showPanel={props.showPanel} userId={props.userId}/>
+								<Main/>
 							</div>
-							<Panel showPanel={props.showPanel} userId={props.userId}/>
-							<Main/>
 						</div>
-					</div>
+					}
+				</div>
 			}
 		</div>
 	);
@@ -60,6 +71,8 @@ const mstp = (state) => {
 		isAuth: state.app.isAuth,
 		name: state.app.name,
 		loading: state.app.loading,
+		userId: state.app.userId,
+		isInitialize: state.app.isInitialize,
 	}
 };
 export const App = connect(mstp, {

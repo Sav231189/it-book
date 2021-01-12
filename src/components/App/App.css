@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Aladin&family=JetBrains+Mono:wght@400;700&family=Roboto:wght@400;700&display=swap");
 .app {
   width: 100vw;
   height: 100vh;
@@ -17,11 +18,20 @@
     top: 5px;
   }
 }
-.app .appWindow .loadingApp {
+.app .mainBox {
+  width: 100%;
+  position: relative;
+  transition: all 0.4s linear 0s;
+}
+.app .mainBox.true {
+  padding-left: 390px;
+  transition: all 0.4s linear 0s;
+}
+.app .loadingApp {
   display: none;
 }
-.app .appWindow .loadingApp.true {
-  position: absolute;
+.app .loadingApp.true {
+  position: fixed;
   z-index: 100;
   width: 100vw;
   height: 100vh;
@@ -32,18 +42,12 @@
   font-size: 42px;
   color: #8e1f1f;
 }
-.app .appWindow .loadingApp.true div {
+.app .loadingApp.true div {
   position: relative;
   bottom: 50px;
 }
-.app .mainBox {
-  width: 100%;
-  position: relative;
-  transition: all 0.4s linear 0s;
-}
-.app .mainBox.true {
-  padding-left: 390px;
-  transition: all 0.4s linear 0s;
+.app .loadingApp.true .addHeader {
+  bottom: 105px;
 }
 
 /*# sourceMappingURL=App.css.map */
