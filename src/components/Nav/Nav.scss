@@ -1,24 +1,13 @@
-@keyframes arrow_left {
-  0% {
-    right: 20px;
-  }
-  100% {
-    right: 50px;
-  }
-}
-
 .Nav {
   position: relative;
-  z-index: 1;
   padding: 5px 5px 25px;
+  margin-right: -300px;
+  z-index: 1;
   width: 330px;
-  //width: 100%;
-  //max-width: 310px;
   height: calc(100% + 20px);
-  background: #323232;
-  //overflow-x: hidden;
   overflow: auto;
 
+  background: #323232;
   border-left: rgba(197, 197, 197, 0.25) solid 2px;
 
   @media (max-width: 390px) {
@@ -28,36 +17,49 @@
   .previewNav {
     position: absolute;
     z-index: 1;
-    //height: 100%;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+
     display: flex;
     justify-content: center;
     align-items: center;
 
     color: #4383c5c9;
+
     text-shadow: 3px 3px 10px #04040485;
 
-  img {
+    transform: translate(-50%, -50%);
+
+    @keyframes arrow_left {
+      0% {
+        right: 20px;
+      }
+      100% {
+        right: 50px;
+      }
+    }
+
+    img {
       display: block;
       width: 50px;
       position: relative;
       right: 20px;
-      animation: arrow_left 0.6s ease-out infinite alternate ;
+
+      animation: arrow_left 0.6s ease-out infinite alternate;
     }
   }
 
-
   .panelNavTitle {
     margin-right: 20px;
-    text-align: center;
     display: grid;
     width: calc(100% - 30px);
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
+
     color: #964949d9;
     text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.98);
+
+    text-align: center;
 
     span {
       padding: 2px 12px;
@@ -79,46 +81,28 @@
     }
   }
 
-  .menuNav {
-    //display: none;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #3c3f41;
-    color: #bebebe;
-
-    span {
-      display: block;
-      padding: 5px 15px 5px 20px;
-      cursor: pointer;
-      width: 160px;
-
-      &:hover {
-        background-color: rgba(96, 135, 166, 0.82);
-        color: white;
-      }
+  @keyframes right_click {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0.94);
     }
   }
 
-  @keyframes right_click {
-    0% {transform: scale(1);}
-    25% {transform: scale(0.97);}
-    50% {transform: scale(0.94);}
-    75% {transform: scale(0.97);}
-    100% {transform: scale(1);}
-  }
   .noSectionItem {
     position: relative;
 
     svg {
+      margin-top: 30px;
       position: absolute;
       top: 0;
       left: 40%;
       width: 40px;
-      margin-top: 30px;
+
       fill: #52de59;
-      animation: right_click 0.8s ease-out infinite;
+
+      animation: right_click 0.5s ease-in infinite alternate;
     }
   }
 }

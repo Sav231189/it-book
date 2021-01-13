@@ -1,28 +1,27 @@
 .NavItem {
   display: block;
+  color: #868686;
   font-family: Roboto, sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
-  color: #868686;
-  pointer-events: none;
 }
 .NavItem .navStep {
+  margin-right: 6px;
   min-width: 14px;
   width: 14px;
-  margin-right: 6px;
   height: 1px;
   background-color: rgba(134, 134, 134, 0.24);
-  pointer-events: visible;
 }
 .NavItem .navElement {
+  padding: 2px 8px 2px 4px;
+  position: relative;
+  z-index: 1;
   display: inline-grid;
   grid-template-columns: 1fr;
   grid-auto-rows: 1fr;
-  padding: 2px 8px 2px 4px;
   cursor: pointer;
   border-radius: 4px;
-  pointer-events: auto;
 }
 .NavItem .navElement:hover {
   background-color: #2d2d2d;
@@ -70,46 +69,6 @@
 }
 .NavItem .navElement.active .file svg {
   fill: #07ff0070;
-}
-.NavItem .menuNavItem {
-  pointer-events: visible;
-  display: none;
-  position: fixed;
-  width: 160px;
-  z-index: 21;
-  top: 0;
-  left: 0;
-  background-color: #3c3f41;
-  color: #bebebe;
-  cursor: pointer;
-}
-.NavItem .menuNavItem .menuItem {
-  display: block;
-  padding: 5px 20px 5px 20px;
-}
-.NavItem .menuNavItem .menuItem:hover {
-  background-color: #737373;
-}
-.NavItem .menuNavItem span {
-  display: block;
-  padding: 5px 20px 5px 20px;
-}
-.NavItem .menuNavItem span:hover {
-  background-color: #737373;
-}
-.NavItem .menuNavItem input {
-  padding: 0 10px;
-  width: 100%;
-  height: 30px;
-  font-size: 16px;
-  background-color: #999999;
-}
-.NavItem .menuNavItem .save_btn {
-  background-color: #046c00;
-  text-align: center;
-}
-.NavItem .menuNavItem .save_btn:hover {
-  background-color: #05a800;
 }
 
 .NavItem.true .navElement {

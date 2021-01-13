@@ -2,16 +2,16 @@ import React, {useRef, useState} from 'react';
 import './Block.css';
 import {connect} from "react-redux";
 import {
-	addBlockInActiveFile, changeBorderInBlock,
-	changeIsOpenContextMenu,
-	changePositionBlock, changeSubTitleInBlock, changeTextInBlock,
-	changeTitleInBlock,
-	closeAllIsOpenContextMenu, deleteBlock
+	addBlockInActiveFileTHUNK, changeBlockTHUNK,
+	changeIsOpenContextMenuItemAC, changePositionTHUNK,
+	deleteElementTHUNK
 } from "../../redux/reducers/SectionReducer";
-import {changeIsContextMenu, closeAllContextMenu} from "../../redux/reducers/AppReducer";
-import {getActiveFile} from "../../selectors/MainSelector";
+import {changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
+import {getActiveFile} from "../../selectors/SectionSelector";
+import {getIsContextMenu, getUserId} from "../../selectors/AppSelector";
 
 export function BlockComponent(props) {
+
 	const refContextMenu = useRef(null);
 
 	let [title, setTitle] = useState(props.element.title);
@@ -22,71 +22,63 @@ export function BlockComponent(props) {
 	let [isChangeSubTitle, setIsChangeSubTitle] = useState(false);
 	let [isChangeText, setIsChangeText] = useState(false);
 
-	const showNavItemContextMenu = (e) => {
-		props.closeAllIsOpenContextMenu();
-		props.closeAllContextMenu();
+	const showBlockContextMenu = (e) => {
 		if (!props.isContextMenu && !props.element.isOpenContextMenu && props.activeFileName !== '') {
-			if (e.clientY < window.innerHeight - 200) {
-				if (e.clientX < window.innerWidth - 160) {
-					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenu(true);
-					props.changeIsOpenContextMenu(props.element.id, true);
-				} else {
-					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 158}px;`;
-					props.changeIsContextMenu(true);
-					props.changeIsOpenContextMenu(props.element.id, true);
-				}
-			} else {
-				if (e.clientX < window.innerWidth - 160) {
-					refContextMenu.current.style = `top: ${e.clientY - 190}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenu(true);
-					props.changeIsOpenContextMenu(props.element.id, true);
-				} else {
-					refContextMenu.current.style = `top: ${e.clientY - 190}px; left: ${e.clientX - 158}px;`;
-					props.changeIsContextMenu(true);
-					props.changeIsOpenContextMenu(props.element.id, true);
-				}
-			}
 			e.preventDefault();
 			e.stopPropagation();
+			if (e.clientY < window.innerHeight - 240) {
+				if (e.clientX < window.innerWidth - 180) {
+					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
+					props.changeIsContextMenuAC(true);
+					props.changeIsOpenContextMenuItemAC(props.element.id, true);
+				} else {
+					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 188}px;`;
+					props.changeIsContextMenuAC(true);
+					props.changeIsOpenContextMenuItemAC(props.element.id, true);
+				}
+			} else {
+				if (e.clientX < window.innerWidth - 180) {
+					refContextMenu.current.style = `top: ${e.clientY - 246}px; left: ${e.clientX + 2}px;`;
+					props.changeIsContextMenuAC(true);
+					props.changeIsOpenContextMenuItemAC(props.element.id, true);
+				} else {
+					refContextMenu.current.style = `top: ${e.clientY - 248}px; left: ${e.clientX - 188}px;`;
+					props.changeIsContextMenuAC(true);
+					props.changeIsOpenContextMenuItemAC(props.element.id, true);
+				}
+			}
 		}
 	};
-
 	const addBlockInActiveFile = () => {
-		props.closeAllIsOpenContextMenu();
-		props.addBlockInActiveFile(props.activeFile, props.userId);
+		props.addBlockInActiveFileTHUNK(props.activeFile.id, props.userId);
 	};
 	const changeTitleInBlock = () => {
 		setIsChangeTitle(false);
-		props.changeTitleInBlock(props.element, title, props.userId);
+		props.changeBlockTHUNK(props.element.id, 'changeTitle',title, props.userId);
+
 	};
 	const changeSubTitleInBlock = () => {
-		setIsChangeSubTitle(false)
-		props.changeSubTitleInBlock(props.element, subTitle, props.userId);
+		setIsChangeSubTitle(false);
+		props.changeBlockTHUNK(props.element.id, 'changeSubTitle',subTitle, props.userId);
 	};
 	const changeTextInBlock = () => {
-		setIsChangeText(false)
-		props.changeTextInBlock(props.element, text, props.userId);
+		setIsChangeText(false);
+		props.changeBlockTHUNK(props.element.id, 'changeText',text, props.userId);
+	};
+	const changeBorderInBlock = () => {
+		props.changeBlockTHUNK(props.element.id, 'changeBorder', '', props.userId);
+	};
+	const changePosition = (e) => {
+		e.target.innerHTML === 'Position UP' ?
+			props.changePositionTHUNK(props.element.id, "up", props.userId) :
+			props.changePositionTHUNK(props.element.id, "down", props.userId)
 	};
 	const deleteBlock = () => {
-		props.deleteBlock(props.element.id, props.userId);
-	};
-	const changePositionBlock = (side) => {
-		props.changePositionBlock(props.element.id, side, props.userId);
+		props.deleteElementTHUNK(props.element.id, 'element', props.userId);
 	};
 
 	return (
-		<div className={`Block ${!props.element.isBorder}`}
-				 onPointerOver={(e) => {
-					 e.currentTarget.classList.add("active");
-					 e.stopPropagation();
-					 e.preventDefault();
-				 }}
-				 onPointerOut={(e) => {
-					 e.currentTarget.classList.remove("active")
-				 }}
-				 onContextMenu={showNavItemContextMenu}>
-
+		<div className={`Block ${!props.element.isBorder}`} onContextMenu={showBlockContextMenu}>
 			{title !== '' && !isChangeTitle &&
 			<div className='blockTitle'>{title} </div>
 			}
@@ -124,55 +116,46 @@ export function BlockComponent(props) {
 
 			{/* contextMenu */}
 
-			<div ref={refContextMenu} className="contextMenuBlock"
+			<div ref={refContextMenu} className="contextMenu blockContextMenu"
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
-				<span onClick={addBlockInActiveFile}> New Block </span>
-				<hr style={{background: 'grey', height: "1px"}}/>
+				<span onClick={addBlockInActiveFile}>New Block</span>
+				<hr/>
 				<span onClick={() => {
 					setTitle(title === '' ? 'new Title' : title);
 					setIsChangeTitle(true);
-				}}> Change Title </span>
+				}}>Change Title</span>
 				<span onClick={() => {
 					setSubTitle(subTitle === '' ? 'new Sub-Title' : subTitle);
 					setIsChangeSubTitle(true);
-				}}> Change Sub-Title </span>
+				}}>Change Sub-Title</span>
 				<span onClick={() => {
-					setText(text === '' ? 'new text' : text);
+					setText(text === '' ? 'new Text' : text);
 					setIsChangeText(true);
-				}}> Change Text </span>
-				<hr style={{background: 'grey', height: "1px"}}/>
-				<span onClick={() => props.changeBorderInBlock(props.element.id, props.userId)}> Clear Border </span>
-				<hr style={{background: 'grey', height: "1px"}}/>
-				<span onClick={() => changePositionBlock('up')}> Position UP </span>
-				<span onClick={() => changePositionBlock('down')}> Position DOWN </span>
-				<hr style={{background: 'grey', height: "1px"}}/>
-				<span onClick={deleteBlock}> Delete Block </span>
+				}}>Change Text</span>
+				<hr/>
+				<span onClick={changeBorderInBlock}>Clear Border</span>
+				<hr/>
+				<span onClick={changePosition}>Position UP</span>
+				<span onClick={changePosition}>Position DOWN</span>
+				<hr/>
+				<span onClick={deleteBlock}>Delete Block</span>
 			</div>
 
 		</div>
 	);
 }
 
-const mstp = (state) => {
-	return {
-		isOpenContextMenu: state.app.isOpenContextMenu,
-		userId: state.app.userId,
+export const Block = connect(
+	state => ({
+		isContextMenu: getIsContextMenu(state),
+		userId: getUserId(state),
 		activeFile: getActiveFile(state),
-	}
-};
-export const Block = connect(mstp, {
-	changeIsContextMenu,
-	changeIsOpenContextMenu,
-	closeAllIsOpenContextMenu,
-	closeAllContextMenu,
-
-	addBlockInActiveFile,
-	changeTitleInBlock,
-	changeSubTitleInBlock,
-	changeTextInBlock,
-	changeBorderInBlock,
-	deleteBlock,
-	changePositionBlock,
-
-})
+	}), {
+		changeIsContextMenuAC,
+		changeIsOpenContextMenuItemAC,
+		addBlockInActiveFileTHUNK,
+		changeBlockTHUNK,
+		changePositionTHUNK,
+		deleteElementTHUNK,
+	})
 (BlockComponent);

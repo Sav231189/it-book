@@ -1,20 +1,20 @@
 .Main {
+  margin: 5px -30px 10px 10px;
   position: relative;
   height: calc(100vh - 70px);
   width: calc(100% + 30px);
   overflow-x: hidden;
-  margin: 5px -30px 10px 10px;
-  transition: all 0.4s linear 0s;
   background-color: #2929299c;
+  transition: all 0.2s linear 0s;
 }
 .Main .mainWrapper {
+  margin-right: 40px;
+  padding: 1px 0 1px 0;
   width: calc(100vw - 400px);
   min-width: 400px;
-  padding: 1px 0 1px 0;
-  margin-right: 40px;
-  outline: #383838cf solid 1px;
+  border: #383838cf solid 1px;
   background: #1f1f1f;
-  transition: all 0.4s linear 0s;
+  transition: all 0.2s linear 0s;
 }
 @media (max-width: 500px) {
   .Main .mainWrapper {
@@ -23,19 +23,25 @@
 }
 .Main .mainWrapper.true {
   width: calc(100vw - 20px);
-  transition: all 0.4s linear 0s;
+  transition: all 0.2s linear 0s;
 }
 .Main .mainTitle {
-  width: calc(100vw - 400px);
-  min-height: 30px;
   margin-bottom: 10px;
   padding: 5px 0 5px;
+  width: calc(100vw - 400px);
+  min-height: 30px;
+  min-width: 400px;
   background: #0a3700;
   color: #888888;
   text-align: center;
   font-family: Monaco, sans-serif;
   white-space: pre-wrap;
-  transition: all 0.4s linear 0s;
+  transition: all 0.2s linear 0s;
+}
+@media (max-width: 500px) {
+  .Main .mainTitle {
+    min-width: 300px;
+  }
 }
 @media (max-width: 390px) {
   .Main .mainTitle {
@@ -44,25 +50,7 @@
 }
 .Main .mainTitle.true {
   width: calc(100vw - 20px);
-  transition: all 0.4s linear 0s;
-}
-.Main .menuNav {
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #3c3f41;
-  color: #bebebe;
-}
-.Main .menuNav span {
-  display: block;
-  padding: 5px 15px 5px 20px;
-  cursor: pointer;
-  width: 160px;
-}
-.Main .menuNav span:hover {
-  background-color: rgba(96, 135, 166, 0.82);
-  color: white;
+  transition: all 0.2s linear 0s;
 }
 @keyframes addBlockBtn {
   0% {
@@ -79,35 +67,34 @@
   }
 }
 .Main .noBlockBtn {
+  padding: 20px;
   position: absolute;
   width: 70px;
   height: 70px;
   top: 10%;
   left: 42%;
-  padding: 20px;
-  border-radius: 50%;
-  box-shadow: 1px 1px 10px rgba(35, 107, 5, 0.98);
-  animation: addBlockBtn 1s ease-out infinite;
-  transition: all 0.6s linear 0s;
-  font-weight: bold;
-  color: #222222;
   cursor: pointer;
   display: flex;
   justify-content: center;
-  text-align: center;
   align-items: center;
+  border-radius: 50%;
+  box-shadow: 1px 1px 10px rgba(35, 107, 5, 0.98);
+  color: #222222;
   background-color: grey;
+  animation: addBlockBtn 1s ease-out infinite;
+  transition: all 0.6s linear 0s;
+  font-weight: bold;
+  text-align: center;
 }
 .Main .noBlockBtn:hover {
-  background-color: #225924;
-  animation: right_click;
-  transition: all 0.6s linear 0s;
   color: #cccccc;
+  background-color: #225924;
+  transition: all 0.6s linear 0s;
 }
 
 .Main.true {
   margin-left: 390px;
-  transition: all 0.4s linear 0s;
+  transition: all 0.2s linear 0s;
 }
 
 /*# sourceMappingURL=Main.css.map */

@@ -1,4 +1,5 @@
-.header {
+.Header {
+  z-index: 3;
   margin: 0 5px 5px;
   height: 50px;
   display: grid;
@@ -10,7 +11,7 @@
   border-radius: 0 0 10px 10px;
   grid-column: span 2;
 }
-.header .logo {
+.Header .logo {
   justify-self: center;
   font-family: Aladin, sans-serif;
   font-size: 42px;
@@ -18,7 +19,7 @@
   background-color: transparent;
   text-shadow: 1px 1px 5px black;
 }
-.header .lk {
+.Header .lk {
   position: relative;
   width: 40px;
   height: 40px;
@@ -27,44 +28,25 @@
   box-shadow: 0px 0px 11px 3px #10101087;
   border-radius: 50%;
 }
-.header .lk img {
+.Header .lk img {
   width: 100%;
   height: auto;
 }
-.header .lk .menu {
-  position: absolute;
-  z-index: 4;
+.Header .contextMenuLK {
   top: 45px;
-  right: 0;
+  right: 30px;
+  left: auto;
+  bottom: auto;
 }
-.header .lk .menu .menuName {
-  text-align: center;
-  background-color: #520000c9;
-  color: #d8d8d8c9;
-  padding: 5px 15px;
-}
-.header .lk .menu .menuItem {
-  padding: 5px 15px;
-  width: 200px;
-  text-align: center;
-  background-color: #cfcfcf;
-  cursor: pointer;
-}
-.header .lk .menu .menuItem:hover {
-  background-color: #737373;
-}
-.header .lk .menu .menuItemSave {
-  background-color: green;
-}
-.header .lk .menu .menuItemSave:hover {
-  background-color: #005900;
-}
-.header .lk .menu input {
-  padding: 0 10px;
-  width: 100%;
+.Header .menuName {
   height: 30px;
-  font-size: 16px;
-  background-color: #cfcfcf;
+  text-align: center;
+  background-color: rgba(190, 190, 190, 0.75);
+  color: rgba(0, 29, 7, 0.79);
+  padding: 5px 15px;
+  border-radius: 5px 5px 0 0;
+  font-family: Aladin, sans-serif;
+  letter-spacing: 2px;
 }
 
 /*# sourceMappingURL=Header.css.map */

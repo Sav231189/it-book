@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 
 //firebase firestore function
-export async function setSectionItemDAL (sectionItems,userId) {
+export async function updateSectionItemsListDAL (sectionItems,userId) {
 	let copy = JSON.parse(JSON.stringify(sectionItems));
 	copy.map(el => el.folderItems = []);
 	return await firebase.firestore().collection(userId)

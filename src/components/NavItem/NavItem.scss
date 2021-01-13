@@ -1,31 +1,33 @@
 .NavItem {
   display: block;
 
-  font-family: Roboto,sans-serif;
+  color: #868686;
+
+  font-family: Roboto, sans-serif;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
-  color: #868686;
-  pointer-events: none;
+
   .navStep {
+    margin-right: 6px;
     min-width: 14px;
     width: 14px;
-    margin-right: 6px;
     height: 1px;
+
     background-color: rgba(134, 134, 134, 0.24);
-    pointer-events: visible;
   }
 
   .navElement {
+    padding: 2px 8px 2px 4px;
+    position: relative;
+    z-index: 1;
     display: inline-grid;
     grid-template-columns: 1fr;
     grid-auto-rows: 1fr;
-
-    padding: 2px 8px 2px 4px;
     cursor: pointer;
 
     border-radius: 4px;
-    pointer-events: auto;
+
     &:hover {
       background-color: #2d2d2d;
     }
@@ -33,6 +35,7 @@
     .folder {
       display: inline-flex;
       align-items: center;
+
       svg {
         min-width: 14px;
         width: 14px;
@@ -40,19 +43,24 @@
         transform: rotate(-90deg);
         fill: #a5a5a5;
       }
+
       &.emptyFolder {
         color: rgba(134, 134, 134, 0.24);
+
         svg {
           fill: rgba(134, 134, 134, 0.24);
         }
       }
+
       span {
         margin-left: 5px;
       }
     }
+
     .file {
       display: inline-flex;
       align-items: center;
+
       svg {
         width: 14px;
         height: 14px;
@@ -60,77 +68,38 @@
         //transform: rotate(-90deg);
 
       }
+
       span {
         margin-left: 4px;
       }
     }
   }
+
   .navElement.active {
     .folder {
       svg {
         transform: rotate(0deg);
       }
+
       &.emptyFolder {
         svg {
           transform: rotate(-90deg);
         }
       }
     }
+
     .file {
       color: #07ff0070;
+
       svg {
         fill: #07ff0070;
       }
     }
   }
-
-  .menuNavItem {
-    pointer-events: visible;
-    display: none;
-    position: fixed;
-    width: 160px;
-    z-index: 21;
-    top: 0;
-    left: 0;
-    background-color: #3c3f41;
-    color: #bebebe;
-    cursor: pointer;
-
-    .menuItem {
-      display: block;
-      padding: 5px 20px 5px 20px;
-
-
-      &:hover {
-        background-color: #737373;
-      }
-
-    }
-    span {
-      display: block;
-      padding: 5px 20px 5px 20px;
-
-      &:hover {
-        background-color: #737373;
-      }
-    }
-    input {
-      padding: 0 10px;
-      width: 100%;
-      height: 30px;
-      font-size: 16px;
-      background-color: #999999;
-    }
-    .save_btn {
-      background-color: #046c00;
-      text-align: center;
-      &:hover {
-        background-color: #05a800;
-      }
-    }
-  }
 }
+
 .NavItem.true {
+
   .navElement {
     background-color: #2d2d2d;
   }

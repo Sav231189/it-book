@@ -1,5 +1,6 @@
-.panel {
+.Panel {
   margin: 5px 5px 15px 10px;
+  padding: 0 10px 5px 0;
   position: absolute;
   z-index: 1;
   top: 0;
@@ -10,25 +11,24 @@
   overflow: hidden;
   display: grid;
   grid-template-columns: 60px 1fr;
-  padding: 0px 10px 5px 0;
   background: #323232;
-  box-shadow: 0px 0px 30px 3px #1b1b1b;
+  box-shadow: 0 0 30px 3px #1b1b1b;
   border-radius: 5px;
-  transition: all 0.4s linear 0s;
+  transition: all 0.2s linear 0s;
 }
 @media (max-width: 390px) {
-  .panel {
+  .Panel {
     margin: 0;
     max-width: 390px;
     border-radius: 0;
   }
 }
 
-.panel.true {
+.Panel.true {
   position: absolute;
   z-index: 1;
   left: -390px;
-  transition: all 0.4s linear 0s;
+  transition: all 0.2s linear 0s;
 }
 
 /*# sourceMappingURL=Panel.css.map */

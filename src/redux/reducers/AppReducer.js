@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import {closeAllIsOpenContextMenuItemsAC} from "./SectionReducer";
 
 const initialState = {
 	isContextMenu: false,
@@ -7,12 +8,12 @@ const initialState = {
 	isContextMenuNav: false,
 	isContextMenuMain: false,
 	isContextMenuLK: false,
-	isInitialize: false,
 	isAuth: false,
-	name: '',
+	userName: '',
 	userId: "",
-	showPanel: true,
-	loading: true,
+	isShowPanel: true,
+	isLoading: true,
+	activeFileName: '',
 };
 
 export const AppReducer = (state = initialState, action) => {
@@ -21,14 +22,6 @@ export const AppReducer = (state = initialState, action) => {
 
 		case 'CHANGE_IS_CONTEXT_MENU': {
 			stateCopy.isContextMenu = action.isContextMenu;
-			return stateCopy;
-		}
-		case 'CLOSE_ALL_CONTEXT_MENU': {
-			stateCopy.isContextMenu = false;
-			stateCopy.isContextMenuSection = false;
-			stateCopy.isContextMenuNav = false;
-			stateCopy.isContextMenuMain = false;
-			stateCopy.isContextMenuLK = false;
 			return stateCopy;
 		}
 		case 'CHANGE_IS_CONTEXT_MENU_SECTION': {
@@ -47,6 +40,14 @@ export const AppReducer = (state = initialState, action) => {
 			stateCopy.isContextMenuLK = action.isContextMenuLK;
 			return stateCopy;
 		}
+		case 'CLOSE_ALL_CONTEXT_MENU': {
+			stateCopy.isContextMenu = false;
+			stateCopy.isContextMenuSection = false;
+			stateCopy.isContextMenuNav = false;
+			stateCopy.isContextMenuMain = false;
+			stateCopy.isContextMenuLK = false;
+			return stateCopy;
+		}
 
 		case 'IS_AUTH': {
 			stateCopy.isAuth = action.isLogin;
@@ -57,7 +58,7 @@ export const AppReducer = (state = initialState, action) => {
 			return stateCopy
 		}
 		case 'CHANGE_NAME': {
-			stateCopy.name = action.name;
+			stateCopy.userName = action.userName;
 			return stateCopy
 		}
 		case 'ADD_USER_ID': {
@@ -66,11 +67,16 @@ export const AppReducer = (state = initialState, action) => {
 		}
 
 		case 'CHANGE_PANEL_SHOW': {
-			stateCopy.showPanel = !stateCopy.showPanel;
+			stateCopy.isShowPanel = !stateCopy.isShowPanel;
 			return stateCopy;
 		}
-		case 'CHANGE_LOADING': {
-			stateCopy.loading = action.isLogin;
+		case 'CHANGE_IS_LOADING': {
+			stateCopy.isLoading = action.isLoading;
+			return stateCopy;
+		}
+
+		case 'CHANGE_ACTIVE_FILE_NAME': {
+			stateCopy.activeFileName = action.name;
 			return stateCopy;
 		}
 		default :
@@ -79,35 +85,29 @@ export const AppReducer = (state = initialState, action) => {
 };
 
 //AC CHANGE_OPEN_CONTEXT_MENU:
-export const changeIsContextMenu = (isContextMenu) => {
+export const changeIsContextMenuAC = (isContextMenu) => {
 	return {
 		type: 'CHANGE_IS_CONTEXT_MENU',
 		isContextMenu: isContextMenu,
 
 	}
 };
-//AC CLOSE_ALL_CONTEXT_MENU:
-export const closeAllContextMenu = () => {
-	return {
-		type: 'CLOSE_ALL_CONTEXT_MENU',
-	}
-};
 //AC CHANGE_IS_SECTION_CONTEXT_MENU:
-export const changeIsContextMenuSection = (isContextMenuSection) => {
+export const changeIsContextMenuSectionAC = (isContextMenuSection) => {
 	return {
 		type: 'CHANGE_IS_CONTEXT_MENU_SECTION',
 		isContextMenuSection: isContextMenuSection,
 	}
 };
 //AC CHANGE_IS_NAV_CONTEXT_MENU:
-export const changeIsContextMenuNav = (isContextMenuNav) => {
+export const changeIsContextMenuNavAC = (isContextMenuNav) => {
 	return {
 		type: 'CHANGE_IS_CONTEXT_MENU_NAV',
 		isContextMenuNav: isContextMenuNav,
 	}
 };
 //AC CHANGE_IS_CONTEXT_MENU_MAIN:
-export const changeIsContextMenuMain = (isContextMenuMain) => {
+export const changeIsContextMenuMainAC = (isContextMenuMain) => {
 	return {
 		type: 'CHANGE_IS_CONTEXT_MENU_MAIN',
 		isContextMenuMain: isContextMenuMain,
@@ -118,6 +118,19 @@ export const changeIsContextMenuLK = (isContextMenuLK) => {
 	return {
 		type: 'CHANGE_IS_CONTEXT_MENU_LK',
 		isContextMenuLK: isContextMenuLK,
+	}
+};
+//AC CLOSE_ALL_CONTEXT_MENU:
+export const closeAllContextMenuAC = () => {
+	return {
+		type: 'CLOSE_ALL_CONTEXT_MENU',
+	}
+};
+//THUNK closeAllContextMenuTHUNK:
+export const closeAllContextMenuTHUNK = () => {
+	return (dispatch) => {
+		dispatch(closeAllContextMenuAC());
+		dispatch(closeAllIsOpenContextMenuItemsAC());
 	}
 };
 
@@ -136,10 +149,10 @@ export const changeIsInitializeAC = (isInitialize) => {
 	}
 };
 //CHANGE_NAME AC
-export const changeName = (name) => {
+export const changeName = (userName) => {
 	return {
 		type: 'CHANGE_NAME',
-		name: name,
+		userName: userName,
 	}
 };
 //ADD_USER_ID
@@ -166,28 +179,31 @@ export const registration = (email, password) => {
 export const checkLogin = (email,password) => {
 	return (dispatch) => {
 		firebase.auth().signInWithEmailAndPassword(email, password)
-		.then((user) => { if (user) {
+		.then((user) => {
+			if (user) {
+				dispatch(changeIsLoadingAC(true));
 				dispatch(isLogin(true));
 				dispatch(changeName(email.slice(0,email.indexOf('@'))));
 			}
 		})
-		.catch((error) => {
+		.catch((err) => {
 			dispatch(isLogin(false));
-			console.log("ERROR LOGINED")
+			console.log("ERROR LOGINED",err)
 		})
 	}
 };
 //THUNK getAuth
-export const getAuth = () => {
+export const getAuthTHUNK = () => {
 	return (dispatch)=>{
-		dispatch(changeIsInitializeAC(false));
+		dispatch(changeIsLoadingAC(true));
 			firebase.auth().onAuthStateChanged(user => {
 			if (user) {
 				dispatch(isLogin(true));
 				dispatch(addUserId(user.uid));
 				dispatch(changeName(user.email.slice(0,user.email.indexOf('@'))));
+			}else {
+				dispatch(changeIsLoadingAC(false));
 			}
-			dispatch(changeIsInitializeAC(true));
 		});
 
 	}
@@ -230,9 +246,18 @@ export const changePanelShow = () => {
 	}
 };
 //AC CHANGE_LOADING:
-export const changeLoading = (isLogin) => {
+export const changeIsLoadingAC = (isLoading) => {
 	return {
-		type: 'CHANGE_LOADING',
-		isLogin: isLogin,
+		type: 'CHANGE_IS_LOADING',
+		isLoading: isLoading,
 	}
 };
+
+//AC CHANGE_ACTIVE_FILE_NAME:
+export const changeActiveFileNameAC = (name) => {
+	return {
+		type: 'CHANGE_ACTIVE_FILE_NAME',
+		name: name,
+	}
+};
+

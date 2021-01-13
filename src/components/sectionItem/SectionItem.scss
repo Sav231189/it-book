@@ -1,105 +1,66 @@
 .item {
+  margin: 15px 0;
   position: relative;
   left: 0;
   top: 0;
-  margin: 15px 0;
   width: 40px;
   height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
   border-radius: 10%;
-
   background: #545454;
-
   //box-shadow: 1px -1px 10px -3px rgb(0 0 0 / 77%);
   //border: #8c8c8ce8 solid 1px;
-
   .isActiveSectionItem {
     position: absolute;
     left: -10px;
     width: 4px;
     height: 40px;
+
     background-color: #ccccccb8;
     border-radius: 0 5px 5px 0;
-
   }
   img {
     width: 100%;
     height: auto;
     object-fit: cover;
     border-radius: 10%;
-    //pointer-events: none;
     overflow: hidden;
     cursor: pointer;
+
     filter: opacity(.5);
   }
   .nameBlock {
     display: none;
+    padding: 5px 10px;
+    position: absolute;
+    left: 34px;
+    bottom: 34px;
+    max-width: 300px;
+    z-index: 3;
+
+    background-color: #6f757a;
+    border-radius: 5px;
+    color: #2d2d2d;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
+
+    font-family: 'JetBrains Mono', monospace;
+  }
+  &:first-child {
+    .nameBlock {
+      bottom: 20px;
+    }
   }
   &:hover {
     .nameBlock {
-      padding: 5px 10px;
-      display: inline-flex;
-      position: fixed;
-
-      max-width: 300px;
-      z-index: 12;
-      background-color: #6f757a;
-        border-radius: 5px;
-        font-family: 'JetBrains Mono', monospace;
-        color: #2d2d2d;
-        box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
-    }
-  }
-
-
-  .menuSectionItem {
-    //display: none;
-    position: fixed;
-    z-index: 22;
-    width: 170px;
-    top: 0;
-    left: 0;
-    background-color: #3c3f41;
-    color: #bebebe;
-
-    .menuItem {
       display: block;
-      padding: 5px 20px 5px 20px;
-      cursor: pointer;
+    }
 
-      &:hover {
-        background-color: #737373;
-      }
 
-    }
-    span {
-      display: block;
-      padding: 5px 20px 5px 20px;
-
-      &:hover {
-        background-color: #737373;
-      }
-    }
-    input {
-      padding: 0 10px;
-      width: 100%;
-      height: 30px;
-      font-size: 16px;
-      background-color: #999999;
-    }
-    .save_btn {
-      background-color: #046c00;
-      text-align: center;
-      &:hover {
-        background-color: #05a800;
-      }
-    }
   }
-
-
 }
 .item.true {
   box-shadow: 1px -1px 9px 1px rgb(0 0 0 / 77%);

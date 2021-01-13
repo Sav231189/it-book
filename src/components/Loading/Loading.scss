@@ -1,0 +1,31 @@
+.loading {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.loading.true {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #232323;
+  font-size: 42px;
+  color: #8e1f1f;
+
+  img {
+    display: block;
+    position: relative;
+    bottom: 50px;
+  }
+  //
+  //.addHeader {
+  //  bottom: 105px;
+  //}
+}

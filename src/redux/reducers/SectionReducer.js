@@ -2,217 +2,11 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import {
 	deleteSectionItemDAL, getActiveNavItemsDAL,
-	getNavItemsDAL,
 	getSectionItemDAL,
 	setNavInSectionDAL,
-	setSectionItemDAL, updateSectionItemDAL
+	updateSectionItemDAL, updateSectionItemsListDAL
 } from "../../DAL/DAL_Section";
-import {changeLoading} from "./AppReducer";
-
-const initialState = {
-	idCount: 20,
-	sectionItems: [
-		// {
-		// 	id: 0,
-		// 	name: 'HTML',
-		// 	url: 'https://upload.wikimedia.org/wikipedia/commons/c/c5/Html5_dise%C3%B1o_web.png',
-		// 	isActive: false,
-		// 	isMenuSectionItem: false,
-		// 	isChangeSectionItem: false,
-		//
-		// 	panelNav: {
-		// 		id: 1,
-		// 		parentName: 'HTML',
-		// 		isNavShow: false,
-		// 		navItems: [
-		// 			{
-		// 				id: 2,
-		// 				type: 'folder',
-		// 				isOpen: false,
-		// 				isOpenContextMenu: false,
-		// 				name: 'name',
-		// 				folderItems: [
-		// 					{
-		// 						id: 4,
-		// 						type: 'folder',
-		// 						name: 'name',
-		// 						isOpen: false,
-		// 						isOpenContextMenu: false,
-		// 						folderItems: [
-		// 							{
-		// 								id: 7,
-		// 								type: 'file',
-		// 								name: 'fileName1',
-		// 								isOpen: false,
-		// 								isOpenContextMenu: false,
-		// 								fileMain: [
-		// 									{
-		// 										id: 5000,
-		// 										type: 'block',
-		// 										isOpenContextMenu: false,
-		// 										title: 'Описание:',
-		// 										subTitle: 'myFn.bind(obj)',
-		// 										text: 'Указать obj(объект) которому будет принадлежать контекст (возвращает функцию); ',
-		// 										img: '',
-		// 										inner: [],
-		// 									},
-		// 									{
-		// 										id: 5001,
-		// 										type: 'block',
-		// 										isOpenContextMenu: false,
-		// 										title: 'Description2',
-		// 										subTitle: '',
-		// 										text: '',
-		// 										img: '',
-		// 										inner: [],
-		// 									},
-		// 									{
-		// 										id: 5002,
-		// 										type: 'block',
-		// 										isOpenContextMenu: false,
-		// 										title: '',
-		// 										subTitle: '',
-		// 										text: '',
-		// 										img: '',
-		// 										inner: [],
-		// 									},
-		// 									{
-		// 										id: 5003,
-		// 										type: 'block',
-		// 										isOpenContextMenu: false,
-		// 										title: 'Синтаксис:',
-		// 										subTitle: '',
-		// 										text: '',
-		// 										img: '',
-		// 										inner: [
-		// 											{
-		// 												id: 5004,
-		// 												type: 'block',
-		// 												isOpenContextMenu: false,
-		// 												title: '',
-		// 												subTitle: 'myFn.bind(obj)',
-		// 												text: 'Указать obj(объект) которому будет    \n   принадлежать контекст (возвращает функцию); ',
-		// 												img: '',
-		// 												inner: [],
-		// 											},
-		// 											{
-		// 												id: 5005,
-		// 												type: 'block',
-		// 												isOpenContextMenu: false,
-		// 												title: '',
-		// 												subTitle: 'myFn.bind(obj)',
-		// 												text: 'Указать obj(объект) которому будет ' +
-		// 													'принадлежать контекст (возвращает функцию); ',
-		// 												img: '',
-		// 												inner: [],
-		// 											}
-		// 										],
-		// 									}
-		// 								]
-		// 							},
-		// 							{
-		// 								id: 8,
-		// 								type: 'file',
-		// 								name: 'fileName2',
-		// 								isOpen: false,
-		// 								isOpenContextMenu: false,
-		// 								fileMain: []
-		// 							},
-		// 							{
-		// 								id: 9,
-		// 								type: 'file',
-		// 								name: 'fileName3',
-		// 								isOpen: false,
-		// 								isOpenContextMenu: false,
-		// 								fileMain: []
-		// 							},
-		// 						]
-		// 					},
-		// 					{
-		// 						id: 5,
-		// 						type: 'folder',
-		// 						name: 'name',
-		// 						isOpen: false,
-		// 						isOpenContextMenu: false,
-		// 						folderItems: [
-		// 							{
-		// 								id: 10,
-		// 								type: 'folder',
-		// 								name: 'name',
-		// 								isOpen: false,
-		// 								isOpenContextMenu: false,
-		// 								folderItems: [
-		// 									{
-		// 										id: 11,
-		// 										type: 'folder',
-		// 										name: 'name',
-		// 										isOpen: false,
-		// 										isOpenContextMenu: false,
-		// 										folderItems: [
-		// 											{
-		// 												id: 12,
-		// 												type: 'folder',
-		// 												name: 'name',
-		// 												isOpen: false,
-		// 												isOpenContextMenu: false,
-		// 												folderItems: [
-		// 													{
-		// 														id: 13,
-		// 														type: 'file',
-		// 														name: 'fileName',
-		// 														isOpen: false,
-		// 														isOpenContextMenu: false,
-		// 														fileMain: []
-		// 													},
-		// 													{
-		// 														id: 14,
-		// 														type: 'file',
-		// 														name: 'fileName',
-		// 														isOpen: false,
-		// 														isOpenContextMenu: false,
-		// 														fileMain: []
-		// 													},
-		// 													{
-		// 														id: 15,
-		// 														type: 'file',
-		// 														name: 'fileName',
-		// 														isOpen: false,
-		// 														isOpenContextMenu: false,
-		// 														fileMain: []
-		// 													},
-		// 												]
-		// 											},
-		// 										]
-		// 									},
-		// 								]
-		// 							},
-		// 						]
-		// 					},
-		// 					{
-		// 						id: 6,
-		// 						type: 'folder',
-		// 						name: 'name',
-		// 						isOpen: false,
-		// 						isOpenContextMenu: false,
-		// 						folderItems: [],
-		// 					}
-		// 				]
-		// 			},
-		// 			{
-		// 				id: 3,
-		// 				type: 'file',
-		// 				name: 'fileName',
-		// 				isOpen: false,
-		// 				isOpenContextMenu: false,
-		// 				fileMain: []
-		// 			},
-		// 		],
-		// 	},
-		// },
-
-	],
-	activeFileName: '',
-};
+import {changeActiveFileNameAC, changeIsLoadingAC, closeAllContextMenuTHUNK} from "./AppReducer";
 
 //вспомогательные функции
 function closeAllOpenContextMenuItem(items = []) {
@@ -237,20 +31,6 @@ function closeAllFile(items, isParentActive = false) {
 	}
 }
 
-let element;
-
-function searchItemID(array = [], id) {
-
-	for (let i = 0; i < array.length; i++) {
-		if (array[i].id && array[i].id === id) {
-			return element = array[i];
-		}
-		if (array[i].folderItems) searchItemID(array[i].folderItems, id);
-		if (array[i].fileMain) searchItemID(array[i].fileMain, id);
-	}
-	return element
-}
-
 let listAndIndex = {list: [], index: null};
 
 function searchListAndItemID(array = [], id) {
@@ -269,7 +49,7 @@ function searchListAndItemID(array = [], id) {
 
 //Reducer
 let stateWorkDAL;
-export const SectionReducer = (state = initialState, action) => {
+export const SectionReducer = (state = {sectionItems: []}, action) => {
 	let stateCopy = JSON.parse(JSON.stringify(state));
 	switch (action.type) {
 
@@ -278,83 +58,16 @@ export const SectionReducer = (state = initialState, action) => {
 			return stateCopy;
 		}
 		case 'CHANGE_IS_LOADING_SECTION_ITEM': {
-			let element = searchItemID(stateCopy.sectionItems, action.id);
-			element.isLoading = action.isLoading;
+			let listAndItem = searchListAndItemID(stateCopy.sectionItems, action.id);
+			listAndItem.list[listAndItem.index].isLoading = action.isLoading;
 			return stateCopy;
 		}
-		case 'CHANGE_ACTIVE_FILE_NAME': {
-			stateCopy.activeFileName = action.name;
+		case 'CHANGE_IS_OPEN_CONTEXT_MENU_ITEM': {
+			let listAndItem = searchListAndItemID(stateCopy.sectionItems, action.id);
+			listAndItem.list[listAndItem.index].isOpenContextMenu = action.isOpenContextMenu;
 			return stateCopy;
 		}
-		case 'CHANGE_IS_OPEN_CONTEXT_MENU': {
-			let element = searchItemID(stateCopy.sectionItems, action.id);
-			element.isOpenContextMenu = action.isOpenContextMenu;
-			return stateCopy;
-		}
-		case 'CLOSE_ALL_IS_OPEN_CONTEXT_MENU': {
-			closeAllOpenContextMenuItem(stateCopy.sectionItems);
-			return stateCopy;
-		}
-
-		// Section
-		case 'ADD_SECTION_ITEM': {
-			return stateWorkDAL;
-		}
-		case 'GET_SECTION_ITEM': {
-			stateCopy.sectionItems = action.sectionItems;
-			return stateCopy;
-		}
-		case 'ACTIVATE_SECTION_ITEM': {
-			for (let i = 0; i < stateCopy.sectionItems.length; i++) {
-				if (action.id === stateCopy.sectionItems[i].id) {
-					// stateCopy.sectionItems[i].nav.isNavShow = true;
-					stateCopy.sectionItems[i].isActive = true;
-				} else {
-					// stateCopy.sectionItems[i].nav.isNavShow = false;
-					stateCopy.sectionItems[i].isActive = false;
-				}
-			}
-			return stateCopy;
-		}
-		case 'CHANGE_POSITION_SECTION_ITEM': {
-			return stateWorkDAL;
-		}
-		case 'DELETE_SECTION_ITEM': {
-			return stateWorkDAL;
-		}
-		case 'CHANGE_SECTION_ITEM': {
-			return stateWorkDAL;
-		}
-
-		//Nav
-		case 'ADD_NAV_ITEM': {
-			return stateWorkDAL;
-		}
-		case 'GET_NAV_ITEM': {
-			searchItemID(stateCopy.sectionItems, action.idSectionItem).folderItems = action.folderItems;
-			return stateCopy;
-		}
-		case 'CHANGE_IS_OPEN_ITEM': {
-			let element = searchItemID(stateCopy.sectionItems, action.id);
-			if (element.type === 'file') {
-				closeAllFile(stateCopy.sectionItems);
-				stateCopy.activeFileName = element.name;
-			}
-			element.isOpen = !element.isOpen;
-			return stateCopy;
-		}
-		case 'CHANGE_NAME_NAV_ITEM': {
-			let element = searchItemID(stateCopy.sectionItems, action.id);
-			element.name = action.name === '' ? ' ' : action.name ;
-			element.isOpenContextMenu = false;
-			return stateCopy;
-		}
-		case 'DELETE_NAV_ITEM': {
-			let listAndIndex = searchListAndItemID(stateCopy.sectionItems, action.id);
-			listAndIndex.list.splice(listAndIndex.index, 1);
-			return stateCopy;
-		}
-		case 'CHANGE_POSITION_NAV_ITEM': {
+		case 'CHANGE_POSITION': {
 			let element = searchListAndItemID(stateCopy.sectionItems, action.id);
 			if (action.side === 'up') {
 				if (element.index > 0) {
@@ -371,11 +84,72 @@ export const SectionReducer = (state = initialState, action) => {
 			}
 			return stateCopy;
 		}
+		case 'CLOSE_ALL_IS_OPEN_CONTEXT_MENU_ITEM': {
+			closeAllOpenContextMenuItem(stateCopy.sectionItems);
+			return stateCopy;
+		}
+		case 'DELETE_ELEMENT': {
+			let listAndIndex = searchListAndItemID(stateCopy.sectionItems, action.id);
+			if (listAndIndex.list[listAndIndex.index].type === 'file' &&
+				listAndIndex.list[listAndIndex.index].isOpen) {
+				closeAllFile(stateCopy.sectionItems);
+			}
+			listAndIndex.list.splice(listAndIndex.index, 1);
+			return stateCopy;
+		}
+
+
+		// Section
+		case 'APPEND_SECTION_ITEM': {
+			stateCopy.sectionItems = action.sectionItems;
+			return stateCopy;
+		}
+		case 'ADD_SECTION_ITEM': {
+			return stateWorkDAL;
+		}
+		case 'ACTIVATE_SECTION_ITEM': {
+			for (let i = 0; i < stateCopy.sectionItems.length; i++) {
+				if (action.id === stateCopy.sectionItems[i].id) {
+					stateCopy.sectionItems[i].isActive = true;
+				} else {
+					stateCopy.sectionItems[i].isActive = false;
+				}
+			}
+			return stateCopy;
+		}
+		case 'CHANGE_SECTION_ITEM': {
+			return stateWorkDAL;
+		}
+
+		//Nav
+		case 'APPEND_NAV_ITEM': {
+			let listAndItem = searchListAndItemID(stateCopy.sectionItems, action.idSectionItem)
+			listAndItem.list[listAndItem.index].folderItems = action.folderItems;
+			return stateCopy;
+		}
+		case 'ADD_NAV_ITEM': {
+			return stateWorkDAL;
+		}
+		case 'CHANGE_IS_OPEN_ITEM': {
+			let listAndItem = searchListAndItemID(stateCopy.sectionItems, action.id);
+			if (listAndItem.list[listAndItem.index].type === 'file') {
+				closeAllFile(stateCopy.sectionItems);
+				stateCopy.activeFileName = listAndItem.list[listAndItem.index].name;
+			}
+			listAndItem.list[listAndItem.index].isOpen = !listAndItem.list[listAndItem.index].isOpen;
+			return stateCopy;
+		}
+		case 'CHANGE_NAME_NAV_ITEM': {
+			let listAndItem = searchListAndItemID(stateCopy.sectionItems, action.id);
+			listAndItem.list[listAndItem.index].name = action.name === '' ? ' ' : action.name;
+			listAndItem.list[listAndItem.index].isOpenContextMenu = false;
+			return stateCopy;
+		}
 
 		//Main
 		case 'ADD_BLOCK_IN_ACTIVE_FILE': {
-			let element = searchItemID(stateCopy.sectionItems, action.id);
-			element.fileMain.push({
+			let listAndItem = searchListAndItemID(stateCopy.sectionItems, action.id);
+			listAndItem.list[listAndItem.index].fileMain.push({
 				id: new Date().getTime(),
 				type: 'block',
 				isOpenContextMenu: false,
@@ -388,48 +162,29 @@ export const SectionReducer = (state = initialState, action) => {
 			});
 			return stateCopy;
 		}
-		case 'CHANGE_TITLE_IN_BLOCK': {
-			let element = searchItemID(stateCopy.sectionItems, action.id);
-			element.title = action.title;
-			return stateCopy;
-		}
-		case 'CHANGE_SUB_TITLE_IN_BLOCK': {
-			let element = searchItemID(stateCopy.sectionItems, action.id);
-			element.subTitle = action.subTitle;
-			return stateCopy;
-		}
-		case 'CHANGE_TEXT_IN_BLOCK': {
-			let element = searchItemID(stateCopy.sectionItems, action.id);
-			element.text = action.text;
-			return stateCopy;
-		}
-		case 'CHANGE_BORDER_IN_BLOCK': {
-			let element = searchItemID(stateCopy.sectionItems, action.id);
-			element.isBorder = !element.isBorder;
-			return stateCopy;
-		}
-		case 'DELETE_BLOCK': {
-			let element = searchListAndItemID(stateCopy.sectionItems, action.id);
-			element.list.splice(element.index, 1)
-			return stateCopy;
-		}
-		case 'CHANGE_POSITION_BLOCK': {
-			let element = searchListAndItemID(stateCopy.sectionItems, action.id);
-			if (action.side === 'up') {
-				if (element.index > 0) {
-					let elemCopy = element.list[element.index - 1];
-					element.list[element.index - 1] = element.list[element.index];
-					element.list[element.index] = elemCopy;
-				}
-			} else if (action.side === 'down') {
-				if (element.index + 1 < element.list.length) {
-					let elemCopy = element.list[element.index + 1];
-					element.list[element.index + 1] = element.list[element.index];
-					element.list[element.index] = elemCopy;
-				}
+		case 'CHANGE_BLOCK': {
+			let listAndItem = searchListAndItemID(stateCopy.sectionItems, action.id);
+			switch (action.typeChange) {
+				case 'changeTitle':
+					listAndItem.list[listAndItem.index].title = action.data;
+					break;
+				case 'changeSubTitle':
+					listAndItem.list[listAndItem.index].subTitle = action.data;
+					break;
+				case 'changeText':
+					listAndItem.list[listAndItem.index].text = action.data;
+					break;
+				case 'changeBorder':
+					listAndItem.list[listAndItem.index].isBorder = !listAndItem.list[listAndItem.index].isBorder;
+					break;
 			}
 			return stateCopy;
 		}
+		case 'ADD_ACTIVE_FILE_NAME_IN_SECTION_ITEM': {
+			stateCopy.sectionItems.find(el=>el.isActive).activeFileName = action.name
+			return stateCopy;
+		}
+
 		default :
 			return state;
 	}
@@ -449,54 +204,46 @@ export const changeIsLoadingSectionItemAC = (id, isLoading) => {
 		id: id,
 	}
 };
-//AC changeActiveFileName:
-export const changeActiveFileName = (name) => {
+//AC CHANGE_IS_OPEN_CONTEXT_MENU_ITEM:
+export const changeIsOpenContextMenuItemAC = (id, isOpenContextMenu) => {
 	return {
-		type: 'CHANGE_ACTIVE_FILE_NAME',
-		name: name,
-	}
-};
-//changeIsOpenContextMenu AC:
-export const changeIsOpenContextMenu = (id, isOpenContextMenu) => {
-	return {
-		type: 'CHANGE_IS_OPEN_CONTEXT_MENU',
+		type: 'CHANGE_IS_OPEN_CONTEXT_MENU_ITEM',
 		id: id,
 		isOpenContextMenu: isOpenContextMenu,
 	}
 };
-//closeAllIsOpenContextMenu AC:
-export const closeAllIsOpenContextMenu = () => {
+//AC CLOSE_ALL_IS_OPEN_CONTEXT_MENU_ITEM:
+export const closeAllIsOpenContextMenuItemsAC = () => {
 	return {
-		type: 'CLOSE_ALL_IS_OPEN_CONTEXT_MENU',
+		type: 'CLOSE_ALL_IS_OPEN_CONTEXT_MENU_ITEM',
 	}
 };
 
-//AC GET_NAV_ITEM:
-export const getNavItemAC = (folderItems, idSectionItem) => {
+//AC APPEND_NAV_ITEM:
+export const appendNavItemAC = (folderItems, idSectionItem) => {
 	return {
-		type: 'GET_NAV_ITEM',
+		type: 'APPEND_NAV_ITEM',
 		folderItems: folderItems,
 		idSectionItem: idSectionItem,
 	}
 };
-//AC GET_SECTION_ITEM:
-export const getSectionItemsAC = (sectionItems) => {
+//AC APPEND_SECTION_ITEM:
+export const appendSectionItemsAC = (sectionItems) => {
 	return {
-		type: 'GET_SECTION_ITEM',
+		type: 'APPEND_SECTION_ITEM',
 		sectionItems: sectionItems,
 	}
 };
-//	THUNK getSectionItem:
-export const getData = (userId = '') => {
-
+//THUNK getDataTHUNK:
+export const getDataTHUNK = (userId = '') => {
 	return (dispatch) => {
 		dispatch(updateStateWorkDAL());
-		dispatch(changeLoading(true));
 		if (userId !== '') {
 			getSectionItemDAL(userId)
 			.then((data) => {
 				if (data) {
-					dispatch(getSectionItemsAC(data.sectionItems));
+					dispatch(appendSectionItemsAC(data.sectionItems));
+					dispatch(closeAllIsOpenContextMenuItemsAC());
 					dispatch(updateStateWorkDAL());
 					let activeSectionItem = stateWorkDAL.sectionItems.find(el => el.isActive);
 					if (activeSectionItem) {
@@ -509,16 +256,16 @@ export const getData = (userId = '') => {
 			})
 			.then((data) => {
 				if (data.activeNavItems && data.activeNavItems.folderItems) {
-					dispatch(getNavItemAC(data.activeNavItems.folderItems, data.activeSectionItem.id));
-					dispatch(closeAllIsOpenContextMenu());
+					dispatch(appendNavItemAC(data.activeNavItems.folderItems, data.activeSectionItem.id));
+					dispatch(closeAllIsOpenContextMenuItemsAC());
 				}
 				return data
 			})
 			.then((data) => {
 				data.activeSectionItem && dispatch(changeIsLoadingSectionItemAC(data.activeSectionItem.id, true));
-				dispatch(changeLoading(false));
+				dispatch(changeIsLoadingAC(false));
 			})
-			.then(()=>{
+			.then(() => {
 				for (let i = 0; i < stateWorkDAL.sectionItems.length; i++) {
 					if (!stateWorkDAL.sectionItems[i].isActive) {
 						dispatch(changeIsLoadingSectionItemAC(stateWorkDAL.sectionItems[i].id, false));
@@ -526,8 +273,8 @@ export const getData = (userId = '') => {
 						.then((data) => {
 							dispatch(changeIsLoadingSectionItemAC(stateWorkDAL.sectionItems[i].id, true));
 							if (data && data.folderItems) {
-								dispatch(getNavItemAC(data.folderItems, stateWorkDAL.sectionItems[i].id));
-								dispatch(closeAllIsOpenContextMenu());
+								dispatch(appendNavItemAC(data.folderItems, stateWorkDAL.sectionItems[i].id));
+								dispatch(closeAllIsOpenContextMenuItemsAC());
 							}
 						});
 					}
@@ -543,8 +290,8 @@ export const addSectionItemAC = () => {
 		type: 'ADD_SECTION_ITEM',
 	}
 };
-//	THUNK addSectionItem:
-export const addSectionItem = (userId) => {
+//THUNK addSectionItem:
+export const addSectionItemTHUNK = (userId) => {
 
 	return (dispatch) => {
 		dispatch(updateStateWorkDAL());
@@ -554,13 +301,14 @@ export const addSectionItem = (userId) => {
 			name: 'Name',
 			url: '',
 			position: stateWorkDAL.sectionItems.length,
+			activeFileName: '',
 			isActive: false,
 			isOpenContextMenu: false,
 			isLoading: true,
 			folderItems: [],
 		});
-		dispatch(activateSectionItem(id, userId));
-		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
+		dispatch(activateSectionItemTHUNK(id, userId));
+		updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId)
 		.then((resolve) => {
 			dispatch(addSectionItemAC());
 		});
@@ -574,87 +322,42 @@ export const activateSectionItemAC = (id) => {
 		id: id,
 	}
 };
-//THUNK activateSectionItem:
-export const activateSectionItem = (id, userId) => {
+//THUNK activateSectionItemTHUNK:
+export const activateSectionItemTHUNK = (id, userId) => {
 	return (dispatch) => {
 		dispatch(activateSectionItemAC(id));
-		dispatch(changeActiveFileName(""));
+		dispatch(changeActiveFileNameAC(stateWorkDAL.sectionItems.find(el=>el.id === id).activeFileName));
 		dispatch(updateStateWorkDAL());
-		setSectionItemDAL(stateWorkDAL.sectionItems, userId).then();
+		updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId).then();
 	}
 };
 
-//AC changePositionSectionItem:
-export const changePositionSectionItemAC = (id, side) => {
+
+//AC DELETE_ELEMENT:
+export const deleteElementAC = (id) => {
 	return {
-		type: 'CHANGE_POSITION_SECTION_ITEM',
+		type: 'DELETE_ELEMENT',
 		id: id,
-		side: side,
 	}
 };
-//	THUNK changePositionSectionItem:
-export const changePositionSectionItem = (id, side, userId) => {
+//THUNK deleteElementTHUNK:
+export const deleteElementTHUNK = (id, typeDelete, userId) => {
 	return (dispatch) => {
-		dispatch(closeAllIsOpenContextMenu());
-		dispatch(updateStateWorkDAL());
-		let element = searchListAndItemID(stateWorkDAL.sectionItems, id);
-		if (side === 'up') {
-			if (element.index > 0) {
-				let elemCopy = element.list[element.index - 1];
-				element.list[element.index - 1] = element.list[element.index];
-				element.list[element.index] = elemCopy;
-			}
-		} else if (side === 'down' && element.index + 1 < element.list.length) {
-			let elemCopy = element.list[element.index + 1];
-			element.list[element.index + 1] = element.list[element.index];
-			element.list[element.index] = elemCopy;
+		dispatch(closeAllIsOpenContextMenuItemsAC());
+		dispatch(deleteElementAC(id));
+		switch (typeDelete) {
+			case 'sectionItem':
+				dispatch(updateStateWorkDAL());
+				deleteSectionItemDAL(id, userId).then(resolve => {
+					updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId).then();
+				});
+				break;
+			case 'element':
+				dispatch(changeActiveFileNameAC(""));
+				dispatch(updateStateWorkDAL());
+				updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
+				break;
 		}
-		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
-		.then((resolve) => {
-			dispatch(changePositionSectionItemAC());
-		});
-	}
-};
-
-//AC DELETE_SECTION_ITEM:
-export const deleteSectionItemAC = () => {
-	return {
-		type: 'DELETE_SECTION_ITEM',
-	}
-};
-//	THUNK deleteSectionItem:
-export const deleteSectionItem = (id, userId) => {
-	return (dispatch) => {
-		dispatch(closeAllIsOpenContextMenu());
-		dispatch(updateStateWorkDAL());
-
-		let index = stateWorkDAL.sectionItems.findIndex(el => el.id === id);
-		stateWorkDAL.sectionItems.splice(index, 1);
-		deleteSectionItemDAL(id, userId).then(resolve => {
-			setSectionItemDAL(stateWorkDAL.sectionItems, userId)
-			.then((resolve) => {
-				dispatch(deleteSectionItemAC());
-			});
-		});
-	}
-};
-
-//AC DELETE_NAV_ITEM:
-export const deleteNavItemAC = (id) => {
-	return {
-		type: 'DELETE_NAV_ITEM',
-		id: id,
-	}
-};
-//	THUNK deleteNavItem:
-export const deleteNavItem = (id, userId) => {
-	return (dispatch) => {
-		dispatch(closeAllIsOpenContextMenu());
-		dispatch(deleteNavItemAC(id));
-		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
-			setSectionItemDAL(stateWorkDAL.sectionItems, userId).then()
-		});
 	}
 };
 
@@ -667,13 +370,13 @@ export const changeSectionItemAC = () => {
 //	THUNK changeSectionItem:
 export const changeSectionItem = (name, url, id, userId) => {
 	return (dispatch) => {
-		dispatch(closeAllIsOpenContextMenu());
+		dispatch(closeAllIsOpenContextMenuItemsAC());
 		dispatch(updateStateWorkDAL());
 		let element = stateWorkDAL.sectionItems.find(el => el.id === id);
 		if (name !== '') {
 			element.name = name;
 		} else element.url = url;
-		setSectionItemDAL(stateWorkDAL.sectionItems, userId)
+		updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId)
 		.then((resolve) => {
 			dispatch(changeSectionItemAC());
 		});
@@ -686,15 +389,16 @@ export const addNavItemAC = () => {
 		type: 'ADD_NAV_ITEM',
 	}
 };
-//	THUNK addNavItem:
-export const addNavItem = (typeItemNav, id, userId) => {
+//THUNK addNavItemTHUNK:
+export const addNavItemTHUNK = (typeItemNav, id, userId) => {
 
 	return (dispatch) => {
-		dispatch(closeAllIsOpenContextMenu());
+		dispatch(closeAllContextMenuTHUNK());
 		dispatch(updateStateWorkDAL());
-		let el = searchItemID(stateWorkDAL.sectionItems, id);
-		if (el.folderItems) {
-			el.folderItems.push(
+		let listAndItem = searchListAndItemID(stateWorkDAL.sectionItems, id);
+		if (listAndItem.list[listAndItem.index].folderItems) {
+			listAndItem.list[listAndItem.index].isOpen = true;
+			listAndItem.list[listAndItem.index].folderItems.push(
 				typeItemNav === 'folder'
 					? {
 						id: new Date().getTime(),
@@ -728,11 +432,14 @@ export const changeIsOpenItemAC = (id) => {
 		id: id,
 	}
 };
-//	THUNK changeIsOpenItem:
-export const changeIsOpenItem = (id, userId) => {
+//THUNK changeIsOpenItem:
+export const changeIsOpenItem = (id, name, userId) => {
 
 	return (dispatch) => {
 		dispatch(changeIsOpenItemAC(id));
+		if (name !== '') {
+			dispatch(changeActiveFileNameAC(name));
+		}
 		dispatch(updateStateWorkDAL());
 		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
 		});
@@ -747,30 +454,29 @@ export const changeNameNavItemAC = (id, name, userId) => {
 		name: name,
 	}
 };
-//	THUNK changeNameNavItem:
-export const changeNameNavItem = (id, name, userId, activeSection) => {
+//THUNK changeNameNavItemTHUNK:
+export const changeNameNavItemTHUNK = (id, name, userId) => {
 
 	return (dispatch) => {
 		dispatch(changeNameNavItemAC(id, name));
-		dispatch(changeActiveFileName(name));
 		dispatch(updateStateWorkDAL());
 		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
 	}
 };
 
-//AC changePositionUpNavItem:
-export const changePositionNavItemAC = (id, side) => {
+//AC CHANGE_POSITION:
+export const changePositionAC = (id, side) => {
 	return {
-		type: 'CHANGE_POSITION_NAV_ITEM',
+		type: 'CHANGE_POSITION',
 		id: id,
 		side: side,
 	}
 };
-//	THUNK changePositionNavItem:
-export const changePositionNavItem = (id, side, userId) => {
+//THUNK changePositionTHUNK:
+export const changePositionTHUNK = (id, side, userId) => {
 
 	return (dispatch) => {
-		dispatch(changePositionNavItemAC(id, side));
+		dispatch(changePositionAC(id, side));
 		dispatch(updateStateWorkDAL());
 		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
 	}
@@ -783,112 +489,37 @@ export const addBlockInActiveFileAC = (id) => {
 		id: id,
 	}
 };
-//	THUNK addBlockInActiveFile:
-export const addBlockInActiveFile = (activeFile, userId) => {
+//THUNK addBlockInActiveFile:
+export const addBlockInActiveFileTHUNK = (id, userId) => {
 	return (dispatch) => {
-		dispatch(addBlockInActiveFileAC(activeFile.id));
+		dispatch(addBlockInActiveFileAC(id));
 		dispatch(updateStateWorkDAL());
 		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
 	}
 };
 
-//AC changeTitleInBlock:
-export const changeTitleInBlockAC = (id, title) => {
+//AC CHANGE_BLOCK:
+export const changeBlockAC = (id, typeChange, data) => {
 	return {
-		type: 'CHANGE_TITLE_IN_BLOCK',
+		type: 'CHANGE_BLOCK',
 		id: id,
-		title: title,
+		typeChange: typeChange,
+		data: data,
 	}
 };
-//	THUNK changeTitleInBlock:
-export const changeTitleInBlock = (activeFile, title, userId) => {
+//THUNK changeBlockTHUNK:
+export const changeBlockTHUNK = (id, typeChange, data = '', userId) => {
 	return (dispatch) => {
-		dispatch(changeTitleInBlockAC(activeFile.id, title));
+		dispatch(changeBlockAC(id, typeChange, data));
 		dispatch(updateStateWorkDAL());
 		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
 	}
 };
 
-//AC changeSubTitleInBlockAC:
-export const changeSubTitleInBlockAC = (id, subTitle) => {
+//AC ADD_ACTIVE_FILE_NAME_IN_SECTION:
+export const addActiveFileNameInSectionItemAC = (name) => {
 	return {
-		type: 'CHANGE_SUB_TITLE_IN_BLOCK',
-		id: id,
-		subTitle: subTitle,
-	}
-};
-//THUNK changeSubTitleInBlock:
-export const changeSubTitleInBlock = (activeFile, subTitle, userId) => {
-	return (dispatch) => {
-		dispatch(changeSubTitleInBlockAC(activeFile.id, subTitle));
-		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
-	}
-};
-
-//AC changeTextInBlockAC:
-export const changeTextInBlockAC = (id, text) => {
-	return {
-		type: 'CHANGE_TEXT_IN_BLOCK',
-		id: id,
-		text: text,
-	}
-};
-//THUNK changeTextInBlock:
-export const changeTextInBlock = (activeFile, text, userId) => {
-	return (dispatch) => {
-		dispatch(changeTextInBlockAC(activeFile.id, text));
-		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
-	}
-};
-
-//AC changeBorderInBlockAC:
-export const changeBorderInBlockAC = (id) => {
-	return {
-		type: 'CHANGE_BORDER_IN_BLOCK',
-		id: id,
-	}
-};
-//THUNK changeBorderInBlock:
-export const changeBorderInBlock = (id, userId) => {
-	return (dispatch) => {
-		dispatch(changeBorderInBlockAC(id));
-		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
-	}
-};
-
-//AC deleteBlockAC:
-export const deleteBlockAC = (id) => {
-	return {
-		type: 'DELETE_BLOCK',
-		id: id,
-	}
-};
-//THUNK deleteBlock:
-export const deleteBlock = (id, userId) => {
-	return (dispatch) => {
-		dispatch(deleteBlockAC(id));
-		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
-	}
-};
-
-//AC CHANGE_POSITION_BLOCK:
-export const changePositionBlockAC = (id, side) => {
-	return {
-		type: 'CHANGE_POSITION_BLOCK',
-		id: id,
-		side: side,
-	}
-};
-//	THUNK changePositionBlock:
-export const changePositionBlock = (id, side, userId) => {
-
-	return (dispatch) => {
-		dispatch(changePositionBlockAC(id, side));
-		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then();
+		type: 'ADD_ACTIVE_FILE_NAME_IN_SECTION_ITEM',
+		name: name,
 	}
 };

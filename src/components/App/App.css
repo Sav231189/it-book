@@ -1,10 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Aladin&family=JetBrains+Mono:wght@400;700&family=Roboto:wght@400;700&display=swap");
 .app {
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
   background: #272727;
   font-family: "JetBrains Mono", monospace;
-  overflow: hidden;
 }
 .app .appWindow {
   position: relative;
@@ -18,36 +17,55 @@
     top: 5px;
   }
 }
-.app .mainBox {
-  width: 100%;
-  position: relative;
-  transition: all 0.4s linear 0s;
-}
-.app .mainBox.true {
-  padding-left: 390px;
-  transition: all 0.4s linear 0s;
-}
-.app .loadingApp {
+
+.contextMenu {
+  pointer-events: initial;
   display: none;
-}
-.app .loadingApp.true {
   position: fixed;
-  z-index: 100;
-  width: 100vw;
-  height: 100vh;
+  width: 165px;
+  z-index: 21;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  background-color: rgba(27, 27, 27, 0.75);
+  border-radius: 5px;
+  border: #80808047 solid 1px;
+  backdrop-filter: blur(3px);
+  color: #e6e6e6;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 16px;
+}
+.contextMenu hr {
+  background: #80808096;
+  height: 2px;
+}
+.contextMenu span {
+  display: block;
+  margin: 5px 0;
+  padding: 0 5px 0 20px;
+}
+.contextMenu span:hover {
+  background-color: #737373;
+}
+.contextMenu input {
+  margin: 5px 0;
+  padding: 0 10px;
+  width: 100%;
+  font-size: 16px;
+  background-color: rgba(49, 49, 49, 0.93);
+  backdrop-filter: blur(3px);
+  color: #888888;
+}
+.contextMenu .save_btn {
+  background-color: #035500;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #232323;
-  font-size: 42px;
-  color: #8e1f1f;
+  padding: 0 20px 0 20px;
+  margin: 0 0 5px 0;
 }
-.app .loadingApp.true div {
-  position: relative;
-  bottom: 50px;
-}
-.app .loadingApp.true .addHeader {
-  bottom: 105px;
+.contextMenu .save_btn:hover {
+  background-color: #026700;
 }
 
 /*# sourceMappingURL=App.css.map */

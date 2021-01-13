@@ -1,8 +1,12 @@
 import React, {useState} from 'react';
 import './Start.css';
 import logo from '../../img/logo_start.png';
+import {connect} from "react-redux";
+import {
+	checkLogin, outLogin, registration, sendPasswordResetEmail, updatePassword
+} from "../../redux/reducers/AppReducer";
 
-export function Start(props) {
+export function StartComponent(props) {
 	let [isLogin, setIsLogin] = useState(false);
 	let [isRegistration, setIsRegistration] = useState(false);
 	let [isResetPassword, setIsResetPassword] = useState(false);
@@ -84,3 +88,14 @@ export function Start(props) {
 		</div>
 	);
 }
+
+const mstp = (state) => {
+	return {
+	}
+};
+
+export const Start = connect(mstp, {
+	checkLogin,
+	sendPasswordResetEmail,
+	registration,
+})(StartComponent);

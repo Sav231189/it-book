@@ -1,82 +1,48 @@
 .Block {
-  width: calc(100% - 10px);
-  min-height: 30px;
   margin: 5px 5px 5px;
   padding: 5px 0 5px;
+  width: calc(100% - 10px);
+  min-height: 30px;
 
   background: #1F1F1F;
   border: 1px solid #333333;
-  //box-shadow: inset 0px 0 10px 0px #98989847;
 
   font-family: Monaco, sans-serif;
   white-space: pre-wrap;
+
   transition: box-shadow .2s ease-in 0s;
-  &:hover {
-      border: 1px solid #414141;
-      box-shadow:  inset 0px 0 8px 0px #4a4a4a73;
+  .blockContextMenu {
+    width: 185px;
   }
   .blockTitle {
     padding-left: 5px;
-    font-size: 17px;
-    text-indent: 2px;
-    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+
     color: #BC5151;
     text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
-    display: flex;
-    align-items: center;
+    font-size: 17px;
+    text-indent: 2px;
+    letter-spacing: 0.1em;
   }
 
   .blockSubTitle {
-    //padding: 3px;
     padding-left: 7px;
-    font-size: 14px;
+
     color: #448740;
+
     letter-spacing: 0.005em;
+    font-size: 14px;
   }
 
   .blockText {
-    //padding: 3px;
     padding-left: 7px;
-    font-size: 14px;
+
     color: #919191;
+
     letter-spacing: 0.005em;
-  }
-
-  .contextMenuBlock {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #3c3f41;
-    color: #bebebe;
-
-    font-family: Roboto, sans-serif;
     font-size: 14px;
-
-    cursor: pointer;
-
-    .menuItem {
-      display: block;
-      padding: 5px 20px 5px 20px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #737373;
-      }
-
-    }
-
-    span {
-      display: block;
-      padding: 5px 20px 5px 20px;
-
-      &:hover {
-        background-color: #737373;
-      }
-    }
-
   }
 
   .saveNameBtn {
@@ -93,41 +59,37 @@
 
   input {
     background-color: #1F1F1F;
+    border: transparent solid 1px;
   }
 
   .inputTitle {
     padding: 0;
-    font-size: 18px;
+    font-size: 17px;
     text-indent: 2px;
     letter-spacing: 0.1em;
     color: #BC5151;
     text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px solid #333333;
+
   }
 
   .inputSubTitle {
     padding: 2px 0;
-    font-size: 16px;
-    color: #59BC51;
+    font-size: 14px;
+    color: #448740;
     letter-spacing: 0.005em;
-    border: 1px solid #333333;
   }
 
   textarea {
+    padding-left: 5px;
     width: 100%;
     min-height: 100px;
     background-color: #1F1F1F;
     color: #919191;
     resize: vertical;
-    border: 1px solid #333333;
   }
 }
 
 .Block.true {
   border: none;
-  &:hover {
-    outline: 1px solid #262626;
-    box-shadow: none;
-  }
 }
 

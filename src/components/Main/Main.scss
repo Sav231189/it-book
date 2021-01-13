@@ -1,24 +1,23 @@
 .Main {
+  margin: 5px -30px 10px 10px;
   position: relative;
-  //padding-top: 33px;
   height: calc(100vh - 70px);
   width: calc(100% + 30px);
-
   overflow-x: hidden;
-  margin: 5px -30px 10px 10px;
-  transition: all .4s linear 0s;
+
   background-color: #2929299c;
 
+  transition: all .2s linear 0s;
   .mainWrapper {
+    margin-right: 40px;
+    padding: 1px 0 1px 0;
     width: calc(100vw - 400px);
     min-width: 400px;
-    padding: 1px 0 1px 0;
-    margin-right: 40px;
-    outline: #383838cf solid 1px;
-    //box-shadow: 0px 0px 30px 3px #0000008a;
 
+    border: #383838cf solid 1px;
     background: rgb(31 31 31);
-    transition: all .4s linear 0s;
+
+    transition: all .2s linear 0s;
 
     @media (max-width: 500px) {
       min-width: 300px;
@@ -26,92 +25,75 @@
   }
   .mainWrapper.true {
     width: calc(100vw - 20px);
-    transition: all .4s linear 0s;
+
+    transition: all .2s linear 0s;
   }
 
   .mainTitle {
-    width: calc(100vw - 400px);
-    min-height: 30px;
-    //margin: 5px -15px 10px;
     margin-bottom: 10px;
     padding: 5px 0 5px;
-
+    width: calc(100vw - 400px);
+    min-height: 30px;
+    min-width: 400px;
     background: #0a3700;
     color: #888888;
+
     text-align: center;
-    //border: 1px solid #333333;
-
-
     font-family: Monaco, sans-serif;
     white-space: pre-wrap;
-    //&:hover {
-    //  border: 1px solid #585858;
-    //}
-    transition: all .4s linear 0s;
 
+    transition: all .2s linear 0s;
+
+    @media (max-width: 500px) {
+      min-width: 300px;
+    }
     @media (max-width: 390px) {
       top: 65px;
     }
+
   }
   .mainTitle.true {
     width: calc(100vw - 20px);
-    transition: all .4s linear 0s;
+
+    transition: all .2s linear 0s;
   }
 
-  .menuNav {
-    //display: none;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #3c3f41;
-    color: #bebebe;
-
-    span {
-      display: block;
-      padding: 5px 15px 5px 20px;
-      cursor: pointer;
-      width: 160px;
-      &:hover {
-        background-color: rgba(96, 135, 166, 0.82);
-        color: white;
-      }
-    }
-  }
   @keyframes addBlockBtn {
     0% {transform: scale(1);background-color: grey;}
     50% {transform: scale(1.01);background-color: #9c9c9c;}
     100% {transform: scale(1);background-color: grey;}
   }
   .noBlockBtn {
+    padding: 20px;
     position: absolute;
     width: 70px;
     height: 70px;
     top: 10%;
     left: 42%;
-    padding: 20px;
-    border-radius: 50%;
-    box-shadow: 1px 1px 10px rgb(35 107 5 / 98%);
-    animation: addBlockBtn 1s ease-out infinite;
-    transition: all 0.6s linear 0s;
-    font-weight: bold;
-    color: #222222;
     cursor: pointer;
     display: flex;
     justify-content: center;
-    text-align: center;
     align-items: center;
 
+    border-radius: 50%;
+    box-shadow: 1px 1px 10px rgb(35 107 5 / 98%);
+    color: #222222;
     background-color: grey;
+
+    animation: addBlockBtn 1s ease-out infinite;
+    transition: all 0.6s linear 0s;
+
+    font-weight: bold;
+    text-align: center;
     &:hover {
-      background-color: #225924;
-      animation: right_click ;
-      transition: all 0.6s linear 0s;
       color: #cccccc;
+      background-color: #225924;
+
+      transition: all 0.6s linear 0s;
     }
   }
 }
 .Main.true {
   margin-left: 390px;
-  transition: all .4s linear 0s;
+  transition: all .2s linear 0s;
 }

@@ -1,4 +1,6 @@
-.header {
+.Header {
+  //position: relative;
+  z-index: 3;
   margin: 0 5px 5px;
   height: 50px;
   display: grid;
@@ -34,41 +36,21 @@
       width: 100%;
       height: auto;
     }
-
-    .menu {
-      position: absolute;
-      z-index: 4;
-      top: 45px;
-      right: 0;
-      .menuName {
-        text-align: center;
-        background-color: #520000c9;
-        color: #d8d8d8c9;
-        padding: 5px 15px;
-      }
-      .menuItem {
-        padding: 5px 15px;
-        width: 200px;
-        text-align: center;
-        background-color: #cfcfcf;
-        cursor: pointer;
-        &:hover {
-          background-color: #737373;
-        }
-      }
-      .menuItemSave {
-        background-color: green;
-        &:hover {
-          background-color: #005900;
-        }
-      }
-      input {
-        padding: 0 10px;
-        width: 100%;
-        height: 30px;
-        font-size: 16px;
-        background-color: #cfcfcf;
-      }
-    }
+  }
+  .contextMenuLK {
+    top: 45px;
+    right: 30px;
+    left: auto;
+    bottom: auto;
+  }
+  .menuName {
+    height: 30px;
+    text-align: center;
+    background-color: rgba(190, 190, 190, 0.75);
+    color: rgba(0, 29, 7, 0.79);
+    padding: 5px 15px;
+    border-radius: 5px 5px 0 0;
+    font-family: Aladin, sans-serif;
+    letter-spacing: 2px;
   }
 }

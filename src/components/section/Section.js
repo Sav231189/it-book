@@ -1,41 +1,38 @@
 import React, {useRef, useEffect} from 'react';
-import './Section.css'
 import {connect} from "react-redux";
 import {SectionItem} from "../sectionItem/SectionItem";
-import {
-	changeIsContextMenu, changeIsContextMenuSection,
+import {changeIsContextMenuAC, changeIsContextMenuSectionAC
 } from "../../redux/reducers/AppReducer";
-import {addSectionItem, getData} from "../../redux/reducers/SectionReducer";
+import {addSectionItemTHUNK, getDataTHUNK} from "../../redux/reducers/SectionReducer";
+import './Section.css'
+import {getIsContextMenu, getIsContextMenuSection, getUserId} from "../../selectors/AppSelector";
+import {getSectionItems} from "../../selectors/SectionSelector";
 
 export function SectionComponent(props) {
 
-	useEffect(() => {
-		props.getData(props.userId);
-	}, [props.userId]);
+	useEffect(() => props.getDataTHUNK(props.userId), [props.userId]);
 
 	const refContextMenu = useRef(null);
 
 	const showMenuContextSection = (e) => {
 		if (!props.isContextMenu && !props.isContextMenuSection) {
-			if (e.clientY < window.innerHeight - 30) {
-				refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
-				props.changeIsContextMenu(true);
-				props.changeIsContextMenuSection(true);
-			} else {
-				refContextMenu.current.style = `top: ${e.clientY - 37}px; left: ${e.clientX + 2}px;`;
-				props.changeIsContextMenu(true);
-				props.changeIsContextMenuSection(true);
-			}
 			e.preventDefault();
 			e.stopPropagation();
+			if (e.clientY < window.innerHeight - 60) {
+				refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
+				props.changeIsContextMenuAC(true);
+				props.changeIsContextMenuSectionAC(true);
+			} else {
+				refContextMenu.current.style = `top: ${e.clientY - 37}px; left: ${e.clientX + 2}px;`;
+				props.changeIsContextMenuAC(true);
+				props.changeIsContextMenuSectionAC(true);
+			}
 		}
 	};
 
 	return (
 		<div className="section" onContextMenu={showMenuContextSection}>
-			{props.sectionItems.length <= 0 &&
-			<div className='noSectionItem'>
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 417.031 417.031">
+			{props.sectionItems.length <= 0 &&<div className='noSectionItem'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 417.031 417.031">
 					<g>
 						<path d="M219.683,92.146c-0.279-0.315-0.52-0.627-0.849-0.925c-3.644-3.272-3.742-2.306,0.247-5.983
 		c2.955-2.712,6.541-4.834,9.79-7.18c8.596-6.213,14.254-14.534,18.079-24.399c8.582-22.15-16.706-37.453-29.396-50.562
@@ -48,32 +45,26 @@ export function SectionComponent(props) {
 		V308.461z M296.648,223.94c-25.844,9.883-52.237,13.746-76.635,14.271v-125.59c39.407,2.363,76.635,21.264,76.635,60.337V223.94z
 		 M289.735,216.203c0,0-46.688,13.073-62.567,10.271V122.813C269.429,130.753,296.625,143.533,289.735,216.203z"/>
 					</g>
-				</svg>
-			</div>
-			}
+				</svg></div>}
 			{props.sectionItems.map((el) => <SectionItem key={el.id} element={el}/>)}
-			<div ref={refContextMenu} className="menuSection"
+			<div ref={refContextMenu} className="contextMenu"
 					 style={props.isContextMenuSection ? {display: 'block'} : {display: 'none'}}>
-				<span onClick={(e) => props.addSectionItem(props.userId)}>Добавить +</span>
+				<span onClick={(e) => props.addSectionItemTHUNK(props.userId)}>Add Section</span>
 			</div>
 		</div>
 	);
 }
 
-const mstp = (state) => {
-	return {
-		isContextMenu: state.app.isContextMenu,
-		isContextMenuSection: state.app.isContextMenuSection,
-
-		sectionItems: state.section.sectionItems,
-		userId: state.app.userId,
-	}
-};
-export const Section = connect(mstp, {
-	changeIsContextMenu,
-	changeIsContextMenuSection,
-
-	addSectionItem,
-	getData,
-})(SectionComponent);
+export const Section = connect(
+	state => ({
+		isContextMenu: getIsContextMenu(state),
+		isContextMenuSection: getIsContextMenuSection(state),
+		sectionItems: getSectionItems(state),
+		userId: getUserId(state),
+	}), {
+		changeIsContextMenuAC,
+		changeIsContextMenuSectionAC,
+		addSectionItemTHUNK,
+		getDataTHUNK,
+	})(SectionComponent);
 

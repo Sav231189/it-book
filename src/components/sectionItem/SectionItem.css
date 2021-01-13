@@ -1,8 +1,8 @@
 .item {
+  margin: 15px 0;
   position: relative;
   left: 0;
   top: 0;
-  margin: 15px 0;
   width: 40px;
   height: 40px;
   display: flex;
@@ -31,56 +31,23 @@
 }
 .item .nameBlock {
   display: none;
-}
-.item:hover .nameBlock {
   padding: 5px 10px;
-  display: inline-flex;
-  position: fixed;
+  position: absolute;
+  left: 34px;
+  bottom: 34px;
   max-width: 300px;
-  z-index: 12;
+  z-index: 3;
   background-color: #6f757a;
   border-radius: 5px;
-  font-family: "JetBrains Mono", monospace;
   color: #2d2d2d;
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.25);
+  font-family: "JetBrains Mono", monospace;
 }
-.item .menuSectionItem {
-  position: fixed;
-  z-index: 22;
-  width: 170px;
-  top: 0;
-  left: 0;
-  background-color: #3c3f41;
-  color: #bebebe;
+.item:first-child .nameBlock {
+  bottom: 20px;
 }
-.item .menuSectionItem .menuItem {
+.item:hover .nameBlock {
   display: block;
-  padding: 5px 20px 5px 20px;
-  cursor: pointer;
-}
-.item .menuSectionItem .menuItem:hover {
-  background-color: #737373;
-}
-.item .menuSectionItem span {
-  display: block;
-  padding: 5px 20px 5px 20px;
-}
-.item .menuSectionItem span:hover {
-  background-color: #737373;
-}
-.item .menuSectionItem input {
-  padding: 0 10px;
-  width: 100%;
-  height: 30px;
-  font-size: 16px;
-  background-color: #999999;
-}
-.item .menuSectionItem .save_btn {
-  background-color: #046c00;
-  text-align: center;
-}
-.item .menuSectionItem .save_btn:hover {
-  background-color: #05a800;
 }
 
 .item.true {

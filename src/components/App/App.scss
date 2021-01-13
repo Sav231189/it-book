@@ -1,18 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Aladin&family=JetBrains+Mono:wght@400;700&family=Roboto:wght@400;700&display=swap');
-
 .app {
   width: 100vw;
   height: 100vh;
-  background: #272727;
-  font-family: 'JetBrains Mono', monospace;
   overflow: hidden;
-  @media (max-width: 390px) {
-  }
+
+  background: #272727;
+
+  font-family: 'JetBrains Mono', monospace;
 
   .appWindow {
     position: relative;
     height: calc(100vh - 55px);
-    //padding: 10px 0;
     display: flex;
     flex-direction: row;
 
@@ -20,50 +17,56 @@
       height: calc(100vh - 25px);
       top: 5px;
     }
-
   }
-  .mainBox {
+}
+.contextMenu {
+  pointer-events: initial;
+  display: none;
+  position: fixed;
+  width: 165px;
+  z-index: 21;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+
+  background-color: rgba(27, 27, 27, 0.75);
+  border-radius: 5px;
+  border: #80808047 solid 1px;
+  backdrop-filter: blur(3px);
+  color: #e6e6e6;
+
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  hr {
+    background: #80808096;
+    height: 2px;
+  }
+  span {
+    display: block;
+    margin: 5px 0;
+    padding: 0 5px 0 20px;
+    &:hover {
+      background-color: #737373;
+    }
+  }
+  input {
+    margin: 5px 0;
+    padding: 0 10px;
     width: 100%;
-    position: relative;
-    //z-index: 1;
-    //top: 70px;
-    //right: 5px;
-    //width: calc(100% - 465px);
-    //height: calc(100% - 75px);
-    //pointer-events: none;
-
-    transition: all .4s linear 0s;
+    font-size: 16px;
+    background-color: rgba(49, 49, 49, 0.93);
+    backdrop-filter: blur(3px);
+    color: #888888;
   }
-  .mainBox.true {
-    padding-left: 390px;
-    transition: all .4s linear 0s;
-  }
-
-  .loadingApp {
-    display: none;
-  }
-  .loadingApp.true {
-    position: fixed;
-    z-index: 100;
-    width: 100vw;
-    height: 100vh;
+  .save_btn {
+    background-color: #035500;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #232323;
-    font-size: 42px;
-    color: #8e1f1f;
-
-    div {
-      position: relative;
-      bottom: 50px;
-
-      img {
-
-      }
-    }
-    .addHeader {
-      bottom: 105px;
+    padding: 0 20px 0 20px;
+    margin: 0 0 5px 0;
+    &:hover {
+      background-color: #026700;
     }
   }
 }

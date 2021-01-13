@@ -6,7 +6,7 @@ import {Nav} from "../Nav/Nav";
 export const Panel = (props) => {
 
 	return (
-		<div className={`panel ${!props.showPanel}`}>
+		<div className={`Panel ${!props.isShowPanel}`}>
 			<Section />
 			<Nav />
 		</div>

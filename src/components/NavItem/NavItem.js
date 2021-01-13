@@ -2,105 +2,113 @@ import React, {useState, useRef, useEffect} from 'react';
 import './NavItem.css';
 import {connect} from "react-redux";
 import {
-	addBlockInActiveFile,
-	addNavItem, changeActiveFileName,
-	changeIsOpenContextMenu, changeIsOpenItem,
-	changeNameNavItem,
-	changePositionNavItem,
-	closeAllIsOpenContextMenu,
-	deleteNavItem,
+	addActiveFileNameInSectionItemAC,
+
+	addNavItemTHUNK, changeIsOpenContextMenuItemAC, changeIsOpenItem,
+	changeNameNavItemTHUNK,
+	changePositionTHUNK,
+	deleteElementTHUNK,
+
 } from "../../redux/reducers/SectionReducer";
-import {changeIsContextMenu, changePanelShow} from "../../redux/reducers/AppReducer";
-import {getActiveSectionItem} from "../../selectors/NavSelector";
+import {
+	changeActiveFileNameAC,
+	changeIsContextMenuAC,
+	changePanelShow,
+} from "../../redux/reducers/AppReducer";
+import {getActiveSectionItem} from "../../selectors/SectionSelector";
+import {getActiveFileName, getIsContextMenu, getUserId} from "../../selectors/AppSelector";
 
 export const NavItemComponent = (props) => {
 
-	useEffect(()=> {
-		if (props.element.type === 'file' && props.element.isOpen){
-			props.changeActiveFileName(props.element.name);
+	useEffect(() => {
+		if (props.element.type === 'file' && props.element.isOpen) {
+			props.changeActiveFileNameAC(props.element.name);
+			props.addActiveFileNameInSectionItemAC(props.element.name);
 		}
-	},[props.activeFileName]);
+	},[props.element.isOpen]);
 
 	const refContextMenu = useRef(null);
 
-	const [isRenameMode, setIsRenameMode] = useState(false);
-	const [name, setName] = useState(props.element.name);
+	const [isChangeName, setIsChangeName] = useState(false);
+	const [newName, setNewName] = useState('');
 
 	//step
-	let step = [];
+	let steps = [];
 	for (let i = 0; i < props.step; i++) {
-		step.push(<div className='navStep' key={i}> </div>);
+		steps.push(<div className='navStep' key={i}></div>);
 	}
 
 	const showNavItemContextMenu = (e) => {
 		if (!props.isContextMenu && !props.element.isOpenContextMenu) {
-			if (e.clientY <  window.innerHeight - 220){
+			setIsChangeName(false);
+			setNewName('');
+			e.preventDefault();
+			e.stopPropagation();
+			if (e.clientY < window.innerHeight - 220) {
 				if (e.clientX < window.innerWidth - 160) {
-					refContextMenu.current.style = `top: ${e.clientY +2}px; left: ${e.clientX +2}px;`;
-					props.changeIsContextMenu(true);
-					props.changeIsOpenContextMenu(props.element.id, true);
-				}else {
-					refContextMenu.current.style = `top: ${e.clientY +2}px; left: ${e.clientX -162}px;`;
-					props.changeIsContextMenu(true);
-					props.changeIsOpenContextMenu(props.element.id, true);
+					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
+					props.changeIsContextMenuAC(true);
+					props.changeIsOpenContextMenuItemAC(props.element.id, true);
+				} else {
+					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 162}px;`;
+					props.changeIsContextMenuAC(true);
+					props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				}
-			}else {
+			} else {
 				if (e.clientX < window.innerWidth - 160) {
-					refContextMenu.current.style = `top: ${e.clientY -177}px; left: ${e.clientX +2}px;`;
-					props.changeIsContextMenu(true);
-					props.changeIsOpenContextMenu(props.element.id, true);
-				}else {
+					refContextMenu.current.style = `top: ${e.clientY - 117}px; left: ${e.clientX + 2}px;`;
+					props.changeIsContextMenuAC(true);
+					props.changeIsOpenContextMenuItemAC(props.element.id, true);
+				} else {
 					refContextMenu.current.style = `top: ${e.clientY - 177}px; left: ${e.clientX - 162}px;`;
-					props.changeIsContextMenu(true);
-					props.changeIsOpenContextMenu(props.element.id, true);
+					props.changeIsContextMenuAC(true);
+					props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				}
 			}
-			// e.preventDefault();
-			// e.stopPropagation();
 		}
 	};
 
 	const changeName = (e) => {
-		setIsRenameMode(true);
+		setIsChangeName(true);
 		e.preventDefault();
 		e.stopPropagation();
 	};
 
 	const saveChange = () => {
-		props.changeNameNavItem(props.element.id, name, props.userId,props.activeSectionItem);
-		setName('');
-		setIsRenameMode(false);
+		props.changeNameNavItemTHUNK(props.element.id, newName, props.userId);
+		setNewName('');
+		setIsChangeName(false);
 	};
 
 	const changeIsOpenItem = (e) => {
-		if (props.element.type === 'folder') {
-			if (props.element.folderItems.length > 0)
-				props.changeIsOpenItem(props.element.id, props.userId)
-		}
-		if (props.element.type === 'file') {
-			props.changeIsOpenItem(props.element.id, props.userId)
-			if (window.innerWidth < 800){
-				props.changePanelShow();
-			}
+		if (props.element.type === 'folder' && props.element.folderItems.length > 0) {
+			props.changeIsOpenItem(props.element.id,'', props.userId);
+		} else {
+			props.changeIsOpenItem(props.element.id, props.element.name, props.userId);
+			window.innerWidth < 800 ? props.changePanelShow() : false;
 		}
 	};
 
-	const changePositionUp = (e) => {
-		props.changePositionNavItem(props.element.id, "up", props.userId);
-		e.preventDefault();
+	const changePosition = (e) => {
+		e.target.innerHTML === 'Position UP' ?
+			props.changePositionTHUNK(props.element.id, "up", props.userId) :
+			props.changePositionTHUNK(props.element.id, "down", props.userId)
 	};
-	const changePositionDown = (e) => {
-		props.changePositionNavItem(props.element.id, "down", props.userId);
-		e.preventDefault();
+
+	const deleteNavItem = () => {
+		if (confirm(`вы уверены что хотите удалить ${props.element.type === 'folder' ? 'папку' : 'файл'}?`)) {
+			props.deleteElementTHUNK(props.element.id, 'element', props.userId);
+		}
 	};
 
 	return (
 		<div className={`NavItem ${props.element.isOpenContextMenu}`}>
-			<div className={`navElement ${props.element.isOpen && "active"}`} onClick={changeIsOpenItem} onContextMenu={showNavItemContextMenu}>
+			<div className={`navElement ${props.element.isOpen && "active"}`} onClick={changeIsOpenItem}
+					 onContextMenu={showNavItemContextMenu}>
 				{props.element.type === "folder" &&
 				<div
 					className={`folder ${!props.element.folderItems.length > 0 && 'emptyFolder'}`}>
-					{step}
+					{steps}
 					<svg className={`folderImg`}
 							 viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
 						<path
@@ -110,7 +118,7 @@ export const NavItemComponent = (props) => {
 				</div>}
 				{props.element.type === "file" &&
 				<div className={`file`}>
-					{step}
+					{steps}
 					<svg className='fileImg' viewBox="0 0 17 19" xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M14.5208 4.75H10.9792C10.7837 4.75 10.625 4.57188 10.625 4.35415V0.395846C10.625 0.177346 10.4663 0 10.2708 0H3.1875C2.6017 0 2.125 0.532779 2.125 1.1875V17.8125C2.125 18.4672 2.6017 19 3.1875 19H13.8125C14.3983 19 14.875 18.4672 14.875 17.8125V5.14585C14.875 4.92735 14.7163 4.75 14.5208 4.75ZM14.1667 17.8125C14.1667 18.0302 14.008 18.2083 13.8125 18.2083H3.1875C2.992 18.2083 2.83332 18.0302 2.83332 17.8125V1.1875C2.83332 0.969779 2.992 0.791654 3.1875 0.791654H9.91668V4.35415C9.91668 5.00887 10.3934 5.54165 10.9792 5.54165H14.1667V17.8125Z"/>
@@ -122,85 +130,55 @@ export const NavItemComponent = (props) => {
 			</div>
 
 			{props.element.type === 'folder' && props.element.isOpen &&
-			props.element.folderItems.map(el=><NavItem step={props.step + 1} key={el.id} element={el}/>)
+			props.element.folderItems.map(el => <NavItem step={props.step + 1} key={el.id} element={el}/>)
 			}
 
 			{/*contextMenu*/}
-				{props.element.type === 'folder'
-					?
-					<div ref={refContextMenu} className="menuNavItem"
-							 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
-						{ props.step < 7 &&
-						<span onClick={() => {
-							props.addNavItem('folder',props.element.id,props.userId)
-						}}> + new Folder </span>
-						}
-						<span onClick={() => {
-							props.addNavItem('file',props.element.id,props.userId)
-						}}> + new File </span>
-						<hr style={{background: 'grey', height: "1px"}}/>
-						{!isRenameMode
-							? <div><span className="menuItem" onClick={changeName}> Change Name </span>
+			<div ref={refContextMenu} className="contextMenu"
+					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
+				{props.step < 7 && props.element.type === 'folder' &&
+				<div>
+				<span onClick={() => props.addNavItemTHUNK('folder', props.element.id, props.userId)}>
+					New Folder </span>
 
-							</div>
-							: <div><input type="text" onClick={changeName} placeholder='new Name'
-														onChange={(e) => setName(e.currentTarget.value)}
-														value={name}/>
-								<span className="menuItem save_btn" onClick={saveChange}>Save</span>
-							</div>
-						}
-						<hr style={{background: 'grey', height: "1px"}}/>
-						<span onClick={changePositionUp}>position UP</span>
-						<span onClick={changePositionDown}>position DOWN</span>
-						<hr style={{background: 'grey', height: "1px"}}/>
-						<span onClick={() => {props.deleteNavItem(props.element.id,props.userId)
-						}}>Удалить</span>
-					</div>
-					:
-					<div ref={refContextMenu} className="menuNavItem"
-							 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
-						{!isRenameMode
-							? <div><span className="menuItem" onClick={changeName}> Change Name </span></div>
-							: <div><input type="text" onClick={changeName} placeholder='new Name'
-														onChange={(e) => setName(e.currentTarget.value)}
-														value={name}/>
-								<span className="menuItem save_btn" onClick={saveChange}>Save</span>
-							</div>
-						}
-						<hr style={{background: 'grey', height: "1px"}}/>
-						<span onClick={changePositionUp}>position UP</span>
-						<span onClick={changePositionDown}>position DOWN</span>
-						<hr style={{background: 'grey', height: "1px"}}/>
-						<span onClick={() => {props.deleteNavItem(props.element.id,props.userId)}}>Удалить</span>
+					<span onClick={() => props.addNavItemTHUNK('file', props.element.id, props.userId)}>
+					New File </span>
+					<hr/>
+				</div>
+				}
+				{!isChangeName ? <div><span className="menuItem" onClick={changeName}> Change Name </span></div>
+					: <div><input type="text" maxLength={24} onClick={changeName} placeholder='new Name'
+												onChange={(e) => setNewName(e.currentTarget.value)} value={newName}/>
+						<span className="menuItem save_btn" onClick={saveChange}>Save</span>
+						<hr/>
 					</div>
 				}
+				<hr/>
+				<span onClick={changePosition}>Position UP</span>
+				<span onClick={changePosition}>Position DOWN</span>
+				<hr/>
+				<span onClick={deleteNavItem}>Удалить</span>
+			</div>
 		</div>
 	);
 };
 
 export const NavItem = connect(
-	(state) => {
-		return {
-			isMenuNavItem: state.section.isMenuNavItem,
-			isOpenMenu: state.app.isOpenMenu,
-			userId: state.app.userId,
-			activeSectionItem: getActiveSectionItem(state.section),
-			activeFileName: state.section.activeFileName,
-		}
-	},
-	{
-		changeIsContextMenu,
-		changeIsOpenContextMenu,
-		addNavItem,
+	(state) => ({
+		isContextMenu: getIsContextMenu(state),
+		userId: getUserId(state),
+		activeSectionItem: getActiveSectionItem(state),
+		activeFileName: getActiveFileName(state),
+	}), {
+		changeIsOpenContextMenuItemAC,
+		changeIsContextMenuAC,
+		addNavItemTHUNK,
 		changeIsOpenItem,
-		deleteNavItem,
-		changeActiveFileName,
-
-		closeAllIsOpenContextMenu,
-		changeNameNavItem,
-		changePositionNavItem,
-		addBlockInActiveFile,
-
+		deleteElementTHUNK,
+		changeActiveFileNameAC,
+		changeNameNavItemTHUNK,
+		changePositionTHUNK,
 		changePanelShow,
+		addActiveFileNameInSectionItemAC,
 	}
 )(NavItemComponent);
