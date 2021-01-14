@@ -3,6 +3,7 @@
   padding: 5px 0 5px;
   width: calc(100% - 10px);
   min-height: 30px;
+  overflow-x: hidden;
   background: #1F1F1F;
   border: 1px solid #333333;
   font-family: Monaco, sans-serif;

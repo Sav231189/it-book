@@ -1,23 +1,25 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {closeAllContextMenuTHUNK, getAuthTHUNK} from "../../redux/reducers/AppReducer";
 import {Header} from "../header/Header";
 import {Panel} from "../panel/Panel";
 import {Main} from "../Main/Main";
 import {Start} from "../Start/Start";
-import './App.css';
-import {getIsAuth, getIsContextMenu,	getIsShowPanel} from "../../selectors/AppSelector";
 import {Loading} from "../Loading/Loading";
-
-
+import {getIsAuth, getIsContextMenu, getIsShowPanel} from "../../selectors/AppSelector";
+import {closeAllContextMenuTHUNK, getAuthTHUNK} from "../../redux/reducers/AppReducer";
+import './App.css';
+import {Message} from "../Message/Message";
 
 function AppComponent(props) {
+
+
 
 	useEffect(props.getAuthTHUNK, []);
 
 	return (
 		<div className="app">
 			<Loading/>
+			<Message/>
 			{!props.isAuth ?
 				<Start/>
 				:

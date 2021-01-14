@@ -39,14 +39,15 @@
   bottom: auto;
 }
 .Header .menuName {
-  height: 30px;
+  overflow: hidden;
   text-align: center;
   background-color: rgba(190, 190, 190, 0.75);
   color: rgba(0, 29, 7, 0.79);
-  padding: 5px 15px;
+  padding: 5px 5px 2px;
   border-radius: 5px 5px 0 0;
   font-family: Aladin, sans-serif;
   letter-spacing: 2px;
+  font-size: 20px;
 }
 
 /*# sourceMappingURL=Header.css.map */

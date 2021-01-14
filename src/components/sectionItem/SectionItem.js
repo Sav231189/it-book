@@ -2,14 +2,11 @@ import React, {useState, useRef} from 'react';
 import './SectionItem.css'
 import logoSection from '../../img/logo.png';
 import {connect} from "react-redux";
-import {
-	activateSectionItemTHUNK, changeIsOpenContextMenuItemAC,
-	changePositionSectionItem, changePositionTHUNK, changeSectionItem, deleteElementTHUNK, deleteSectionItem
+import {activateSectionItemTHUNK, changeIsOpenContextMenuItemAC,
+	changePositionTHUNK, changeSectionItem, deleteElementTHUNK
 } from "../../redux/reducers/SectionReducer";
 import loadingSectionItem from '../../img/giphy.gif'
-import {
-	changeIsContextMenuAC,
-} from "../../redux/reducers/AppReducer";
+import {changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
 import {getIsContextMenu, getUserId} from "../../selectors/AppSelector";
 
 export function SectionItemComponent(props) {
@@ -33,12 +30,12 @@ export function SectionItemComponent(props) {
 			e.stopPropagation();
 			if (e.clientY < window.innerHeight - 210) {
 				refContextMenu.current.style = `top: ${e.clientY + 10}px; left: ${e.clientX + 10}px;`;
-				props.changeIsContextMenuAC(true);
+				props.changeIsContextMenuAC('isContextMenu',true);
 				props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				props.activateSectionItemTHUNK(props.element.id, props.userId);
 			} else {
 				refContextMenu.current.style = `top: ${e.clientY - 160}px; left: ${e.clientX}px;`;
-				props.changeIsContextMenuAC(true);
+				props.changeIsContextMenuAC('isContextMenu',true);
 				props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				props.activateSectionItemTHUNK(props.element.id, props.userId);
 			}

@@ -12,6 +12,35 @@
   color: #474747;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.63);
 }
+@keyframes logoAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  5% {
+    transform: rotate(90deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  30% {
+    transform: rotate(180deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  55% {
+    transform: rotate(270deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  80% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .Start .logo {
   position: absolute;
   left: 20px;
@@ -19,6 +48,11 @@
   width: 100px;
   height: 100px;
   cursor: pointer;
+  animation: logoAnimation 8s linear 0s infinite;
+  animation-play-state: running;
+}
+.Start .logo:hover {
+  animation-play-state: paused;
 }
 .Start .logo img {
   width: 100%;
@@ -27,6 +61,14 @@
   .Start .logo {
     width: 50px;
     height: 50px;
+  }
+}
+@keyframes titleAnimation {
+  0% {
+    text-shadow: 4px 2px 4px rgba(149, 149, 149, 0.94);
+  }
+  100% {
+    text-shadow: 4px 2px 4px rgba(255, 255, 255, 0.94);
   }
 }
 .Start .title {
@@ -38,6 +80,7 @@
   font-size: 228px;
   color: #808080;
   text-shadow: 4px 2px 4px rgba(210, 210, 210, 0.94);
+  animation: titleAnimation 0.6s linear 0s infinite alternate;
 }
 @media (max-width: 1000px) {
   .Start .title {
@@ -69,6 +112,15 @@
   box-shadow: 2px 2px 10px 4px rgba(98, 98, 98, 0.56);
   border-radius: 7px;
   cursor: pointer;
+}
+.Start .demo-btn:hover {
+  background: #39799c;
+}
+.Start .demo-btn:active {
+  background: #12222e;
+}
+.Start .demo-btn::selection {
+  background: transparent;
 }
 @media (max-width: 1000px) {
   .Start .demo-btn {
@@ -114,11 +166,35 @@
   border-radius: 5px;
   cursor: pointer;
 }
+.Start .auth-block .login-btn:hover {
+  background: #ad5d5d;
+  box-shadow: 1px -1px 3px 1px rgba(130, 130, 130, 0.42);
+}
+.Start .auth-block .login-btn:active {
+  transition: all 0.1s ease-in 0s;
+  background: #5c2626;
+  transform: scale(0.98);
+}
+.Start .auth-block .login-btn::selection {
+  background: transparent;
+}
 .Start .auth-block .registration-btn {
   padding: 10px 30px;
   background: #B66262;
   border-radius: 5px;
   cursor: pointer;
+}
+.Start .auth-block .registration-btn:hover {
+  background: #ad5d5d;
+  box-shadow: 1px -1px 3px 1px rgba(130, 130, 130, 0.42);
+}
+.Start .auth-block .registration-btn:active {
+  transition: all 0.1s ease-in 0s;
+  background: #5c2626;
+  transform: scale(0.98);
+}
+.Start .auth-block .registration-btn::selection {
+  background: transparent;
 }
 .Start .isLogin {
   justify-self: center;
@@ -134,7 +210,7 @@
   border-radius: 5px;
   color: #353535;
 }
-.Start .isLogin span {
+.Start .isLogin button {
   display: inline-block;
   text-align: center;
   width: 100%;
@@ -146,11 +222,35 @@
   color: #242424;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.42);
 }
+.Start .isLogin button:hover {
+  background: #ad5d5d;
+  box-shadow: 1px -1px 3px 1px rgba(130, 130, 130, 0.42);
+}
+.Start .isLogin button:active {
+  transition: all 0.1s ease-in 0s;
+  background: #5c2626;
+  transform: scale(0.98);
+}
+.Start .isLogin button::selection {
+  background: transparent;
+}
 .Start .isLogin .resetPassword_btn {
   font-size: 13px;
   background-color: transparent;
   color: grey;
   border: grey solid 1px;
+}
+.Start .isLogin .resetPassword_btn:hover {
+  background-color: rgba(91, 91, 91, 0.29);
+  box-shadow: 1px -1px 3px 1px rgba(130, 130, 130, 0.42);
+}
+.Start .isLogin .resetPassword_btn:active {
+  transition: all 0.1s ease-in 0s;
+  background: #5c2626;
+  transform: scale(0.98);
+}
+.Start .isLogin .resetPassword_btn::selection {
+  background: transparent;
 }
 
 /*# sourceMappingURL=Start.css.map */

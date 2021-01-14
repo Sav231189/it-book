@@ -1,0 +1,64 @@
+@keyframes showMessage {
+  0% {
+    right: -100%;
+  }
+  5% {
+    right: 0;
+  }
+  95% {
+    right: 0;
+  }
+  100% {
+    right: -100%;
+  }
+}
+.Message {
+  position: fixed;
+  top: 10px;
+  right: 0;
+  z-index: 20;
+  width: 330px;
+  height: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.Message .messageItem {
+  margin-top: 5px;
+  position: relative;
+  right: -100%;
+  padding: 5px;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: center;
+  border-radius: 5px 0 0 5px;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  animation: showMessage 8s ease-out 0s;
+}
+.Message .messageItem .imgMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: rgba(99, 99, 99, 0.35);
+}
+.Message .messageItem .imgMessage img {
+  padding: 5px;
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  filter: brightness(85%);
+}
+.Message .messageItem span {
+  padding: 3px 0 3px 8px;
+  color: #adadad;
+  font-size: 15px;
+}
+.Message .messageItem.success {
+  background-color: rgba(6, 88, 18, 0.6);
+}
+.Message .messageItem.error {
+  background-color: rgba(105, 0, 2, 0.44);
+}
+
+/*# sourceMappingURL=Message.css.map */

@@ -25,7 +25,7 @@ export async function updateSectionItemDAL (activeSection,userId) {
 	.doc(activeSection.id.toString()).set({folderItems: activeSection.folderItems}).then(()=>{
 		return '1';
 	}).catch((err)=>{
-		console.log(err.message)
+		throw err;
 	});
 }
 export async function getSectionItemDAL (userId) {
@@ -34,8 +34,6 @@ export async function getSectionItemDAL (userId) {
 	.doc("sectionItems").get().then(function(doc) {
 		if (doc.exists) {
 			return  doc.data();
-		} else {
-			console.log("No such document!");
 		}
 	}).catch(function(error) {
 		console.log("Error getting document:", error);
@@ -57,7 +55,7 @@ export async function setNavInSectionDAL (sectionItems,userId) {
 	.then(()=>{
 		return 'success setNavItem';
 	}).catch((err)=>{
-		console.log(err.message)
+		throw err;
 	});
 }
 export async function getActiveNavItemsDAL (id = 0,userId) {
@@ -69,7 +67,6 @@ export async function getActiveNavItemsDAL (id = 0,userId) {
 			if (doc.exists) {
 				return  doc.data();
 			} else {
-				console.log("No such document!");
 			}
 		}).catch(function(error) {
 			console.log("Error getting document:", error);

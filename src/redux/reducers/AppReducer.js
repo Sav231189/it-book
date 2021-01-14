@@ -13,7 +13,7 @@ const initialState = {
 	userId: "",
 	isShowPanel: true,
 	isLoading: true,
-	activeFileName: '',
+	messages: [],
 };
 
 export const AppReducer = (state = initialState, action) => {
@@ -21,23 +21,7 @@ export const AppReducer = (state = initialState, action) => {
 	switch (action.type) {
 
 		case 'CHANGE_IS_CONTEXT_MENU': {
-			stateCopy.isContextMenu = action.isContextMenu;
-			return stateCopy;
-		}
-		case 'CHANGE_IS_CONTEXT_MENU_SECTION': {
-			stateCopy.isContextMenuSection = action.isContextMenuSection;
-			return stateCopy;
-		}
-		case 'CHANGE_IS_CONTEXT_MENU_NAV': {
-			stateCopy.isContextMenuNav = action.isContextMenuNav;
-			return stateCopy;
-		}
-		case 'CHANGE_IS_CONTEXT_MENU_MAIN': {
-			stateCopy.isContextMenuMain = action.isContextMenuMain;
-			return stateCopy;
-		}
-		case 'CHANGE_IS_CONTEXT_MENU_LK': {
-			stateCopy.isContextMenuLK = action.isContextMenuLK;
+			stateCopy[action.TypeContextMenu] = action.isFlag;
 			return stateCopy;
 		}
 		case 'CLOSE_ALL_CONTEXT_MENU': {
@@ -46,15 +30,12 @@ export const AppReducer = (state = initialState, action) => {
 			stateCopy.isContextMenuNav = false;
 			stateCopy.isContextMenuMain = false;
 			stateCopy.isContextMenuLK = false;
+
 			return stateCopy;
 		}
 
 		case 'IS_AUTH': {
 			stateCopy.isAuth = action.isLogin;
-			return stateCopy
-		}
-		case 'IS_INITIALIZE': {
-			stateCopy.isInitialize = action.isInitialize;
 			return stateCopy
 		}
 		case 'CHANGE_NAME': {
@@ -68,56 +49,31 @@ export const AppReducer = (state = initialState, action) => {
 
 		case 'CHANGE_PANEL_SHOW': {
 			stateCopy.isShowPanel = !stateCopy.isShowPanel;
-			return stateCopy;
+			return stateCopy
 		}
 		case 'CHANGE_IS_LOADING': {
 			stateCopy.isLoading = action.isLoading;
 			return stateCopy;
 		}
-
-		case 'CHANGE_ACTIVE_FILE_NAME': {
-			stateCopy.activeFileName = action.name;
+		case 'ADD_MESSAGE': {
+			stateCopy.messages.push({
+				typeMessage: action.typeMessage,
+				textMessage: action.textMessage,
+			});
 			return stateCopy;
 		}
+
 		default :
 			return state;
 	}
 };
 
-//AC CHANGE_OPEN_CONTEXT_MENU:
-export const changeIsContextMenuAC = (isContextMenu) => {
+//AC CHANGE_IS_CONTEXT_MENU:
+export const changeIsContextMenuAC = (TypeContextMenu, isFlag) => {
 	return {
 		type: 'CHANGE_IS_CONTEXT_MENU',
-		isContextMenu: isContextMenu,
-
-	}
-};
-//AC CHANGE_IS_SECTION_CONTEXT_MENU:
-export const changeIsContextMenuSectionAC = (isContextMenuSection) => {
-	return {
-		type: 'CHANGE_IS_CONTEXT_MENU_SECTION',
-		isContextMenuSection: isContextMenuSection,
-	}
-};
-//AC CHANGE_IS_NAV_CONTEXT_MENU:
-export const changeIsContextMenuNavAC = (isContextMenuNav) => {
-	return {
-		type: 'CHANGE_IS_CONTEXT_MENU_NAV',
-		isContextMenuNav: isContextMenuNav,
-	}
-};
-//AC CHANGE_IS_CONTEXT_MENU_MAIN:
-export const changeIsContextMenuMainAC = (isContextMenuMain) => {
-	return {
-		type: 'CHANGE_IS_CONTEXT_MENU_MAIN',
-		isContextMenuMain: isContextMenuMain,
-	}
-};
-//AC CHANGE_IS_CONTEXT_MENU_LK:
-export const changeIsContextMenuLK = (isContextMenuLK) => {
-	return {
-		type: 'CHANGE_IS_CONTEXT_MENU_LK',
-		isContextMenuLK: isContextMenuLK,
+		TypeContextMenu: TypeContextMenu,
+		isFlag: isFlag,
 	}
 };
 //AC CLOSE_ALL_CONTEXT_MENU:
@@ -134,113 +90,133 @@ export const closeAllContextMenuTHUNK = () => {
 	}
 };
 
-//IS_LOGIN AC
-export const isLogin = (isLogin) => {
+//AC IS_LOGIN
+export const isLoginAC = (isLogin) => {
 	return {
 		type: 'IS_AUTH',
 		isLogin: isLogin,
 	}
 };
-//IS_INITIALIZE AC
-export const changeIsInitializeAC = (isInitialize) => {
-	return {
-		type: 'IS_INITIALIZE',
-		isInitialize: isInitialize,
-	}
-};
-//CHANGE_NAME AC
-export const changeName = (userName) => {
+//AC CHANGE_NAME
+export const changeNameAC = (userName) => {
 	return {
 		type: 'CHANGE_NAME',
 		userName: userName,
 	}
 };
-//ADD_USER_ID
-export const addUserId = (id) => {
+//AC ADD_USER_ID
+export const addUserIdAC = (id) => {
 	return {
 		type: 'ADD_USER_ID',
 		id: id,
 	}
 };
 
-//THUNK registration
-export const registration = (email, password) => {
+//THUNK registrationTHUNK
+export const registrationTHUNK = (email, password) => {
 	return (dispatch) => {
-		firebase.auth().createUserWithEmailAndPassword(email, password).then(() => {
-			dispatch(isLogin(true));
-			dispatch(changeName(email.slice(0,email.indexOf('@'))));
+		firebase.auth().createUserWithEmailAndPassword(email, password).then((data) => {
+			dispatch(isLoginAC(true));
+			dispatch(changeNameAC(data.user.displayName ? data.user.displayName : 'new User'));
+			dispatch(addMessageAC('success', `Успешная регистрация на платформе IT-BooK`));
 		})
 		.catch((error) => {
-			console.log(error.message)
+			dispatch(addMessageAC('error', error.code === "auth/invalid-email" ? "Не верный формат e-mail" : error.message));
 		})
 	}
 };
-//THUNK checkLogin
-export const checkLogin = (email,password) => {
+//THUNK checkLoginTHUNK
+export const checkLoginTHUNK = (email, password) => {
 	return (dispatch) => {
 		firebase.auth().signInWithEmailAndPassword(email, password)
 		.then((user) => {
 			if (user) {
 				dispatch(changeIsLoadingAC(true));
-				dispatch(isLogin(true));
-				dispatch(changeName(email.slice(0,email.indexOf('@'))));
+				dispatch(isLoginAC(true));
 			}
 		})
-		.catch((err) => {
-			dispatch(isLogin(false));
-			console.log("ERROR LOGINED",err)
+		.catch((error) => {
+			dispatch(isLoginAC(false));
+			dispatch(addMessageAC('error', error.message));
 		})
 	}
 };
 //THUNK getAuth
 export const getAuthTHUNK = () => {
-	return (dispatch)=>{
+	return (dispatch) => {
 		dispatch(changeIsLoadingAC(true));
-			firebase.auth().onAuthStateChanged(user => {
+		firebase.auth().onAuthStateChanged(user => {
 			if (user) {
-				dispatch(isLogin(true));
-				dispatch(addUserId(user.uid));
-				dispatch(changeName(user.email.slice(0,user.email.indexOf('@'))));
-			}else {
+				dispatch(changeNameAC(user.displayName ? user.displayName : 'new User'));
+				dispatch(isLoginAC(true));
+				dispatch(addUserIdAC(user.uid));
+				dispatch(addMessageAC('success', `Здравствуйте ${user.displayName ? user.displayName : 'new User'}!`));
+			} else {
 				dispatch(changeIsLoadingAC(false));
 			}
 		});
-
 	}
 };
-//THUNK  updatePassword
-export const updatePassword = (newPassword) => {
+//THUNK  updateUserNameTHUNK
+export const updateUserNameTHUNK = (newName) => {
+	return (dispatch) => {
+		firebase.auth().currentUser.updateProfile({
+			displayName: newName,
+		}).then(function () {
+			dispatch(changeNameAC(newName));
+			dispatch(addMessageAC('success', `Успешное изменение имени.`));
+		}).catch(function (error) {
+			dispatch(addMessageAC('error', `${error.message}`));
+		});
+	}
+};
+//THUNK  updatePasswordTHUNK
+export const updatePasswordTHUNK = (newPassword) => {
 	return (dispatch) => {
 		firebase.auth().currentUser.updatePassword(newPassword).then(function () {
-			console.log('success')
+			dispatch(addMessageAC('success', `Пароль успешно изменен.`));
 		}).catch(function (error) {
-			console.log('No success')
+			switch (error.code) {
+				case "auth/weak-password":{
+					dispatch(addMessageAC('error', `Пароль должен состоять из 6 или более символов.`));
+					break
+				}
+				case "auth/requires-recent-login":{
+					dispatch(addMessageAC('error', `Учетные данные пользователя больше не действительны. Пользователь должен войти снова.`));
+					break
+				}
+				default: {
+					dispatch(addMessageAC('error', `Ошибка изменения пароля. \n \n ${error.message}`));
+					break
+				}
+			}
 		});
 	}
 };
-//THUNK  outLogin
-export const outLogin = () => {
+//THUNK  outLoginTHUNK
+export const outLoginTHUNK = () => {
 	return (dispatch) => {
 		firebase.auth().signOut().then(() => {
-			dispatch(isLogin(false));
+			dispatch(isLoginAC(false));
+			dispatch(addMessageAC('success', `Успешный выход.`));
 		}).catch((error) => {
-			console.log("ERROR OUT AUTH")
+			dispatch(addMessageAC('error', `${error.message}`));
 		});
 	}
 };
-//THUNK  sendPasswordResetEmail
-export const sendPasswordResetEmail = (email) => {
+//THUNK  sendPasswordResetEmailTHUNK
+export const sendPasswordResetEmailTHUNK = (email) => {
 	return (dispatch) => {
-		firebase.auth().sendPasswordResetEmail(email).then(function() {
-			// Email sent.
-		}).catch(function(error) {
-			// An error happened.
+		firebase.auth().sendPasswordResetEmail(email).then(function () {
+			dispatch(addMessageAC('success', `Новый пароль отправлен, проверте почту.`));
+		}).catch(function (error) {
+			dispatch(addMessageAC('error', `Произошла ошибка, \n\n ${error.message}.`));
 		});
 	}
 };
 
 //AC CHANGE_PANEL_SHOW:
-export const changePanelShow = () => {
+export const changePanelShowAC = () => {
 	return {
 		type: 'CHANGE_PANEL_SHOW',
 	}
@@ -252,12 +228,12 @@ export const changeIsLoadingAC = (isLoading) => {
 		isLoading: isLoading,
 	}
 };
-
-//AC CHANGE_ACTIVE_FILE_NAME:
-export const changeActiveFileNameAC = (name) => {
+//AC ADD_MESSAGE:
+export const addMessageAC = (typeMessage, textMessage) => {
 	return {
-		type: 'CHANGE_ACTIVE_FILE_NAME',
-		name: name,
+		type: 'ADD_MESSAGE',
+		typeMessage: typeMessage,
+		textMessage: textMessage,
 	}
 };
 

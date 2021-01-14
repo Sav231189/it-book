@@ -1,8 +1,7 @@
 import React, {useRef, useEffect} from 'react';
 import {connect} from "react-redux";
 import {SectionItem} from "../sectionItem/SectionItem";
-import {changeIsContextMenuAC, changeIsContextMenuSectionAC
-} from "../../redux/reducers/AppReducer";
+import {changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
 import {addSectionItemTHUNK, getDataTHUNK} from "../../redux/reducers/SectionReducer";
 import './Section.css'
 import {getIsContextMenu, getIsContextMenuSection, getUserId} from "../../selectors/AppSelector";
@@ -20,12 +19,12 @@ export function SectionComponent(props) {
 			e.stopPropagation();
 			if (e.clientY < window.innerHeight - 60) {
 				refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
-				props.changeIsContextMenuAC(true);
-				props.changeIsContextMenuSectionAC(true);
+				props.changeIsContextMenuAC('isContextMenu',true);
+				props.changeIsContextMenuAC('isContextMenuSection',true);
 			} else {
 				refContextMenu.current.style = `top: ${e.clientY - 37}px; left: ${e.clientX + 2}px;`;
-				props.changeIsContextMenuAC(true);
-				props.changeIsContextMenuSectionAC(true);
+				props.changeIsContextMenuAC('isContextMenu',true);
+				props.changeIsContextMenuAC('isContextMenuSection',true);
 			}
 		}
 	};
@@ -63,7 +62,6 @@ export const Section = connect(
 		userId: getUserId(state),
 	}), {
 		changeIsContextMenuAC,
-		changeIsContextMenuSectionAC,
 		addSectionItemTHUNK,
 		getDataTHUNK,
 	})(SectionComponent);

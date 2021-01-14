@@ -29,21 +29,21 @@ export function BlockComponent(props) {
 			if (e.clientY < window.innerHeight - 240) {
 				if (e.clientX < window.innerWidth - 180) {
 					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenuAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
 					props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				} else {
 					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 188}px;`;
-					props.changeIsContextMenuAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
 					props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				}
 			} else {
 				if (e.clientX < window.innerWidth - 180) {
 					refContextMenu.current.style = `top: ${e.clientY - 246}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenuAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
 					props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				} else {
 					refContextMenu.current.style = `top: ${e.clientY - 248}px; left: ${e.clientX - 188}px;`;
-					props.changeIsContextMenuAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
 					props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				}
 			}

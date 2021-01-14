@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import './Start.css';
 import logo from '../../img/logo_start.png';
 import {connect} from "react-redux";
-import {
-	checkLogin, outLogin, registration, sendPasswordResetEmail, updatePassword
+import {checkLoginTHUNK, registrationTHUNK, sendPasswordResetEmailTHUNK
 } from "../../redux/reducers/AppReducer";
+import './Start.css';
 
 export function StartComponent(props) {
+
 	let [isLogin, setIsLogin] = useState(false);
 	let [isRegistration, setIsRegistration] = useState(false);
 	let [isResetPassword, setIsResetPassword] = useState(false);
@@ -15,23 +15,24 @@ export function StartComponent(props) {
 	let [password, setPassword] = useState('');
 
 	const checkLogin = (e)=> {
-		props.checkLogin(email,password);
+		props.checkLoginTHUNK(email,password);
 		setEmail('');
 		setPassword('');
 	};
 	const registration = (e)=> {
-		props.registration(email,password);
+		props.registrationTHUNK(email,password);
 		setEmail('');
 		setPassword('');
 	};
 	const sendPasswordResetEmail = (e)=> {
-		props.sendPasswordResetEmail(email);
+		props.sendPasswordResetEmailTHUNK(email);
 		setEmail('');
 		setPassword('');
 		setIsLogin(false);
 		setIsRegistration(false);
 		setIsResetPassword(false);
 	};
+
 	return (
 		<div className="Start">
 			<div className='logo' onClick={()=>{
@@ -49,27 +50,32 @@ export function StartComponent(props) {
 			}
 			{isLogin &&
 				<div className='isLogin'>
-					<input type="text" placeholder='Login' onChange={(e)=>setEmail(e.currentTarget.value)} value={email}/>
+					<form onSubmit={e=>e.preventDefault()} action="#">
+					<input type="text" placeholder='E-mail' onChange={(e)=>setEmail(e.currentTarget.value)} value={email}/>
 					<br/>
 					{ !isResetPassword
 						? <div><input type="password" placeholder='Password' onChange={(e)=>setPassword(e.currentTarget.value)} value={password}/>
 						<br/>
-						<span onClick={checkLogin}>Login</span>
-						<span className='resetPassword_btn' onClick={()=>setIsResetPassword(true)}>send password reset email</span>
+						<button onClick={checkLogin}>Login</button>
+						<button className='resetPassword_btn' onClick={()=>setIsResetPassword(true)}>send password reset email</button>
 						</div>
-						: <span onClick={sendPasswordResetEmail}>Send Password</span>
+						: <button onClick={sendPasswordResetEmail}>Send Password</button>
 					}
-
+					</form>
 				</div>
 			}
 			{isRegistration &&
+
 				<div className='isLogin'>
-					<input type="text" placeholder='Login' onChange={(e)=>setEmail(e.currentTarget.value)} value={email}/>
+					<form onSubmit={e=>e.preventDefault()} action="#">
+					<input type="text" placeholder='E-mail' onChange={(e)=>setEmail(e.currentTarget.value)} value={email}/>
 					<br/>
 					<input type="password" placeholder='Password' onChange={(e)=>setPassword(e.currentTarget.value)} value={password}/>
 					<br/>
-					<span onClick={registration}>Registration</span>
+					<button onClick={registration}>Registration</button>
+					</form>
 				</div>
+
 			}
 			<div className='auth-block'>
 				<div className='login-btn' onClick={() => {
@@ -89,13 +95,8 @@ export function StartComponent(props) {
 	);
 }
 
-const mstp = (state) => {
-	return {
-	}
-};
-
-export const Start = connect(mstp, {
-	checkLogin,
-	sendPasswordResetEmail,
-	registration,
+export const Start = connect(()=>({}), {
+	checkLoginTHUNK,
+	sendPasswordResetEmailTHUNK,
+	registrationTHUNK,
 })(StartComponent);

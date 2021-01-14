@@ -23,6 +23,7 @@ nav, header, main, footer, aside {
 }
 
 html, body, #root {
+  background-color: rgba(27, 27, 27, 0.75);
   height: 100vh;
   width: 100vw;
   font-size: 16px;

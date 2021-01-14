@@ -1,8 +1,8 @@
 import React, {useState, useRef, useEffect} from 'react';
 import './Nav.css';
 import {connect} from "react-redux";
-import {addNavItem, addNavItemTHUNK} from "../../redux/reducers/SectionReducer";
-import {changeIsContextMenuAC, changeIsContextMenuNav, changeIsContextMenuNavAC} from "../../redux/reducers/AppReducer";
+import {addNavItemTHUNK} from "../../redux/reducers/SectionReducer";
+import {changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
 import {getActiveSectionItem} from "../../selectors/SectionSelector";
 import {NavItem} from "../NavItem/NavItem";
 import arrow_left from "../../img/arrow_left.png";
@@ -19,22 +19,22 @@ export function NavContainer(props) {
 			if (e.clientY < window.innerHeight - 80) {
 				if (e.clientX < window.innerWidth - 160) {
 					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenuAC(true);
-					props.changeIsContextMenuNavAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
+					props.changeIsContextMenuAC('isContextMenuNav',true);
 				} else {
 					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 162}px;`;
-					props.changeIsContextMenuAC(true);
-					props.changeIsContextMenuNavAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
+					props.changeIsContextMenuAC('isContextMenuNav',true);
 				}
 			} else {
 				if (e.clientX < window.innerWidth - 160) {
 					refContextMenu.current.style = `top: ${e.clientY - 67}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenuAC(true);
-					props.changeIsContextMenuNavAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
+					props.changeIsContextMenuAC('isContextMenuNav',true);
 				} else {
 					refContextMenu.current.style = `top: ${e.clientY - 67}px; left: ${e.clientX - 162}px;`;
-					props.changeIsContextMenuAC(true);
-					props.changeIsContextMenuNavAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
+					props.changeIsContextMenuAC('isContextMenuNav',true);
 				}
 			}
 		}
@@ -86,6 +86,5 @@ export const Nav = connect(
 		activeSectionItem: getActiveSectionItem(state),
 	}), {
 	changeIsContextMenuAC,
-	changeIsContextMenuNavAC,
 	addNavItemTHUNK,
 })(NavContainer);

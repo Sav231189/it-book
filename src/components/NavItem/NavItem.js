@@ -2,30 +2,15 @@ import React, {useState, useRef, useEffect} from 'react';
 import './NavItem.css';
 import {connect} from "react-redux";
 import {
-	addActiveFileNameInSectionItemAC,
-
-	addNavItemTHUNK, changeIsOpenContextMenuItemAC, changeIsOpenItem,
-	changeNameNavItemTHUNK,
-	changePositionTHUNK,
-	deleteElementTHUNK,
-
+	addNavItemTHUNK, changeIsOpenContextMenuItemAC,
+	changeIsOpenItemTHUNK, changeNameNavItemTHUNK,
+	changePositionTHUNK, deleteElementTHUNK,
 } from "../../redux/reducers/SectionReducer";
-import {
-	changeActiveFileNameAC,
-	changeIsContextMenuAC,
-	changePanelShow,
-} from "../../redux/reducers/AppReducer";
+import {changeIsContextMenuAC, changePanelShowAC} from "../../redux/reducers/AppReducer";
 import {getActiveSectionItem} from "../../selectors/SectionSelector";
-import {getActiveFileName, getIsContextMenu, getUserId} from "../../selectors/AppSelector";
+import {getIsContextMenu, getUserId} from "../../selectors/AppSelector";
 
 export const NavItemComponent = (props) => {
-
-	useEffect(() => {
-		if (props.element.type === 'file' && props.element.isOpen) {
-			props.changeActiveFileNameAC(props.element.name);
-			props.addActiveFileNameInSectionItemAC(props.element.name);
-		}
-	},[props.element.isOpen]);
 
 	const refContextMenu = useRef(null);
 
@@ -35,7 +20,7 @@ export const NavItemComponent = (props) => {
 	//step
 	let steps = [];
 	for (let i = 0; i < props.step; i++) {
-		steps.push(<div className='navStep' key={i}></div>);
+		steps.push(<div className='navStep' key={i}> </div>);
 	}
 
 	const showNavItemContextMenu = (e) => {
@@ -47,21 +32,21 @@ export const NavItemComponent = (props) => {
 			if (e.clientY < window.innerHeight - 220) {
 				if (e.clientX < window.innerWidth - 160) {
 					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenuAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
 					props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				} else {
 					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 162}px;`;
-					props.changeIsContextMenuAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
 					props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				}
 			} else {
 				if (e.clientX < window.innerWidth - 160) {
 					refContextMenu.current.style = `top: ${e.clientY - 117}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenuAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
 					props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				} else {
 					refContextMenu.current.style = `top: ${e.clientY - 177}px; left: ${e.clientX - 162}px;`;
-					props.changeIsContextMenuAC(true);
+					props.changeIsContextMenuAC('isContextMenu',true);
 					props.changeIsOpenContextMenuItemAC(props.element.id, true);
 				}
 			}
@@ -74,7 +59,7 @@ export const NavItemComponent = (props) => {
 		e.stopPropagation();
 	};
 
-	const saveChange = () => {
+	const saveChangeName = () => {
 		props.changeNameNavItemTHUNK(props.element.id, newName, props.userId);
 		setNewName('');
 		setIsChangeName(false);
@@ -82,9 +67,10 @@ export const NavItemComponent = (props) => {
 
 	const changeIsOpenItem = (e) => {
 		if (props.element.type === 'folder' && props.element.folderItems.length > 0) {
-			props.changeIsOpenItem(props.element.id,'', props.userId);
-		} else {
-			props.changeIsOpenItem(props.element.id, props.element.name, props.userId);
+			props.changeIsOpenItemTHUNK(props.element.id, props.userId);
+		}
+		if (props.element.type === 'file'){
+			props.changeIsOpenItemTHUNK(props.element.id, props.userId);
 			window.innerWidth < 800 ? props.changePanelShow() : false;
 		}
 	};
@@ -136,20 +122,23 @@ export const NavItemComponent = (props) => {
 			{/*contextMenu*/}
 			<div ref={refContextMenu} className="contextMenu"
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
-				{props.step < 7 && props.element.type === 'folder' &&
-				<div>
-				<span onClick={() => props.addNavItemTHUNK('folder', props.element.id, props.userId)}>
-					New Folder </span>
 
+				<div>
+					{props.step < 7 && props.element.type === 'folder' &&
+					<span onClick={() => props.addNavItemTHUNK('folder', props.element.id, props.userId)}>
+					New Folder </span>
+					}
 					<span onClick={() => props.addNavItemTHUNK('file', props.element.id, props.userId)}>
 					New File </span>
 					<hr/>
 				</div>
-				}
-				{!isChangeName ? <div><span className="menuItem" onClick={changeName}> Change Name </span></div>
+
+				{!isChangeName ?
+					<div>
+					<span className="menuItem" onClick={changeName}> Change Name </span></div>
 					: <div><input type="text" maxLength={24} onClick={changeName} placeholder='new Name'
 												onChange={(e) => setNewName(e.currentTarget.value)} value={newName}/>
-						<span className="menuItem save_btn" onClick={saveChange}>Save</span>
+						<span className="menuItem save_btn" onClick={saveChangeName}>Save</span>
 						<hr/>
 					</div>
 				}
@@ -168,17 +157,14 @@ export const NavItem = connect(
 		isContextMenu: getIsContextMenu(state),
 		userId: getUserId(state),
 		activeSectionItem: getActiveSectionItem(state),
-		activeFileName: getActiveFileName(state),
 	}), {
 		changeIsOpenContextMenuItemAC,
 		changeIsContextMenuAC,
 		addNavItemTHUNK,
-		changeIsOpenItem,
+		changeIsOpenItemTHUNK,
 		deleteElementTHUNK,
-		changeActiveFileNameAC,
 		changeNameNavItemTHUNK,
 		changePositionTHUNK,
-		changePanelShow,
-		addActiveFileNameInSectionItemAC,
+		changePanelShowAC,
 	}
 )(NavItemComponent);

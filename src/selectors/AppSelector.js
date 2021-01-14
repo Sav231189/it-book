@@ -13,7 +13,6 @@ export const getIsContextMenuMain = (state) => {
 export const getIsContextMenuLK = (state) => {
 	return state.app.isContextMenuLK;
 };
-
 export const getIsAuth = (state) => {
 	return state.app.isAuth;
 };
@@ -29,6 +28,6 @@ export const getIsShowPanel = (state) => {
 export const getIsLoading = (state) => {
 	return state.app.isLoading;
 };
-export const getActiveFileName = (state) => {
-	return state.app.activeFileName;
+export const getMessages = (state) => {
+	return state.app.messages;
 };

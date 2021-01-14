@@ -57,6 +57,7 @@
   color: #888888;
 }
 .contextMenu .save_btn {
+  width: 100%;
   background-color: #035500;
   display: flex;
   justify-content: center;

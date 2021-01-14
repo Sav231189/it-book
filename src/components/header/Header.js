@@ -1,60 +1,64 @@
 import React, {useState} from 'react';
-import './Header.css';
-import user from '../../img/user.png';
 import {connect} from "react-redux";
 import {
-	changeIsContextMenuAC, changeIsContextMenuLK,
-	changePanelShow,
-	outLogin,
-	updatePassword
+	addMessageAC,	changeIsContextMenuAC, changePanelShowAC,
+	outLoginTHUNK, updatePasswordTHUNK, updateUserNameTHUNK
 } from "../../redux/reducers/AppReducer";
-
 import {PanelMoreBtn} from "../panelMoreBtn/PanelMoreBtn";
-import {getIsContextMenu, getIsContextMenuLK, getUserId, getUserName} from "../../selectors/AppSelector";
+import {getIsContextMenu, getIsContextMenuLK,
+	getUserId, getUserName} from "../../selectors/AppSelector";
+import './Header.css';
+import user from '../../img/user.png';
 
 export function HeaderComponent(props) {
 
 	const [newPassword, setNewPassword] = useState('');
-
 	const [isChangePassword, setIsChangePassword] = useState(false);
 
 	const [newName, setNewName] = useState('');
-
 	const [isChangeName, setIsChangeName] = useState(false);
 
 	const menu = (e) => {
+		setIsChangeName(false);
+		setNewName("");
 		setIsChangePassword(false);
 		setNewPassword("");
 		if (!props.isContextMenu && !props.isContextMenuLK) {
-			props.changeIsContextMenuAC(true);
-			props.changeIsContextMenuLK(true);
+			props.changeIsContextMenuAC("isContextMenu", true);
+			props.changeIsContextMenuAC("isContextMenuLK", true);
+			e.preventDefault();
+			e.stopPropagation();
 		} else {
-			props.changeIsContextMenuAC(false);
-			props.changeIsContextMenuLK(false);
+			props.changeIsContextMenuAC("isContextMenu", false);
+			props.changeIsContextMenuAC("isContextMenuLK", false);
 		}
+	};
+	const changeNameMode = (e) => {
+		setIsChangeName(true);
+		setIsChangePassword(false);
 		e.preventDefault();
 		e.stopPropagation();
 	};
-
 	const changePasswordMode = (e) => {
 		setIsChangePassword(true);
+		setIsChangeName(false);
 		e.preventDefault();
 		e.stopPropagation();
 	};
-
-	const updatePassword = () => {
-		props.updatePassword(newPassword);
-		setNewPassword('');
-		setIsChangePassword(false);
-	};
 	const updateName = () => {
+		props.updateUserNameTHUNK(newName);
 		setNewName('');
 		setIsChangeName(false);
+	};
+	const updatePassword = () => {
+		props.updatePasswordTHUNK(newPassword);
+		setNewPassword('');
+		setIsChangePassword(false);
 	};
 
 	return (
 		<div className="Header">
-			<PanelMoreBtn changePanelShow={props.changePanelShow}/>
+			<PanelMoreBtn changePanelShow={props.changePanelShowAC}/>
 			<span className="logo">IT - BooK</span>
 			<div className="lk" onClick={menu} onContextMenu={menu}>
 				<img src={user} alt={'user'}/>
@@ -63,41 +67,37 @@ export function HeaderComponent(props) {
 					 style={props.isContextMenuLK ? {display: 'block'} : {display: 'none'}}>
 				<div className="menuName">{props.userName}</div>
 				<hr/>
-				{!isChangeName ? <div><span className="menuItem" onClick={setIsChangeName}> Change Name </span></div>
-					: <div><input type="text" maxLength={24} onClick={setIsChangeName} placeholder='new Name'
+				{!isChangeName ? <div><span className="menuItem" onClick={changeNameMode}> Change Name </span></div>
+					: <div>	<form action="#"><input type="text" maxLength={16} onClick={changeNameMode} placeholder='new Name'
 												onChange={(e) => setNewName(e.currentTarget.value)} value={newName}/>
-						<span className="menuItem save_btn" onClick={updateName}>Save</span>
-						<hr/>
-					</div>
-				}
-				{!isChangePassword ? <div><span className="menuItem" onClick={changePasswordMode}> New Password </span></div>
-					: <div><input type="text" maxLength={24} onClick={changePasswordMode} placeholder='new Password'
-												onChange={(e) => setNewPassword(e.currentTarget.value)} value={newPassword}/>
-						<span className="menuItem save_btn" onClick={updatePassword}>Save</span>
-						<hr/>
+							<button className="menuItem save_btn" onClick={updateName}>Save</button></form>
 					</div>
 				}
 				<hr/>
-				<span className="menuItem" onClick={props.outLogin}>Out</span>
+				{!isChangePassword ? <div><span className="menuItem" onClick={changePasswordMode}> New Password </span></div>
+					: <div><form action="#"><input type="text" maxLength={24} onClick={changePasswordMode} placeholder='new Password'
+												onChange={(e) => setNewPassword(e.currentTarget.value)} value={newPassword}/>
+						<button className="menuItem save_btn" onClick={updatePassword}>Save</button></form>
+					</div>
+				}
+				<hr/>
+				<span className="menuItem" onClick={props.outLoginTHUNK}>Out</span>
 			</div>
 		</div>
 	);
 }
 
 export const Header = connect(
-	(state) => {
-		return {
-			isContextMenu: getIsContextMenu(state),
-			isContextMenuLK: getIsContextMenuLK(state),
-			userId: getUserId(state),
-			userName: getUserName(state),
-		}
-	},
-	{
+	state => ({
+		isContextMenu: getIsContextMenu(state),
+		isContextMenuLK: getIsContextMenuLK(state),
+		userId: getUserId(state),
+		userName: getUserName(state),
+	}), {
 		changeIsContextMenuAC,
-		changeIsContextMenuLK,
-		outLogin,
-		updatePassword,
-		changePanelShow,
-	}
-)(HeaderComponent);
+		outLoginTHUNK,
+		updateUserNameTHUNK,
+		updatePasswordTHUNK,
+		changePanelShowAC,
+		addMessageAC
+	})(HeaderComponent);
