@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import logo from '../../img/logo_start.png';
 import {connect} from "react-redux";
-import {checkLoginTHUNK, registrationTHUNK, sendPasswordResetEmailTHUNK
+import {
+	checkLoginTHUNK, isDemoAC, registrationTHUNK, sendPasswordResetEmailTHUNK
 } from "../../redux/reducers/AppReducer";
 import './Start.css';
+import {getIsDemo} from "../../selectors/AppSelector";
 
 export function StartComponent(props) {
 
@@ -34,7 +36,7 @@ export function StartComponent(props) {
 	};
 
 	return (
-		<div className="Start">
+		<div className={`Start ${!props.isDemo}`}>
 			<div className='logo' onClick={()=>{
 				setIsLogin(false);
 				setIsRegistration(false);
@@ -43,10 +45,13 @@ export function StartComponent(props) {
 				<img src={logo} alt="logo"/>
 			</div>
 			{!isLogin && !isRegistration &&
-			<div className='title'>IT-BooK</div>
+			<div className='titleBlock'>
+				<div className='title'>IT-BooK</div>
+				<div className='subTitle'>Храните свои знания упорядоченно!</div>
+			</div>
 			}
 			{!isLogin && !isRegistration &&
-			<div className='demo-btn'>DEMO</div>
+			<div className='demo-btn' onClick={()=>props.isDemoAC(true)}>DEMO</div>
 			}
 			{isLogin &&
 				<div className='isLogin'>
@@ -95,8 +100,12 @@ export function StartComponent(props) {
 	);
 }
 
-export const Start = connect(()=>({}), {
+export const Start = connect(
+	state=>({
+		isDemo: getIsDemo(state),
+	}), {
 	checkLoginTHUNK,
 	sendPasswordResetEmailTHUNK,
 	registrationTHUNK,
+	isDemoAC,
 })(StartComponent);

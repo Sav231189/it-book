@@ -22,6 +22,7 @@
   grid-template-columns: 1fr;
   grid-auto-rows: 1fr;
   cursor: pointer;
+  letter-spacing: 0.6px;
   border-radius: 4px;
   white-space: nowrap;
 }
@@ -47,6 +48,9 @@
 }
 .NavItem .navElement .folder span {
   margin-left: 5px;
+}
+.NavItem .navElement .folder span::selection {
+  background: transparent;
 }
 .NavItem .navElement .file {
   display: inline-flex;

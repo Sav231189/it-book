@@ -14,6 +14,7 @@ const initialState = {
 	isShowPanel: true,
 	isLoading: true,
 	messages: [],
+	isDemo: false
 };
 
 export const AppReducer = (state = initialState, action) => {
@@ -60,6 +61,10 @@ export const AppReducer = (state = initialState, action) => {
 				typeMessage: action.typeMessage,
 				textMessage: action.textMessage,
 			});
+			return stateCopy;
+		}
+		case 'IS_DEMO': {
+			stateCopy.isDemo = action.isDemo;
 			return stateCopy;
 		}
 
@@ -158,44 +163,54 @@ export const getAuthTHUNK = () => {
 	}
 };
 //THUNK  updateUserNameTHUNK
-export const updateUserNameTHUNK = (newName) => {
+export const updateUserNameTHUNK = (newName, userId) => {
 	return (dispatch) => {
-		firebase.auth().currentUser.updateProfile({
-			displayName: newName,
-		}).then(function () {
+		if (userId !== '') {
+			firebase.auth().currentUser.updateProfile({
+				displayName: newName,
+			}).then(function () {
+				dispatch(changeNameAC(newName));
+				dispatch(addMessageAC('success', `Успешное изменение имени.`));
+			}).catch(function (error) {
+				dispatch(addMessageAC('error', `${error.message}`));
+			});
+		} else {
 			dispatch(changeNameAC(newName));
-			dispatch(addMessageAC('success', `Успешное изменение имени.`));
-		}).catch(function (error) {
-			dispatch(addMessageAC('error', `${error.message}`));
-		});
+			dispatch(addMessageAC('success', `DEMO MODE! \n Успешное изменение имени.`));
+		}
 	}
 };
 //THUNK  updatePasswordTHUNK
-export const updatePasswordTHUNK = (newPassword) => {
+export const updatePasswordTHUNK = (newPassword, userId) => {
 	return (dispatch) => {
-		firebase.auth().currentUser.updatePassword(newPassword).then(function () {
-			dispatch(addMessageAC('success', `Пароль успешно изменен.`));
-		}).catch(function (error) {
-			switch (error.code) {
-				case "auth/weak-password":{
-					dispatch(addMessageAC('error', `Пароль должен состоять из 6 или более символов.`));
-					break
+		if (userId !== '') {
+			firebase.auth().currentUser.updatePassword(newPassword).then(function () {
+				dispatch(addMessageAC('success', `Пароль успешно изменен.`));
+			}).catch(function (error) {
+				switch (error.code) {
+					case "auth/weak-password": {
+						dispatch(addMessageAC('error', `Пароль должен состоять из 6 или более символов.`));
+						break
+					}
+					case "auth/requires-recent-login": {
+						dispatch(addMessageAC('error', `Учетные данные пользователя больше не действительны. Пользователь должен войти снова.`));
+						break
+					}
+					default: {
+						dispatch(addMessageAC('error', `Ошибка изменения пароля. \n \n ${error.message}`));
+						break
+					}
 				}
-				case "auth/requires-recent-login":{
-					dispatch(addMessageAC('error', `Учетные данные пользователя больше не действительны. Пользователь должен войти снова.`));
-					break
-				}
-				default: {
-					dispatch(addMessageAC('error', `Ошибка изменения пароля. \n \n ${error.message}`));
-					break
-				}
-			}
-		});
+			});
+		}else {
+			dispatch(addMessageAC('success', `DEMO MODE! \n Пароль успешно изменен.`));
+		}
 	}
 };
 //THUNK  outLoginTHUNK
 export const outLoginTHUNK = () => {
 	return (dispatch) => {
+		dispatch(isDemoAC(false));
 		firebase.auth().signOut().then(() => {
 			dispatch(isLoginAC(false));
 			dispatch(addMessageAC('success', `Успешный выход.`));
@@ -234,6 +249,13 @@ export const addMessageAC = (typeMessage, textMessage) => {
 		type: 'ADD_MESSAGE',
 		typeMessage: typeMessage,
 		textMessage: textMessage,
+	}
+};
+//AC IS_DEMO:
+export const isDemoAC = (isDemo) => {
+	return {
+		type: 'IS_DEMO',
+		isDemo: isDemo,
 	}
 };
 

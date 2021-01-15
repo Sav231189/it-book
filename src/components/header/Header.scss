@@ -21,6 +21,37 @@
     color: #808080;
     background-color: transparent;
     text-shadow: 1px 1px 5px rgb(0 0 0);
+    cursor: pointer;
+    &::selection {
+      background: transparent;
+    }
+  }
+  .demoLogo {
+    display: flex;
+    justify-content: center;
+    span {
+      background-color: #8e1f1f;
+      @media (max-width: 500px) {
+        font-size: 12px;
+      }
+    }
+    @keyframes demoExit {
+      0% {background-color: #616161;}
+      100% {background-color: #b6b6b6;}
+    }
+    button {
+      margin: 0 10px;
+      padding: 2px 5px;
+      background-color: #9c9c9c;
+      border-radius: 2px;
+      box-shadow: 1px 1px 5px rgb(0 0 0);
+      animation: demoExit 1s ease-out 0s infinite alternate;
+
+      &:active {
+        transform: scale(0.98);
+        animation-play-state: paused;
+      }
+    }
   }
   .lk {
     position: relative;
@@ -42,6 +73,7 @@
     right: 30px;
     left: auto;
     bottom: auto;
+    background-color: #4c4c4c;
   }
   .menuName {
     //height: 30px;

@@ -5,13 +5,14 @@
   min-height: 30px;
   overflow-x: hidden;
   background: #1F1F1F;
-  border: 1px solid #333333;
+  border: 2px solid #333333;
   font-family: Monaco, sans-serif;
   white-space: pre-wrap;
   transition: box-shadow 0.2s ease-in 0s;
 }
 .Block .blockContextMenu {
   width: 185px;
+  background-color: #333333;
 }
 .Block .blockTitle {
   padding-left: 5px;

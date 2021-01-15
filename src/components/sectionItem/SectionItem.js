@@ -2,7 +2,8 @@ import React, {useState, useRef} from 'react';
 import './SectionItem.css'
 import logoSection from '../../img/logo.png';
 import {connect} from "react-redux";
-import {activateSectionItemTHUNK, changeIsOpenContextMenuItemAC,
+import {
+	activateSectionItemTHUNK, changeIsOpenContextMenuItemAC,
 	changePositionTHUNK, changeSectionItem, deleteElementTHUNK
 } from "../../redux/reducers/SectionReducer";
 import loadingSectionItem from '../../img/giphy.gif'
@@ -28,17 +29,12 @@ export function SectionItemComponent(props) {
 			setNewImgURL('');
 			e.preventDefault();
 			e.stopPropagation();
-			if (e.clientY < window.innerHeight - 210) {
-				refContextMenu.current.style = `top: ${e.clientY + 10}px; left: ${e.clientX + 10}px;`;
-				props.changeIsContextMenuAC('isContextMenu',true);
-				props.changeIsOpenContextMenuItemAC(props.element.id, true);
-				props.activateSectionItemTHUNK(props.element.id, props.userId);
-			} else {
-				refContextMenu.current.style = `top: ${e.clientY - 160}px; left: ${e.clientX}px;`;
-				props.changeIsContextMenuAC('isContextMenu',true);
-				props.changeIsOpenContextMenuItemAC(props.element.id, true);
-				props.activateSectionItemTHUNK(props.element.id, props.userId);
-			}
+			props.changeIsContextMenuAC('isContextMenu', true);
+			props.changeIsOpenContextMenuItemAC(props.element.id, true);
+			props.activateSectionItemTHUNK(props.element.id, props.userId);
+			(e.clientY < window.innerHeight - 210)
+				? refContextMenu.current.style = `top: ${e.clientY + 10}px; left: ${e.clientX + 10}px;`
+				: refContextMenu.current.style = `top: ${e.clientY - 160}px; left: ${e.clientX}px;`
 		}
 	};
 	const activateSectionItem = () => {
@@ -59,7 +55,7 @@ export function SectionItemComponent(props) {
 
 	const changePosition = (e) => {
 		e.target.innerHTML === 'Position UP' ?
-			props.changePositionTHUNK(props.element.id, 'up', props.userId):
+			props.changePositionTHUNK(props.element.id, 'up', props.userId) :
 			props.changePositionTHUNK(props.element.id, 'down', props.userId)
 	};
 	const deleteSectionItem = () => {
@@ -78,10 +74,10 @@ export function SectionItemComponent(props) {
 	};
 
 	return (
-		<div className={`item ${props.element.isActive}`}
+		<div className={`item ${props.element.isActive} ${props.element.url !== '' ? "url" : ''}`}
 				 onContextMenu={showSectionItemContextMenu}
 				 onClick={activateSectionItem}>
-			{props.element.isActive && <div className='isActiveSectionItem'></div>}
+			{props.element.isActive && <div className='isActiveSectionItem'> </div>}
 			{props.element.isLoading
 				?
 				<div>{props.element.url !== '' ? <img src={props.element.url} alt={props.element.url}/>
@@ -97,9 +93,11 @@ export function SectionItemComponent(props) {
 			<div ref={refContextMenu} className="contextMenu"
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
 				{!isChangeName ? <div><span className="menuItem" onClick={changeName}> Change Name </span></div>
-					: <div><input type="text" maxLength={24} onClick={changeName} placeholder='new Name'
-												onChange={(e) => setNewName(e.currentTarget.value)} value={newName}/>
-						<span className="menuItem save_btn" onClick={saveChange}>Save</span>
+					: <div>
+						<form action="#"><input type="text" maxLength={24} onClick={changeName} placeholder='new Name'
+																		onChange={(e) => setNewName(e.currentTarget.value)} value={newName}/>
+							<button className="menuItem save_btn" onClick={saveChange}>Save</button>
+						</form>
 						<hr/>
 					</div>
 				}
@@ -109,9 +107,10 @@ export function SectionItemComponent(props) {
 					</div>
 					: <div>
 						<hr/>
-						<input type="text" onClick={changeImg} placeholder='new URL'
-									 onChange={(e) => setNewImgURL(e.currentTarget.value)} value={newImgURL}/>
-						<span className="menuItem save_btn" onClick={saveChange}>Save</span>
+						<form action="#"><input type="text" onClick={changeImg} placeholder='new URL'
+																		onChange={(e) => setNewImgURL(e.currentTarget.value)} value={newImgURL}/>
+							<button className="menuItem save_btn" onClick={saveChange}>Save</button>
+						</form>
 						<hr/>
 					</div>
 				}

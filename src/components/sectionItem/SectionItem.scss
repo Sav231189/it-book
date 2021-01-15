@@ -11,9 +11,9 @@
   cursor: pointer;
 
   border-radius: 10%;
-  background: #545454;
+  //background: #545454;
   //box-shadow: 1px -1px 10px -3px rgb(0 0 0 / 77%);
-  //border: #8c8c8ce8 solid 1px;
+  border: #545454 solid 1px;
   .isActiveSectionItem {
     position: absolute;
     left: -10px;
@@ -69,3 +69,7 @@
     filter: opacity(1);
   }
 }
+.item.url {
+  border: none;
+}
+

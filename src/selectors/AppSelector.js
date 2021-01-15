@@ -31,3 +31,6 @@ export const getIsLoading = (state) => {
 export const getMessages = (state) => {
 	return state.app.messages;
 };
+export const getIsDemo = (state) => {
+	return state.app.isDemo;
+};

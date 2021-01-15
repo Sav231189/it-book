@@ -31,8 +31,8 @@
   width: calc(100vw - 400px);
   min-height: 30px;
   min-width: 400px;
-  background: #000000;
-  color: #888888;
+  background: #ffffff24;
+  color: #a1a1a1;
   text-align: center;
   font-family: Monaco, sans-serif;
   white-space: pre-wrap;
@@ -68,11 +68,11 @@
 }
 .Main .noBlockBtn {
   padding: 20px;
-  position: absolute;
+  margin: 40px auto;
+  position: relative;
   width: 70px;
   height: 70px;
-  top: 10%;
-  left: 42%;
+  right: 15px;
   cursor: pointer;
   display: flex;
   justify-content: center;

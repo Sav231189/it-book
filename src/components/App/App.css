@@ -26,7 +26,7 @@
   z-index: 21;
   top: 0;
   left: 0;
-  cursor: pointer;
+  cursor: default;
   background-color: rgba(27, 27, 27, 0.75);
   border-radius: 5px;
   border: #80808047 solid 1px;

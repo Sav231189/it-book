@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 import {connect} from "react-redux";
 import {
-	addMessageAC,	changeIsContextMenuAC, changePanelShowAC,
+	addMessageAC, changeIsContextMenuAC, changePanelShowAC, isDemoAC,
 	outLoginTHUNK, updatePasswordTHUNK, updateUserNameTHUNK
 } from "../../redux/reducers/AppReducer";
 import {PanelMoreBtn} from "../panelMoreBtn/PanelMoreBtn";
-import {getIsContextMenu, getIsContextMenuLK,
-	getUserId, getUserName} from "../../selectors/AppSelector";
+import {
+	getIsContextMenu, getIsContextMenuLK, getIsDemo,
+	getUserId, getUserName
+} from "../../selectors/AppSelector";
 import './Header.css';
 import user from '../../img/user.png';
 
@@ -46,12 +48,12 @@ export function HeaderComponent(props) {
 		e.stopPropagation();
 	};
 	const updateName = () => {
-		props.updateUserNameTHUNK(newName);
+		props.updateUserNameTHUNK(newName, props.userId);
 		setNewName('');
 		setIsChangeName(false);
 	};
 	const updatePassword = () => {
-		props.updatePasswordTHUNK(newPassword);
+		props.updatePasswordTHUNK(newPassword, props.userId);
 		setNewPassword('');
 		setIsChangePassword(false);
 	};
@@ -59,13 +61,17 @@ export function HeaderComponent(props) {
 	return (
 		<div className="Header">
 			<PanelMoreBtn changePanelShow={props.changePanelShowAC}/>
-			<span className="logo">IT - BooK</span>
+			{!props.isDemo ? <span className="logo">IT - BooK</span> :
+				<div className="demoLogo">
+					<span>Все изменения будут удаленый после выхода!</span> <button onClick={()=>props.isDemoAC(false)}> EXIT </button>
+				</div>
+			}
 			<div className="lk" onClick={menu} onContextMenu={menu}>
 				<img src={user} alt={'user'}/>
 			</div>
 			<div className="contextMenu contextMenuLK"
 					 style={props.isContextMenuLK ? {display: 'block'} : {display: 'none'}}>
-				<div className="menuName">{props.userName}</div>
+				<div className="menuName">{props.userName !== '' ? props.userName : 'no Name'}</div>
 				<hr/>
 				{!isChangeName ? <div><span className="menuItem" onClick={changeNameMode}> Change Name </span></div>
 					: <div>	<form action="#"><input type="text" maxLength={16} onClick={changeNameMode} placeholder='new Name'
@@ -93,11 +99,13 @@ export const Header = connect(
 		isContextMenuLK: getIsContextMenuLK(state),
 		userId: getUserId(state),
 		userName: getUserName(state),
+		isDemo: getIsDemo(state),
 	}), {
 		changeIsContextMenuAC,
 		outLoginTHUNK,
 		updateUserNameTHUNK,
 		updatePasswordTHUNK,
 		changePanelShowAC,
-		addMessageAC
+		addMessageAC,
+		isDemoAC,
 	})(HeaderComponent);

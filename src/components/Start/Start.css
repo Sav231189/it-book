@@ -71,36 +71,50 @@
     text-shadow: 4px 2px 4px rgba(255, 255, 255, 0.94);
   }
 }
-.Start .title {
+.Start .titleBlock {
   justify-self: center;
   align-self: center;
   position: relative;
   top: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.Start .titleBlock .title {
+  justify-self: center;
+  align-self: center;
   font-family: Aladin, sans-serif;
   font-size: 228px;
   color: #808080;
   text-shadow: 4px 2px 4px rgba(210, 210, 210, 0.94);
+  letter-spacing: 4px;
   animation: titleAnimation 0.6s linear 0s infinite alternate;
 }
 @media (max-width: 1000px) {
-  .Start .title {
+  .Start .titleBlock .title {
     font-size: 188px;
   }
 }
 @media (max-width: 700px) {
-  .Start .title {
+  .Start .titleBlock .title {
     font-size: 148px;
   }
 }
 @media (max-width: 500px) {
-  .Start .title {
+  .Start .titleBlock .title {
     font-size: 108px;
   }
 }
 @media (max-width: 500px) {
-  .Start .title {
+  .Start .titleBlock .title {
     font-size: 78px;
   }
+}
+.Start .titleBlock .subTitle {
+  margin: 5px 10px 20px;
+  text-align: center;
+  font-size: 28px;
 }
 .Start .demo-btn {
   margin: 150px;
@@ -125,6 +139,7 @@
 @media (max-width: 1000px) {
   .Start .demo-btn {
     font-size: 32px;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.63);
   }
 }
 @media (max-width: 700px) {
@@ -251,6 +266,10 @@
 }
 .Start .isLogin .resetPassword_btn::selection {
   background: transparent;
+}
+
+.Start.false {
+  display: none;
 }
 
 /*# sourceMappingURL=Start.css.map */

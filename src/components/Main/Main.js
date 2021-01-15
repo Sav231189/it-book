@@ -18,26 +18,16 @@ export function MainComponent(props) {
 		if (!props.isContextMenu && !props.isContextMenuMain && refContextMenu.current && props.activeFile) {
 			e.preventDefault();
 			e.stopPropagation();
+			props.changeIsContextMenuAC('isContextMenu',true);
+			props.changeIsContextMenuAC('isContextMenuMain',true);
 			if (e.clientY < window.innerHeight - 50) {
-				if (e.clientX < window.innerWidth - 160) {
-					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenuAC('isContextMenu',true);
-					props.changeIsContextMenuAC('isContextMenuMain',true);
-				} else {
-					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 162}px;`;
-					props.changeIsContextMenuAC('isContextMenu',true);
-					props.changeIsContextMenuAC('isContextMenuMain',true);
-				}
+				(e.clientX < window.innerWidth - 160)
+				?	refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`
+				:	refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 162}px;`
 			} else {
-				if (e.clientX < window.innerWidth - 160) {
-					refContextMenu.current.style = `top: ${e.clientY - 37}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenuAC('isContextMenu',true);
-					props.changeIsContextMenuAC('isContextMenuMain',true);
-				} else {
-					refContextMenu.current.style = `top: ${e.clientY - 37}px; left: ${e.clientX - 162}px;`;
-					props.changeIsContextMenuAC('isContextMenu',true);
-					props.changeIsContextMenuAC('isContextMenuMain',true);
-				}
+				(e.clientX < window.innerWidth - 160)
+				?	refContextMenu.current.style = `top: ${e.clientY - 37}px; left: ${e.clientX + 2}px;`
+				: refContextMenu.current.style = `top: ${e.clientY - 37}px; left: ${e.clientX - 162}px;`
 			}
 		}
 	};

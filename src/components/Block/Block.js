@@ -23,29 +23,19 @@ export function BlockComponent(props) {
 	let [isChangeText, setIsChangeText] = useState(false);
 
 	const showBlockContextMenu = (e) => {
-		if (!props.isContextMenu && !props.element.isOpenContextMenu && props.activeFileName !== '') {
+		if (!props.isContextMenu && !props.element.isOpenContextMenu && props.activeFile) {
 			e.preventDefault();
 			e.stopPropagation();
+			props.changeIsContextMenuAC('isContextMenu', true);
+			props.changeIsOpenContextMenuItemAC(props.element.id, true);
 			if (e.clientY < window.innerHeight - 240) {
-				if (e.clientX < window.innerWidth - 180) {
-					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenuAC('isContextMenu',true);
-					props.changeIsOpenContextMenuItemAC(props.element.id, true);
-				} else {
-					refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 188}px;`;
-					props.changeIsContextMenuAC('isContextMenu',true);
-					props.changeIsOpenContextMenuItemAC(props.element.id, true);
-				}
+				(e.clientX < window.innerWidth - 180)
+					? refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`
+					: refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 188}px;`
 			} else {
-				if (e.clientX < window.innerWidth - 180) {
-					refContextMenu.current.style = `top: ${e.clientY - 246}px; left: ${e.clientX + 2}px;`;
-					props.changeIsContextMenuAC('isContextMenu',true);
-					props.changeIsOpenContextMenuItemAC(props.element.id, true);
-				} else {
-					refContextMenu.current.style = `top: ${e.clientY - 248}px; left: ${e.clientX - 188}px;`;
-					props.changeIsContextMenuAC('isContextMenu',true);
-					props.changeIsOpenContextMenuItemAC(props.element.id, true);
-				}
+				(e.clientX < window.innerWidth - 180)
+					? refContextMenu.current.style = `top: ${e.clientY - 246}px; left: ${e.clientX + 2}px;`
+					: refContextMenu.current.style = `top: ${e.clientY - 248}px; left: ${e.clientX - 188}px;`
 			}
 		}
 	};
@@ -54,16 +44,16 @@ export function BlockComponent(props) {
 	};
 	const changeTitleInBlock = () => {
 		setIsChangeTitle(false);
-		props.changeBlockTHUNK(props.element.id, 'changeTitle',title, props.userId);
+		props.changeBlockTHUNK(props.element.id, 'changeTitle', title, props.userId);
 
 	};
 	const changeSubTitleInBlock = () => {
 		setIsChangeSubTitle(false);
-		props.changeBlockTHUNK(props.element.id, 'changeSubTitle',subTitle, props.userId);
+		props.changeBlockTHUNK(props.element.id, 'changeSubTitle', subTitle, props.userId);
 	};
 	const changeTextInBlock = () => {
 		setIsChangeText(false);
-		props.changeBlockTHUNK(props.element.id, 'changeText',text, props.userId);
+		props.changeBlockTHUNK(props.element.id, 'changeText', text, props.userId);
 	};
 	const changeBorderInBlock = () => {
 		props.changeBlockTHUNK(props.element.id, 'changeBorder', '', props.userId);
@@ -84,18 +74,21 @@ export function BlockComponent(props) {
 			}
 			{isChangeTitle &&
 			<div className='blockTitle'>
-				<input className='inputTitle' autoFocus value={title} onChange={(e) => setTitle(e.target.value)}/>
-				<span className='saveNameBtn' onClick={changeTitleInBlock}>SAVE</span>
+				<form action="#">
+					<input className='inputTitle' autoFocus value={title} onChange={(e) => setTitle(e.target.value)}/>
+					<button className='saveNameBtn' onClick={changeTitleInBlock}>SAVE</button>
+				</form>
 			</div>
 			}
-
 			{subTitle !== '' && !isChangeSubTitle &&
 			<div className='blockSubTitle'>{subTitle}</div>
 			}
 			{isChangeSubTitle &&
 			<div className='blockTitle'>
-				<input className='inputSubTitle' autoFocus value={subTitle} onChange={(e) => setSubTitle(e.target.value)}/>
-				<span className='saveNameBtn' onClick={changeSubTitleInBlock}>SAVE</span>
+				<form action="#">
+					<input className='inputSubTitle' autoFocus value={subTitle} onChange={(e) => setSubTitle(e.target.value)}/>
+					<button className='saveNameBtn' onClick={changeSubTitleInBlock}>SAVE</button>
+				</form>
 			</div>
 			}
 
@@ -104,8 +97,10 @@ export function BlockComponent(props) {
 			}
 			{isChangeText &&
 			<div className=''>
-				<textarea value={text} onChange={(e) => setText(e.target.value)}/>
-				<span className='saveNameBtn' onClick={changeTextInBlock}>SAVE</span>
+				<form action="#">
+					<textarea value={text} onChange={(e) => setText(e.target.value)}/>
+					<button className='saveNameBtn' onClick={changeTextInBlock}>SAVE</button>
+				</form>
 			</div>
 			}
 
@@ -133,7 +128,7 @@ export function BlockComponent(props) {
 					setIsChangeText(true);
 				}}>Change Text</span>
 				<hr/>
-				<span onClick={changeBorderInBlock}>Clear Border</span>
+				<span onClick={changeBorderInBlock}>{props.element.isBorder ? `Clear Border` : `Show Border`}</span>
 				<hr/>
 				<span onClick={changePosition}>Position UP</span>
 				<span onClick={changePosition}>Position DOWN</span>

@@ -10,7 +10,7 @@
   align-items: center;
   cursor: pointer;
   border-radius: 10%;
-  background: #545454;
+  border: #545454 solid 1px;
 }
 .item .isActiveSectionItem {
   position: absolute;
@@ -56,6 +56,10 @@
 }
 .item.true img {
   filter: opacity(1);
+}
+
+.item.url {
+  border: none;
 }
 
 /*# sourceMappingURL=SectionItem.css.map */

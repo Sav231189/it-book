@@ -5,14 +5,12 @@ import {Panel} from "../panel/Panel";
 import {Main} from "../Main/Main";
 import {Start} from "../Start/Start";
 import {Loading} from "../Loading/Loading";
-import {getIsAuth, getIsContextMenu, getIsShowPanel} from "../../selectors/AppSelector";
+import {getIsAuth, getIsContextMenu, getIsDemo, getIsShowPanel} from "../../selectors/AppSelector";
 import {closeAllContextMenuTHUNK, getAuthTHUNK} from "../../redux/reducers/AppReducer";
 import './App.css';
 import {Message} from "../Message/Message";
 
 function AppComponent(props) {
-
-
 
 	useEffect(props.getAuthTHUNK, []);
 
@@ -31,6 +29,15 @@ function AppComponent(props) {
 					</div>
 				</div>
 			}
+			{props.isDemo && !props.isAuth &&
+			<div className="app" onClick={props.closeAllContextMenuTHUNK} onContextMenu={props.closeAllContextMenuTHUNK}>
+				<Header/>
+				<div className='appWindow'>
+					<Panel isShowPanel={props.isShowPanel}/>
+					<Main/>
+				</div>
+			</div>
+			}
 		</div>
 	);
 }
@@ -40,6 +47,7 @@ export const App = connect(
 		isContextMenu: getIsContextMenu(state),
 		isShowPanel: getIsShowPanel(state),
 		isAuth: getIsAuth(state),
+		isDemo: getIsDemo(state),
 	}), {
 		closeAllContextMenuTHUNK,
 		getAuthTHUNK,

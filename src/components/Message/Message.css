@@ -33,7 +33,7 @@
   border-radius: 5px 0 0 5px;
   cursor: pointer;
   backdrop-filter: blur(2px);
-  animation: showMessage 8s ease-out 0s;
+  animation: showMessage 6s ease-out 0s;
 }
 .Message .messageItem .imgMessage {
   display: flex;

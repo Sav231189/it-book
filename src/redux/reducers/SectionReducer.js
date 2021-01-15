@@ -159,7 +159,6 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 				text: '',
 				isBorder: true,
 				img: '',
-				fileMain: [],
 			});
 			return stateCopy;
 		}
@@ -179,6 +178,385 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 					listAndItem.list[listAndItem.index].isBorder = !listAndItem.list[listAndItem.index].isBorder;
 					break;
 			}
+			return stateCopy;
+		}
+
+		//Demo
+		case 'ADD_DEMO_STATE': {
+			let idCounter = 0;
+			stateCopy.sectionItems = [
+				{
+					id: idCounter++,
+					name: 'React',
+					url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIv8fBQrENZkbTNIWFKmkKA8pvwDPqdDslKw&usqp=CAU',
+					position: 1,
+					isActive: false,
+					isOpenContextMenu: false,
+					isLoading: true,
+					folderItems: [
+						{
+							id: idCounter++,
+							type: 'folder',
+							isOpen: true,
+							isOpenContextMenu: false,
+							name: 'Basic',
+							folderItems: [
+								{
+									id: idCounter++,
+									type: 'file',
+									isOpen: false,
+									isOpenContextMenu: false,
+									name: 'Концепция',
+									fileMain: []
+								},{
+									id: idCounter++,
+									type: 'file',
+									isOpen: true,
+									isOpenContextMenu: false,
+									name: 'JSX',
+									fileMain: [
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: 'Основные Правила:',
+											subTitle: '',
+											text: '',
+											isBorder: false,
+											img: '',
+										},
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: '',
+											text: 'Разширение языка JS, которое с помощью Babel преобразует код JSX (синтаксис HTML) в JS код понятный браузеру.',
+											isBorder: true,
+											img: '',
+										},
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: '',
+											text: 'Допускает использование корректных JS-выражений внутри JSX в фигурных скобках { JS }.',
+											isBorder: true,
+											img: '',
+										},
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: '',
+											text: 'Защищен от атак межсайтовым скриптингом (XSS), все значения в JSX экранируются (преобразуются в строки), и далее рендерятся.',
+											isBorder: true,
+											img: '',
+										},
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: '',
+											text: 'Использует атрибуты (стиль наименования camelCase, в отличии от HTML).',
+											isBorder: true,
+											img: '',
+										},
+									]
+								},
+							]
+						},
+					],
+				},
+				{
+					id: idCounter++,
+					name: 'Photoshop',
+					url: 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/b1f444f5-ca6c-4df3-8c44-ec6e0276f5ac/d7mg13s-036bcbe7-b460-42f2-a75d-da9d2cad8594.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvYjFmNDQ0ZjUtY2E2Yy00ZGYzLThjNDQtZWM2ZTAyNzZmNWFjXC9kN21nMTNzLTAzNmJjYmU3LWI0NjAtNDJmMi1hNzVkLWRhOWQyY2FkODU5NC5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.GW7CcxdPXScOtSWr_UBv4K6hCqTbBcNfmjLkd87W9gQ',
+					position: 0,
+					isActive: true,
+					isOpenContextMenu: false,
+					isLoading: true,
+					folderItems: [
+						{
+							id: idCounter++,
+							type: 'folder',
+							isOpen: true,
+							isOpenContextMenu: false,
+							name: 'Настроки',
+							folderItems: [
+								{
+									id: idCounter++,
+									type: 'file',
+									isOpen: true,
+									isOpenContextMenu: false,
+									name: 'Горячие клавиши',
+									fileMain: [
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: 'Для Windows',
+											subTitle: '',
+											text: '',
+											isBorder: false,
+											img: '',
+											fileMain: [],
+										},
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: '',
+											text: 'Заливка слоя основным или фоновым цветом используются сочетания клавиш Alt+Backspace и Ctrl+Backspace. Для вызова окна настроек заливки Shift+Backspace. Для того, чтобы оставить прозрачные места снимка прозрачными, нужно пользоваться сочетанием клавиш Alt+Shift+Backspace и Ctrl+Shift+Backspace.',
+											isBorder: true,
+											img: '',
+											fileMain: [],
+										},
+
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: '',
+											text: 'Отмена нескольких действий или возврата нескольких действий нужно использовать сочетание клавиш Ctrl+Alt+Z и Ctrl+Shift+Z. Для циклической отмены и возврата одного последнего действия используется Ctrl+Z.',
+											isBorder: true,
+											img: '',
+											fileMain: [],
+										},
+
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: '',
+											text: 'При активном инструменте Eyedropper Tool и зажатой клавише Alt будет выбираться не основной цвет, а фоновый.',
+											isBorder: true,
+											img: '',
+											fileMain: [],
+										},
+
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: '',
+											text: 'При зажатой клавише Ctrl "+" или "-" приведет к изменению масштаба изображения.',
+											isBorder: true,
+											img: '',
+											fileMain: [],
+										},
+
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: '',
+											text: 'При активном инструменте Eyedropper Tool и зажатой клавише Alt будет выбираться не основной цвет, а фоновый.',
+											isBorder: true,
+											img: '',
+											fileMain: [],
+										},
+
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: '',
+											text: 'Отмена нескольких действий или возврата нескольких действий нужно использовать сочетание клавиш Ctrl+Alt+Z и Ctrl+Shift+Z. Для циклической отмены и возврата одного последнего действия используется Ctrl+Z.',
+											isBorder: true,
+											img: '',
+											fileMain: [],
+										},
+
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: '',
+											text: 'text: \'Заливка слоя основным или фоновым цветом используются сочетания клавиш Alt+Backspace и Ctrl+Backspace. Для вызова окна настроек заливки Shift+Backspace. Для того, чтобы оставить прозрачные места снимка прозрачными, нужно пользоваться сочетанием клавиш Alt+Shift+Backspace и Ctrl+Shift+Backspace.\',\n' +
+												'\t\t\t\t\t\t\t\t\t\t\t',
+											isBorder: true,
+											img: '',
+											fileMain: [],
+										},
+
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: 'Для Mac OS',
+											subTitle: '',
+											text: '',
+											isBorder: false,
+											img: '',
+											fileMain: [],
+										},
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: 'с мышкой:',
+											text: 'Cmd+Space+клик - увеличение масштаба, Cmd+Space+клик - уменьшение. При зажатой клавише Cmd+вращение колесика мыши - масштабирование.',
+											isBorder: true,
+											img: '',
+											fileMain: [],
+										},
+										{
+											id: idCounter++,
+											type: 'block',
+											isOpenContextMenu: false,
+											title: '',
+											subTitle: 'трекпад:',
+											text: 'Cmd+Space+клик - увеличение масштаба, Cmd+Space+клик - уменьшение. При зажатой клавише Cmd+вращение колесика мыши - масштабирование.',
+											isBorder: true,
+											img: '',
+											fileMain: [],
+										},
+									]
+								},{
+									id: idCounter++,
+									type: 'file',
+									isOpen: false,
+									isOpenContextMenu: false,
+									name: 'Шрифты',
+									fileMain: []
+								},
+							]
+						},
+						{
+							id: idCounter++,
+							type: 'folder',
+							isOpen: true,
+							isOpenContextMenu: false,
+							name: 'Обработка',
+							folderItems: [
+								{
+									id: idCounter++,
+									type: 'file',
+									isOpen: false,
+									isOpenContextMenu: false,
+									name: '.jpeg',
+									fileMain: []
+								},
+								{
+									id: idCounter++,
+									type: 'file',
+									isOpen: false,
+									isOpenContextMenu: false,
+									name: '.png',
+									fileMain: []
+								},
+								{
+									id: idCounter++,
+									type: 'file',
+									isOpen: false,
+									isOpenContextMenu: false,
+									name: '.gif',
+									fileMain: []
+								},
+							]
+						},
+						{
+							id: idCounter++,
+							type: 'folder',
+							isOpen: true,
+							isOpenContextMenu: false,
+							name: 'Панель инструментов',
+							folderItems: [
+								{
+									id: idCounter++,
+									type: 'folder',
+									isOpen: true,
+									isOpenContextMenu: false,
+									name: 'Фон',
+									folderItems: [
+										{
+											id: idCounter++,
+											type: 'file',
+											isOpen: false,
+											isOpenContextMenu: false,
+											name: 'Цветной',
+											fileMain: []
+										},
+										{
+											id: idCounter++,
+											type: 'file',
+											isOpen: false,
+											isOpenContextMenu: false,
+											name: 'Прозрачный',
+											fileMain: []
+										},
+										{
+											id: idCounter++,
+											type: 'file',
+											isOpen: false,
+											isOpenContextMenu: false,
+											name: 'Двойной',
+											fileMain: []
+										},
+									]
+								},
+								{
+									id: idCounter++,
+									type: 'folder',
+									isOpen: true,
+									isOpenContextMenu: false,
+									name: 'Граница',
+									folderItems: [
+										{
+											id: idCounter++,
+											type: 'file',
+											isOpen: false,
+											isOpenContextMenu: false,
+											name: 'Внутреняя',
+											fileMain: []
+										},
+										{
+											id: idCounter++,
+											type: 'file',
+											isOpen: false,
+											isOpenContextMenu: false,
+											name: 'Внешняя',
+											fileMain: []
+										},
+									]
+								},
+							]
+						},
+					],
+				},
+				{
+					id: idCounter++,
+					name: 'Name',
+					url: '',
+					position: 2,
+					isActive: false,
+					isOpenContextMenu: false,
+					isLoading: true,
+					folderItems: [],
+				},
+				{
+					id: idCounter++,
+					name: 'Name',
+					url: '',
+					position: 3,
+					isActive: false,
+					isOpenContextMenu: false,
+					isLoading: true,
+					folderItems: [],
+				}
+			];
 			return stateCopy;
 		}
 
@@ -216,6 +594,12 @@ export const closeAllIsOpenContextMenuItemsAC = () => {
 	}
 };
 
+//AC ADD_DEMO_STATE:
+export const addDemoState = (folderItems, idSectionItem) => {
+	return {
+		type: 'ADD_DEMO_STATE',
+	}
+};
 //AC APPEND_NAV_ITEM:
 export const appendNavItemAC = (folderItems, idSectionItem) => {
 	return {
@@ -285,6 +669,8 @@ export const getDataTHUNK = (userId = '') => {
 			.catch((error) => {
 				dispatch(addMessageAC('error', error.message))
 			});
+		} else {
+			dispatch(addDemoState());
 		}
 	}
 };
@@ -304,12 +690,16 @@ export const addSectionItemTHUNK = (userId) => {
 		dispatch(addSectionItemAC(newId));
 		dispatch(updateStateWorkDAL());
 		dispatch(activateSectionItemTHUNK(newId, userId));
-		updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId)
-		.then((resolve) => {
-			dispatch(addMessageAC('success', `Секция добавленна.`));
-		}).catch((error) => {
-			dispatch(addMessageAC('error', error.message));
-		});
+		if (userId !== '') {
+			updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId)
+			.then((resolve) => {
+				dispatch(addMessageAC('success', `Секция добавленна.`));
+			}).catch((error) => {
+				dispatch(addMessageAC('error', error.message));
+			});
+		} else {
+			dispatch(addMessageAC('success', `DEMO MODE! \n Секция добавленна.`));
+		}
 	}
 };
 
@@ -324,10 +714,12 @@ export const activateSectionItemAC = (id) => {
 export const activateSectionItemTHUNK = (id, userId) => {
 	return (dispatch) => {
 		dispatch(activateSectionItemAC(id));
-		dispatch(updateStateWorkDAL());
-		updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId).then().catch((error)=>{
-			dispatch(addMessageAC('error', error.message));
-		});
+		if (userId !== '') {
+			dispatch(updateStateWorkDAL());
+			updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId).then().catch((error) => {
+				dispatch(addMessageAC('error', error.message));
+			});
+		}
 	}
 };
 
@@ -343,25 +735,29 @@ export const deleteElementTHUNK = (id, typeDelete, userId) => {
 	return (dispatch) => {
 		dispatch(closeAllIsOpenContextMenuItemsAC());
 		dispatch(deleteElementAC(id));
-		switch (typeDelete) {
-			case 'sectionItem':
-				dispatch(updateStateWorkDAL());
-				deleteSectionItemDAL(id, userId).then(resolve => {
-					updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId).then(() => {
-						dispatch(addMessageAC('success', `Секция удалена.`));
+		if (userId !== '') {
+			switch (typeDelete) {
+				case 'sectionItem':
+					dispatch(updateStateWorkDAL());
+					deleteSectionItemDAL(id, userId).then(resolve => {
+						updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId).then(() => {
+							dispatch(addMessageAC('success', `Секция удалена.`));
+						}).catch((error) => {
+							dispatch(addMessageAC('error', error.message));
+						});
+					});
+					break;
+				case 'element':
+					dispatch(updateStateWorkDAL());
+					updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
+						dispatch(addMessageAC('success', `Элемент удален.`));
 					}).catch((error) => {
 						dispatch(addMessageAC('error', error.message));
 					});
-				});
-				break;
-			case 'element':
-				dispatch(updateStateWorkDAL());
-				updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
-					dispatch(addMessageAC('success', `Улемент удален.`));
-				}).catch((error) => {
-					dispatch(addMessageAC('error', error.message));
-				});
-				break;
+					break;
+			}
+		} else {
+			dispatch(addMessageAC('success', `DEMO MODE! \n Элемент удален.`));
 		}
 	}
 };
@@ -381,13 +777,18 @@ export const changeSectionItem = (name, url, id, userId) => {
 		if (name !== '') {
 			element.name = name;
 		} else element.url = url;
-		updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId)
-		.then((resolve) => {
+		if (userId !== '') {
+			updateSectionItemsListDAL(stateWorkDAL.sectionItems, userId)
+			.then((resolve) => {
+				dispatch(changeSectionItemAC());
+				dispatch(addMessageAC('success', `Секция изменена.`));
+			}).catch((error) => {
+				dispatch(addMessageAC('error', error.message));
+			});
+		} else {
 			dispatch(changeSectionItemAC());
-			dispatch(addMessageAC('success', `Секция изменена.`));
-		}).catch((error) => {
-			dispatch(addMessageAC('error', error.message));
-		});
+			dispatch(addMessageAC('success', `DEMO MODE! \n Секция изменена.`));
+		}
 	}
 };
 
@@ -425,13 +826,15 @@ export const addNavItemTHUNK = (typeItemNav, id, userId) => {
 					},
 			);
 		}
-		setNavInSectionDAL(stateWorkDAL.sectionItems, userId)
-		.then((resolve) => {
-			dispatch(addNavItemAC());
-			// dispatch(addMessageAC('success', `Элемент навигации добавлен.`));
-		}).catch((error) => {
-			dispatch(addMessageAC('error', error.message));
-		});
+		if (userId !== '') {
+			setNavInSectionDAL(stateWorkDAL.sectionItems, userId)
+			.then((resolve) => {
+				dispatch(addNavItemAC());
+				// dispatch(addMessageAC('success', `Элемент навигации добавлен.`));
+			}).catch((error) => {
+				dispatch(addMessageAC('error', error.message));
+			});
+		}
 	}
 };
 
@@ -447,10 +850,12 @@ export const changeIsOpenItemTHUNK = (id, userId) => {
 	return (dispatch) => {
 		dispatch(changeIsOpenItemAC(id));
 		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
-		}).catch((error)=>{
-			dispatch(addMessageAC('error', error.message));
-		});
+		if (userId !== '') {
+			updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
+			}).catch((error) => {
+				dispatch(addMessageAC('error', error.message));
+			});
+		}
 	}
 };
 
@@ -468,11 +873,13 @@ export const changeNameNavItemTHUNK = (id, name, userId) => {
 	return (dispatch) => {
 		dispatch(changeNameNavItemAC(id, name));
 		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
-			// dispatch(addMessageAC('success', `Данные обновленны.`));
-		}).catch((error)=>{
-			dispatch(addMessageAC('error', error.message));
-		});
+		if (userId !== '') {
+			updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
+				// dispatch(addMessageAC('success', `Данные обновленны.`));
+			}).catch((error) => {
+				dispatch(addMessageAC('error', error.message));
+			});
+		}
 	}
 };
 
@@ -490,9 +897,11 @@ export const changePositionTHUNK = (id, side, userId) => {
 	return (dispatch) => {
 		dispatch(changePositionAC(id, side));
 		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then().catch((error)=>{
-			dispatch(addMessageAC('error', error.message));
-		});
+		if (userId !== '') {
+			updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then().catch((error) => {
+				dispatch(addMessageAC('error', error.message));
+			});
+		}
 	}
 };
 
@@ -508,11 +917,13 @@ export const addBlockInActiveFileTHUNK = (id, userId) => {
 	return (dispatch) => {
 		dispatch(addBlockInActiveFileAC(id));
 		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(()=>{
-			// dispatch(addMessageAC('success', `Секция удалена.`));
-		}).catch((error)=>{
-			dispatch(addMessageAC('error', error.message));
-		});
+		if (userId !== '') {
+			updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
+				// dispatch(addMessageAC('success', `Секция удалена.`));
+			}).catch((error) => {
+				dispatch(addMessageAC('error', error.message));
+			});
+		}
 	}
 };
 
@@ -530,10 +941,15 @@ export const changeBlockTHUNK = (id, typeChange, data = '', userId) => {
 	return (dispatch) => {
 		dispatch(changeBlockAC(id, typeChange, data));
 		dispatch(updateStateWorkDAL());
-		updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(()=>{
-			dispatch(addMessageAC('success', `Блок успешно изменен.`));
-		}).catch((error)=>{
-			dispatch(addMessageAC('error', error.message));
-		});
+		if (userId !== '') {
+			updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
+				dispatch(addMessageAC('success', `Блок успешно изменен.`));
+			}).catch((error) => {
+				dispatch(addMessageAC('error', error.message));
+			});
+		} else {
+			dispatch(addMessageAC('success', `DEMO MODE! \n Блок успешно изменен.`));
+
+		}
 	}
 };
