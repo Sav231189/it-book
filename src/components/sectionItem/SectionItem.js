@@ -17,16 +17,16 @@ export function SectionItemComponent(props) {
 	const [isChangeName, setIsChangeName] = useState(false);
 	const [isChangeImg, setIsChangeImg] = useState(false);
 
-	const [newName, setNewName] = useState('');
-	const [newImgURL, setNewImgURL] = useState('');
+	const [newName, setNewName] = useState(props.element.name);
+	const [newImgURL, setNewImgURL] = useState(props.element.url);
 
 	const showSectionItemContextMenu = (e) => {
 
 		if (!props.isContextMenu && !props.element.isOpenContextMenu) {
 			setIsChangeName(false);
-			setNewName('');
+			setNewName(props.element.name);
 			setIsChangeImg(false);
-			setNewImgURL('');
+			setNewImgURL(props.element.url);
 			e.preventDefault();
 			e.stopPropagation();
 			props.changeIsContextMenuAC('isContextMenu', true);
@@ -67,8 +67,8 @@ export function SectionItemComponent(props) {
 		isChangeName
 			? props.changeSectionItem(newName, '', props.element.id, props.userId)
 			: props.changeSectionItem('', newImgURL, props.element.id, props.userId);
-		setNewName('');
-		setNewImgURL('');
+		// setNewName('');
+		// setNewImgURL('');
 		setIsChangeName(false);
 		setIsChangeImg(false);
 	};
@@ -94,7 +94,11 @@ export function SectionItemComponent(props) {
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
 				{!isChangeName ? <div><span className="menuItem" onClick={changeName}> Change Name </span></div>
 					: <div>
-						<form action="#"><input type="text" maxLength={24} onClick={changeName} placeholder='new Name'
+						<form action="#"><input type="text"
+																		maxLength={24}
+																		onClick={changeName}
+																		onContextMenu={changeName}
+																		placeholder='new Name'
 																		onChange={(e) => setNewName(e.currentTarget.value)} value={newName}/>
 							<button className="menuItem save_btn" onClick={saveChange}>Save</button>
 						</form>
@@ -107,8 +111,12 @@ export function SectionItemComponent(props) {
 					</div>
 					: <div>
 						<hr/>
-						<form action="#"><input type="text" onClick={changeImg} placeholder='new URL'
-																		onChange={(e) => setNewImgURL(e.currentTarget.value)} value={newImgURL}/>
+						<form action="#"><input type="text"
+																		onClick={changeImg}
+																		onContextMenu={changeImg}
+																		placeholder='new URL'
+																		onChange={(e) => setNewImgURL(e.currentTarget.value)}
+																		value={newImgURL}/>
 							<button className="menuItem save_btn" onClick={saveChange}>Save</button>
 						</form>
 						<hr/>

@@ -12,6 +12,9 @@
   border-radius: 10%;
   border: #545454 solid 1px;
 }
+.item:hover {
+  border: #545454 solid 1px;
+}
 .item .isActiveSectionItem {
   position: absolute;
   left: -10px;
@@ -37,6 +40,7 @@
   bottom: 34px;
   max-width: 300px;
   z-index: 3;
+  white-space: nowrap;
   background-color: #6f757a;
   border-radius: 5px;
   color: #2d2d2d;
@@ -59,7 +63,10 @@
 }
 
 .item.url {
-  border: none;
+  border: transparent solid 1px;
+}
+.item.url:hover {
+  border: #545454 solid 1px;
 }
 
 /*# sourceMappingURL=SectionItem.css.map */

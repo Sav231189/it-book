@@ -8,9 +8,10 @@
   background-color: #2929299c;
 
   transition: all .2s linear 0s;
+
   .mainWrapper {
     margin-right: 40px;
-    padding: 1px 0 1px 0;
+    padding: 1px 0 100px 0;
     width: calc(100vw - 400px);
     min-width: 400px;
 
@@ -18,7 +19,6 @@
     background: rgb(31 31 31);
 
     transition: all .2s linear 0s;
-
     @media (max-width: 500px) {
       min-width: 300px;
     }

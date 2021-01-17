@@ -559,6 +559,10 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 			];
 			return stateCopy;
 		}
+		case 'CLEAR_STATE': {
+			stateCopy.sectionItems = [];
+			return stateCopy;
+		}
 
 		default :
 			return state;
@@ -615,11 +619,19 @@ export const appendSectionItemsAC = (sectionItems) => {
 		sectionItems: sectionItems,
 	}
 };
+//AC CLEAR_STATE:
+export const clearStateAC = () => {
+	return {
+		type: 'CLEAR_STATE',
+	}
+};
 //THUNK getDataTHUNK:
 export const getDataTHUNK = (userId = '') => {
 	return (dispatch) => {
 		dispatch(updateStateWorkDAL());
 		if (userId !== '') {
+			dispatch(clearStateAC());
+			dispatch(updateStateWorkDAL());
 			getSectionItemDAL(userId)
 			.then((data) => {
 				if (data) {
@@ -669,8 +681,8 @@ export const getDataTHUNK = (userId = '') => {
 			.catch((error) => {
 				dispatch(addMessageAC('error', error.message))
 			});
-		} else {
-			dispatch(addDemoState());
+		}
+		else {
 		}
 	}
 };

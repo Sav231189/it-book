@@ -67,38 +67,69 @@ export function BlockComponent(props) {
 		props.deleteElementTHUNK(props.element.id, 'element', props.userId);
 	};
 
+	function textareaResize(e) {
+		e.target.style.height = 20 + "px";
+		e.target.style.height = e.target.scrollHeight + 'px';
+		if (e.type === 'focus') {
+			e.target.setSelectionRange(e.target.innerHTML.length, e.target.innerHTML.length);
+		}
+	}
+
 	return (
 		<div className={`Block ${!props.element.isBorder}`} onContextMenu={showBlockContextMenu}>
 			{title !== '' && !isChangeTitle &&
-			<div className='blockTitle'>{title} </div>
+			<div className='blockTitle' onDoubleClick={(e) => setIsChangeTitle(true)}>
+				{title}</div>
 			}
 			{isChangeTitle &&
 			<div className='blockTitle'>
 				<form action="#">
-					<input className='inputTitle' autoFocus value={title} onChange={(e) => setTitle(e.target.value)}/>
+					<textarea className='inputTitle' autoFocus
+										value={title}
+										onKeyUp={textareaResize}
+										onFocus={textareaResize}
+										onChange={(e) => {
+											setTitle(e.target.value);
+											textareaResize(e);
+										}}/>
 					<button className='saveNameBtn' onClick={changeTitleInBlock}>SAVE</button>
 				</form>
 			</div>
 			}
 			{subTitle !== '' && !isChangeSubTitle &&
-			<div className='blockSubTitle'>{subTitle}</div>
+			<div className='blockSubTitle' onDoubleClick={(e) => setIsChangeSubTitle(true)}>
+				{subTitle}</div>
 			}
 			{isChangeSubTitle &&
 			<div className='blockTitle'>
 				<form action="#">
-					<input className='inputSubTitle' autoFocus value={subTitle} onChange={(e) => setSubTitle(e.target.value)}/>
+					<textarea className='inputSubTitle' autoFocus
+										value={subTitle}
+										onKeyUp={textareaResize}
+										onFocus={textareaResize}
+										onChange={(e) => {
+											setSubTitle(e.target.value);
+											textareaResize(e);
+										}}/>
 					<button className='saveNameBtn' onClick={changeSubTitleInBlock}>SAVE</button>
 				</form>
 			</div>
 			}
 
 			{text !== '' && !isChangeText &&
-			<div className='blockText'>{text}</div>
+			<div className='blockText' onDoubleClick={(e) => setIsChangeText(true)}>
+				{text}</div>
 			}
 			{isChangeText &&
 			<div className=''>
 				<form action="#">
-					<textarea value={text} onChange={(e) => setText(e.target.value)}/>
+					<textarea value={text} autoFocus
+										onKeyUp={textareaResize}
+										onFocus={textareaResize}
+										onChange={(e) => {
+											setText(e.target.value);
+											textareaResize(e);
+										}}/>
 					<button className='saveNameBtn' onClick={changeTextInBlock}>SAVE</button>
 				</form>
 			</div>
@@ -110,7 +141,6 @@ export function BlockComponent(props) {
 			}
 
 			{/* contextMenu */}
-
 			<div ref={refContextMenu} className="contextMenu blockContextMenu"
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
 				<span onClick={addBlockInActiveFile}>New Block</span>

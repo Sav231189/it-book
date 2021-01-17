@@ -15,7 +15,7 @@ export const NavItemComponent = (props) => {
 	const refContextMenu = useRef(null);
 
 	const [isChangeName, setIsChangeName] = useState(false);
-	const [newName, setNewName] = useState('');
+	const [newName, setNewName] = useState(props.element.name);
 
 	const getStep = (step) => {
 		let steps = [];
@@ -28,7 +28,7 @@ export const NavItemComponent = (props) => {
 	const showNavItemContextMenu = (e) => {
 		if (!props.isContextMenu && !props.element.isOpenContextMenu) {
 			setIsChangeName(false);
-			setNewName('');
+			setNewName(props.element.name);
 			e.preventDefault();
 			e.stopPropagation();
 			props.changeIsContextMenuAC('isContextMenu', true);
@@ -53,7 +53,7 @@ export const NavItemComponent = (props) => {
 
 	const saveChangeName = () => {
 		props.changeNameNavItemTHUNK(props.element.id, newName, props.userId);
-		setNewName('');
+		// setNewName('');
 		setIsChangeName(false);
 	};
 
@@ -115,23 +115,28 @@ export const NavItemComponent = (props) => {
 			{/*contextMenu*/}
 			<div ref={refContextMenu} className="contextMenu"
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
-
 				<div>
 					{props.step < 7 && props.element.type === 'folder' &&
 					<span onClick={() => props.addNavItemTHUNK('folder', props.element.id, props.userId)}>
 					New Folder </span>
 					}
+					{props.element.type === 'folder' &&
 					<span onClick={() => props.addNavItemTHUNK('file', props.element.id, props.userId)}>
 					New File </span>
-					<hr/>
+					}
+					{props.element.type === 'folder' && <hr/>}
 				</div>
 
 				{!isChangeName ?
 					<div>
 						<span className="menuItem" onClick={changeName}> Change Name </span></div>
 					: <div>
-						<form action="#"><input type="text" maxLength={24} onClick={changeName} placeholder='new Name'
-																		onChange={(e) => setNewName(e.currentTarget.value)} value={newName}/>
+						<form action="#"><input type="text" maxLength={24}
+																		onClick={changeName}
+																		onContextMenu={changeName}
+																		placeholder='new Name'
+																		onChange={(e) => setNewName(e.currentTarget.value)}
+																		value={newName}/>
 							<button className="menuItem save_btn" onClick={saveChangeName}>Save</button>
 						</form>
 					</div>

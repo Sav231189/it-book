@@ -1,15 +1,22 @@
 import React, {useRef, useEffect} from 'react';
 import {connect} from "react-redux";
 import {SectionItem} from "../sectionItem/SectionItem";
-import {changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
-import {addSectionItemTHUNK, getDataTHUNK} from "../../redux/reducers/SectionReducer";
+import {changeIsContextMenuAC, isDemoAC} from "../../redux/reducers/AppReducer";
+import {addDemoState, addSectionItemTHUNK, getDataTHUNK} from "../../redux/reducers/SectionReducer";
 import './Section.css'
 import {getIsContextMenu, getIsContextMenuSection, getUserId} from "../../selectors/AppSelector";
 import {getSectionItems} from "../../selectors/SectionSelector";
 
 export function SectionComponent(props) {
 
-	useEffect(() => props.getDataTHUNK(props.userId), [props.userId]);
+	useEffect(() => {
+		if (props.userId !== ''){
+			props.getDataTHUNK(props.userId);
+			props.isDemoAC(false);
+		}else{
+			props.addDemoState();
+		}
+	}, [props.userId]);
 
 	const refContextMenu = useRef(null);
 
@@ -62,5 +69,7 @@ export const Section = connect(
 		changeIsContextMenuAC,
 		addSectionItemTHUNK,
 		getDataTHUNK,
+		addDemoState,
+		isDemoAC,
 	})(SectionComponent);
 

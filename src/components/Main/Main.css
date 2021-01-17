@@ -9,7 +9,7 @@
 }
 .Main .mainWrapper {
   margin-right: 40px;
-  padding: 1px 0 1px 0;
+  padding: 1px 0 100px 0;
   width: calc(100vw - 400px);
   min-width: 400px;
   border: #383838cf solid 1px;

@@ -212,6 +212,7 @@ export const outLoginTHUNK = () => {
 	return (dispatch) => {
 		dispatch(isDemoAC(false));
 		firebase.auth().signOut().then(() => {
+			dispatch(addUserIdAC(''));
 			dispatch(isLoginAC(false));
 			dispatch(addMessageAC('success', `Успешный выход.`));
 		}).catch((error) => {
