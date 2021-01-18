@@ -555,7 +555,17 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 					isOpenContextMenu: false,
 					isLoading: true,
 					folderItems: [],
-				}
+				},
+				{
+					id: idCounter++,
+					name: 'Name',
+					url: 'https://media1.giphy.com/media/OGGwlV1RYgX2U/200w.webp?cid=ecf05e47b634e0e7662d1340792fb704672c6665e8bc272b&rid=200w.webp',
+					position: 4,
+					isActive: false,
+					isOpenContextMenu: false,
+					isLoading: true,
+					folderItems: [],
+				},
 			];
 			return stateCopy;
 		}

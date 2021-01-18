@@ -34,3 +34,6 @@ export const getMessages = (state) => {
 export const getIsDemo = (state) => {
 	return state.app.isDemo;
 };
+export const getActiveElement = (state) => {
+	return state.app.activeElement;
+};

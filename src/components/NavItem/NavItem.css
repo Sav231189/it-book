@@ -21,13 +21,10 @@
   display: inline-grid;
   grid-template-columns: 1fr;
   grid-auto-rows: 1fr;
-  cursor: pointer;
+  cursor: default;
   letter-spacing: 0.6px;
   border-radius: 4px;
   white-space: nowrap;
-}
-.NavItem .navElement:hover {
-  background-color: #2d2d2d;
 }
 .NavItem .navElement .folder {
   display: inline-flex;
@@ -39,12 +36,13 @@
   height: 14px;
   transform: rotate(-90deg);
   fill: #a5a5a5;
+  cursor: pointer;
 }
 .NavItem .navElement .folder.emptyFolder {
-  color: rgba(134, 134, 134, 0.24);
+  color: rgba(209, 209, 209, 0.27);
 }
 .NavItem .navElement .folder.emptyFolder svg {
-  fill: rgba(134, 134, 134, 0.24);
+  fill: rgba(209, 209, 209, 0.27);
 }
 .NavItem .navElement .folder span {
   margin-left: 5px;
@@ -64,17 +62,21 @@
 .NavItem .navElement .file span {
   margin-left: 4px;
 }
-.NavItem .navElement.active .folder svg {
+.NavItem .navElement.open .folder svg {
   transform: rotate(0deg);
 }
-.NavItem .navElement.active .folder.emptyFolder svg {
+.NavItem .navElement.open .folder.emptyFolder svg {
   transform: rotate(-90deg);
 }
-.NavItem .navElement.active .file {
+.NavItem .navElement.open .file {
   color: #07ff0070;
 }
-.NavItem .navElement.active .file svg {
+.NavItem .navElement.open .file svg {
   fill: #07ff0070;
+}
+.NavItem .navElement.active {
+  border: #484848 solid 1px;
+  background-color: #2d2d2d;
 }
 
 .NavItem.true .navElement {

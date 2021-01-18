@@ -19,6 +19,7 @@
   padding-left: 3px;
   display: flex;
   align-items: center;
+  cursor: default;
   color: #BC5151;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-left: 2px solid transparent;
@@ -26,40 +27,21 @@
   text-indent: 2px;
   letter-spacing: 0.1em;
 }
-.Block .blockTitle:hover {
-  border-left: 2px solid #606060;
-  border-radius: 1px;
-}
-.Block .blockTitle::selection {
-  background-color: #9c9c9c;
-}
 .Block .blockSubTitle {
   padding-left: 5px;
+  cursor: default;
   color: #448740;
   border-left: 2px solid transparent;
   letter-spacing: 0.005em;
   font-size: 14px;
 }
-.Block .blockSubTitle:hover {
-  border-left: 2px solid #606060;
-  border-radius: 1px;
-}
-.Block .blockSubTitle::selection {
-  background-color: #9c9c9c;
-}
 .Block .blockText {
   padding-left: 5px;
+  cursor: default;
   color: #919191;
   border-left: 2px solid transparent;
   letter-spacing: 0.005em;
   font-size: 14px;
-}
-.Block .blockText:hover {
-  border-left: 2px solid #606060;
-  border-radius: 1px;
-}
-.Block .blockText::selection {
-  background-color: #9c9c9c;
 }
 .Block .saveNameBtn {
   margin: 2px;
@@ -118,6 +100,11 @@
 
 .Block.true {
   border: 2px transparent solid;
+}
+
+.Block.active {
+  border: #4f4f4f solid 2px;
+  background: #242424;
 }
 
 /*# sourceMappingURL=Block.css.map */

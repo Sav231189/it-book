@@ -6,9 +6,9 @@ import {
 	changeIsOpenContextMenuItemAC, changePositionTHUNK,
 	deleteElementTHUNK
 } from "../../redux/reducers/SectionReducer";
-import {changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
+import {changeActiveElement, changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
 import {getActiveFile} from "../../selectors/SectionSelector";
-import {getIsContextMenu, getUserId} from "../../selectors/AppSelector";
+import {getActiveElement, getIsContextMenu, getUserId} from "../../selectors/AppSelector";
 
 export function BlockComponent(props) {
 
@@ -64,7 +64,9 @@ export function BlockComponent(props) {
 			props.changePositionTHUNK(props.element.id, "down", props.userId)
 	};
 	const deleteBlock = () => {
-		props.deleteElementTHUNK(props.element.id, 'element', props.userId);
+		if (window.confirm('Вы хотите удалить блок?')){
+			props.deleteElementTHUNK(props.element.id, 'element', props.userId);
+		}
 	};
 
 	function textareaResize(e) {
@@ -75,8 +77,14 @@ export function BlockComponent(props) {
 		}
 	}
 
+	const activeElement = (e) => {
+		props.changeActiveElement(props.element.id);
+	};
+
 	return (
-		<div className={`Block ${!props.element.isBorder}`} onContextMenu={showBlockContextMenu}>
+		<div className={`Block ${!props.element.isBorder} ${props.activeElement === props.element.id && 'active'}`}
+				 onContextMenu={showBlockContextMenu}
+				 onClick={activeElement} >
 			{title !== '' && !isChangeTitle &&
 			<div className='blockTitle' onDoubleClick={(e) => setIsChangeTitle(true)}>
 				{title}</div>
@@ -143,27 +151,27 @@ export function BlockComponent(props) {
 			{/* contextMenu */}
 			<div ref={refContextMenu} className="contextMenu blockContextMenu"
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
-				<span onClick={addBlockInActiveFile}>New Block</span>
+				<span onPointerDown={addBlockInActiveFile}>New Block</span>
 				<hr/>
-				<span onClick={() => {
+				<span onPointerDown={() => {
 					setTitle(title === '' ? 'new Title' : title);
 					setIsChangeTitle(true);
 				}}>Change Title</span>
-				<span onClick={() => {
+				<span onPointerDown={() => {
 					setSubTitle(subTitle === '' ? 'new Sub-Title' : subTitle);
 					setIsChangeSubTitle(true);
 				}}>Change Sub-Title</span>
-				<span onClick={() => {
+				<span onPointerDown={() => {
 					setText(text === '' ? 'new Text' : text);
 					setIsChangeText(true);
 				}}>Change Text</span>
 				<hr/>
-				<span onClick={changeBorderInBlock}>{props.element.isBorder ? `Clear Border` : `Show Border`}</span>
+				<span onPointerDown={changeBorderInBlock}>{props.element.isBorder ? `Clear Border` : `Show Border`}</span>
 				<hr/>
-				<span onClick={changePosition}>Position UP</span>
-				<span onClick={changePosition}>Position DOWN</span>
+				<span onPointerDown={changePosition}>Position UP</span>
+				<span onPointerDown={changePosition}>Position DOWN</span>
 				<hr/>
-				<span onClick={deleteBlock}>Delete Block</span>
+				<span onPointerDown={deleteBlock}>Delete Block</span>
 			</div>
 
 		</div>
@@ -175,6 +183,7 @@ export const Block = connect(
 		isContextMenu: getIsContextMenu(state),
 		userId: getUserId(state),
 		activeFile: getActiveFile(state),
+		activeElement: getActiveElement(state),
 	}), {
 		changeIsContextMenuAC,
 		changeIsOpenContextMenuItemAC,
@@ -182,5 +191,6 @@ export const Block = connect(
 		changeBlockTHUNK,
 		changePositionTHUNK,
 		deleteElementTHUNK,
+		changeActiveElement,
 	})
 (BlockComponent);

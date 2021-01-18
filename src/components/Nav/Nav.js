@@ -35,9 +35,11 @@ export function NavContainer(props) {
 			{!props.activeSectionItem
 				? <div className='previewNav'><img src={arrow_left} alt="arrow_left"/>SELECT SECTION</div>
 				: <div className='panelNavTitle'>
-					<div></div>
+					<div>
+					</div>
 					<span>{props.activeSectionItem.name}</span>
-					<div></div>
+					<div>
+					</div>
 				</div>
 			}
 
@@ -55,14 +57,17 @@ export function NavContainer(props) {
 			{props.activeSectionItem &&
 			props.activeSectionItem.folderItems.map((el) => <NavItem key={el.id} element={el} step={0}/>)}
 
+			<div style={{marginBottom: '140px'}}>
+			</div>
+
 			{/*contextMenu*/}
 			<div ref={refContextMenu} className="contextMenu"
 					 style={props.isContextMenuNav ? {display: 'block'} : {display: 'none'}}>
-				<span onClick={() => {
+				<span onPointerDown={() => {
 					props.addNavItemTHUNK('folder', props.activeSectionItem.id, props.userId)
 				}}> New Folder </span>
 				<hr/>
-				<span onClick={() => {
+				<span onPointerDown={() => {
 					props.addNavItemTHUNK('file', props.activeSectionItem.id, props.userId)
 				}}> New File </span>
 			</div>

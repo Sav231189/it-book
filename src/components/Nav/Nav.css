@@ -47,6 +47,7 @@
   width: calc(100% - 30px);
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
+  cursor: default;
   color: #964949d9;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.98);
   text-align: center;

@@ -30,7 +30,7 @@ function AppComponent(props) {
 				</div>
 			}
 			{props.isDemo && !props.isAuth &&
-			<div className="app" onClick={props.closeAllContextMenuTHUNK} onContextMenu={props.closeAllContextMenuTHUNK}>
+			<div className="app" onPointerDown={props.closeAllContextMenuTHUNK} onContextMenu={props.closeAllContextMenuTHUNK}>
 				<Header/>
 				<div className='appWindow'>
 					<Panel isShowPanel={props.isShowPanel}/>

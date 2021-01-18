@@ -14,7 +14,8 @@ const initialState = {
 	isShowPanel: true,
 	isLoading: true,
 	messages: [],
-	isDemo: false
+	isDemo: false,
+	activeElement: ''
 };
 
 export const AppReducer = (state = initialState, action) => {
@@ -68,8 +69,21 @@ export const AppReducer = (state = initialState, action) => {
 			return stateCopy;
 		}
 
+		case 'CHANGE_ACTIVE_ELEMENT': {
+			stateCopy.activeElement = action.id;
+			return stateCopy;
+		}
+
 		default :
 			return state;
+	}
+};
+
+//AC CHANGE_IS_ACTIVE_ELEMENT:
+export const changeActiveElement = (id) => {
+	return {
+		type: 'CHANGE_ACTIVE_ELEMENT',
+		id: id,
 	}
 };
 

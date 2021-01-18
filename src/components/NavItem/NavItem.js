@@ -6,9 +6,9 @@ import {
 	changeIsOpenItemTHUNK, changeNameNavItemTHUNK,
 	changePositionTHUNK, deleteElementTHUNK,
 } from "../../redux/reducers/SectionReducer";
-import {changeIsContextMenuAC, changePanelShowAC} from "../../redux/reducers/AppReducer";
+import {changeActiveElement, changeIsContextMenuAC, changePanelShowAC} from "../../redux/reducers/AppReducer";
 import {getActiveSectionItem} from "../../selectors/SectionSelector";
-import {getIsContextMenu, getUserId} from "../../selectors/AppSelector";
+import {getActiveElement, getIsContextMenu, getUserId} from "../../selectors/AppSelector";
 
 export const NavItemComponent = (props) => {
 
@@ -27,6 +27,7 @@ export const NavItemComponent = (props) => {
 
 	const showNavItemContextMenu = (e) => {
 		if (!props.isContextMenu && !props.element.isOpenContextMenu) {
+			activeElement()
 			setIsChangeName(false);
 			setNewName(props.element.name);
 			e.preventDefault();
@@ -47,7 +48,7 @@ export const NavItemComponent = (props) => {
 
 	const changeName = (e) => {
 		setIsChangeName(true);
-		e.preventDefault();
+		// e.preventDefault();
 		e.stopPropagation();
 	};
 
@@ -58,7 +59,8 @@ export const NavItemComponent = (props) => {
 	};
 
 	const changeIsOpenItem = (e) => {
-		if (props.element.type === 'folder' && props.element.folderItems.length > 0) {
+		window.getSelection().removeAllRanges();
+		if ( props.element.type === 'folder' && props.element.folderItems.length > 0) {
 			props.changeIsOpenItemTHUNK(props.element.id, props.userId);
 		}
 		if (props.element.type === 'file') {
@@ -79,16 +81,21 @@ export const NavItemComponent = (props) => {
 		}
 	};
 
+	const activeElement = (e) => {
+		props.changeActiveElement(props.element.id);
+	};
+
 	return (
 		<div className={`NavItem ${props.element.isOpenContextMenu}`}>
-			<div className={`navElement ${props.element.isOpen && "active"}`}
-					 onClick={changeIsOpenItem}
+			<div className={`navElement ${props.element.isOpen && "open"} ${props.activeElement === props.element.id && 'active'}`}
+					 onDoubleClick={changeIsOpenItem}
+					 onClick={activeElement}
 					 onContextMenu={showNavItemContextMenu}>
 				{props.element.type === "folder" &&
 				<div
 					className={`folder ${!props.element.folderItems.length > 0 && 'emptyFolder'}`}>
 					{getStep(props.step)}
-					<svg className={`folderImg`}
+					<svg onClick={e=>{changeIsOpenItem();e.stopPropagation()}} className={`folderImg`}
 							 viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
 						<path
 							d="M8.82187 14.453L0.2805 5.90875C-0.0934677 5.53383 -0.0934677 4.92641 0.2805 4.55055C0.654469 4.17563 1.26189 4.17563 1.63586 4.55055L9.49951 12.417L17.3632 4.5515C17.7371 4.17658 18.3445 4.17658 18.7195 4.5515C19.0934 4.92641 19.0934 5.53478 18.7195 5.90969L10.1782 14.4539C9.80807 14.8231 9.1911 14.8231 8.82187 14.453Z"/>
@@ -117,11 +124,11 @@ export const NavItemComponent = (props) => {
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
 				<div>
 					{props.step < 7 && props.element.type === 'folder' &&
-					<span onClick={() => props.addNavItemTHUNK('folder', props.element.id, props.userId)}>
+					<span onPointerDown={() => props.addNavItemTHUNK('folder', props.element.id, props.userId)}>
 					New Folder </span>
 					}
 					{props.element.type === 'folder' &&
-					<span onClick={() => props.addNavItemTHUNK('file', props.element.id, props.userId)}>
+					<span onPointerDown={() => props.addNavItemTHUNK('file', props.element.id, props.userId)}>
 					New File </span>
 					}
 					{props.element.type === 'folder' && <hr/>}
@@ -129,23 +136,23 @@ export const NavItemComponent = (props) => {
 
 				{!isChangeName ?
 					<div>
-						<span className="menuItem" onClick={changeName}> Change Name </span></div>
+						<span className="menuItem" onPointerDown={changeName}> Change Name </span></div>
 					: <div>
 						<form action="#"><input type="text" maxLength={24}
-																		onClick={changeName}
+																		onPointerDown={changeName}
 																		onContextMenu={changeName}
 																		placeholder='new Name'
 																		onChange={(e) => setNewName(e.currentTarget.value)}
 																		value={newName}/>
-							<button className="menuItem save_btn" onClick={saveChangeName}>Save</button>
+							<button className="menuItem save_btn" onPointerDown={saveChangeName}>Save</button>
 						</form>
 					</div>
 				}
 				<hr/>
-				<span onClick={changePosition}>Position UP</span>
-				<span onClick={changePosition}>Position DOWN</span>
+				<span onPointerDown={changePosition}>Position UP</span>
+				<span onPointerDown={changePosition}>Position DOWN</span>
 				<hr/>
-				<span onClick={deleteNavItem}>Удалить</span>
+				<span onPointerDown={deleteNavItem}>Удалить</span>
 			</div>
 		</div>
 	);
@@ -156,6 +163,7 @@ export const NavItem = connect(
 		isContextMenu: getIsContextMenu(state),
 		userId: getUserId(state),
 		activeSectionItem: getActiveSectionItem(state),
+		activeElement: getActiveElement(state),
 	}), {
 		changeIsOpenContextMenuItemAC,
 		changeIsContextMenuAC,
@@ -165,5 +173,6 @@ export const NavItem = connect(
 		changeNameNavItemTHUNK,
 		changePositionTHUNK,
 		changePanelShowAC,
+		changeActiveElement,
 	}
 )(NavItemComponent);

@@ -53,7 +53,7 @@ export function SectionComponent(props) {
 			{props.sectionItems.map((el) => <SectionItem key={el.id} element={el}/>)}
 			<div ref={refContextMenu} className="contextMenu"
 					 style={props.isContextMenuSection ? {display: 'block'} : {display: 'none'}}>
-				<span onClick={(e) => props.addSectionItemTHUNK(props.userId)}>Add Section</span>
+				<span onPointerDown={(e) => props.addSectionItemTHUNK(props.userId)}>Add Section</span>
 			</div>
 		</div>
 	);

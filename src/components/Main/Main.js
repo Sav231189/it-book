@@ -57,7 +57,7 @@ export function MainComponent(props) {
 			{/*contextMenu*/}
 			<div ref={refContextMenu} className="contextMenu"
 					 style={props.isContextMenuMain ? {display: 'block'} : {display: 'none'}}>
-				<span onClick={(e) => {
+				<span onPointerDown={(e) => {
 					props.addBlockInActiveFileTHUNK(props.activeFile.id, props.userId)
 				}}> New Block </span>
 			</div>

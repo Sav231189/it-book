@@ -1,3 +1,7 @@
+*::selection {
+  background-color: #9c9c9c;
+}
+
 .app {
   width: 100vw;
   height: 100vh;

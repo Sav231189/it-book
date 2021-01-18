@@ -43,13 +43,11 @@ export function SectionItemComponent(props) {
 	const changeName = (e) => {
 		setIsChangeName(true);
 		setIsChangeImg(false);
-		e.preventDefault();
 		e.stopPropagation();
 	};
 	const changeImg = (e) => {
 		setIsChangeName(false);
 		setIsChangeImg(true);
-		e.preventDefault();
 		e.stopPropagation();
 	};
 
@@ -92,40 +90,40 @@ export function SectionItemComponent(props) {
 
 			<div ref={refContextMenu} className="contextMenu"
 					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
-				{!isChangeName ? <div><span className="menuItem" onClick={changeName}> Change Name </span></div>
+				{!isChangeName ? <div><span className="menuItem" onPointerDown={changeName}> Change Name </span></div>
 					: <div>
 						<form action="#"><input type="text"
 																		maxLength={24}
-																		onClick={changeName}
+																		onPointerDown={changeName}
 																		onContextMenu={changeName}
 																		placeholder='new Name'
 																		onChange={(e) => setNewName(e.currentTarget.value)} value={newName}/>
-							<button className="menuItem save_btn" onClick={saveChange}>Save</button>
+							<button className="menuItem save_btn" onPointerDown={saveChange}>Save</button>
 						</form>
 						<hr/>
 					</div>
 				}
 				{!isChangeImg
-					? <div><span className="menuItem" onClick={changeImg}> Change Img </span>
+					? <div><span className="menuItem" onPointerDown={changeImg}> Change Img </span>
 						<hr/>
 					</div>
 					: <div>
 						<hr/>
 						<form action="#"><input type="text"
-																		onClick={changeImg}
+																		onPointerDown={changeImg}
 																		onContextMenu={changeImg}
 																		placeholder='new URL'
 																		onChange={(e) => setNewImgURL(e.currentTarget.value)}
 																		value={newImgURL}/>
-							<button className="menuItem save_btn" onClick={saveChange}>Save</button>
+							<button className="menuItem save_btn" onPointerDown={saveChange}>Save</button>
 						</form>
 						<hr/>
 					</div>
 				}
-				<span onClick={changePosition}>Position UP</span>
-				<span onClick={changePosition}>Position DOWN</span>
+				<span onPointerDown={changePosition}>Position UP</span>
+				<span onPointerDown={changePosition}>Position DOWN</span>
 				<hr/>
-				<span onClick={deleteSectionItem}>Удалить</span>
+				<span onPointerDown={deleteSectionItem}>Удалить</span>
 			</div>
 		</div>
 	);
