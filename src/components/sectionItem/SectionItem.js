@@ -52,6 +52,7 @@ export function SectionItemComponent(props) {
 	};
 
 	const changePosition = (e) => {
+		e.stopPropagation();
 		e.target.innerHTML === 'Position UP' ?
 			props.changePositionTHUNK(props.element.id, 'up', props.userId) :
 			props.changePositionTHUNK(props.element.id, 'down', props.userId)
@@ -120,8 +121,16 @@ export function SectionItemComponent(props) {
 						<hr/>
 					</div>
 				}
-				<span onPointerDown={changePosition}>Position UP</span>
-				<span onPointerDown={changePosition}>Position DOWN</span>
+				<span onPointerDown={changePosition}
+							onDoubleClick={e => {
+								e.stopPropagation()
+							}}
+				>Position UP</span>
+				<span onPointerDown={changePosition}
+							onDoubleClick={e => {
+								e.stopPropagation()
+							}}
+				>Position DOWN</span>
 				<hr/>
 				<span onPointerDown={deleteSectionItem}>Удалить</span>
 			</div>

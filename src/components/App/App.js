@@ -21,7 +21,7 @@ function AppComponent(props) {
 			{!props.isAuth ?
 				<Start/>
 				:
-				<div className="app" onClick={props.closeAllContextMenuTHUNK} onContextMenu={props.closeAllContextMenuTHUNK}>
+				<div className="app" onPointerDown={props.closeAllContextMenuTHUNK} onContextMenu={props.closeAllContextMenuTHUNK}>
 					<Header/>
 					<div className='appWindow'>
 						<Panel isShowPanel={props.isShowPanel}/>

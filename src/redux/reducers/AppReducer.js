@@ -104,6 +104,7 @@ export const closeAllContextMenuAC = () => {
 //THUNK closeAllContextMenuTHUNK:
 export const closeAllContextMenuTHUNK = () => {
 	return (dispatch) => {
+		dispatch(changeActiveElement(""));
 		dispatch(closeAllContextMenuAC());
 		dispatch(closeAllIsOpenContextMenuItemsAC());
 	}

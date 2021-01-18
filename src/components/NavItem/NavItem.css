@@ -23,7 +23,7 @@
   grid-auto-rows: 1fr;
   cursor: default;
   letter-spacing: 0.6px;
-  border-radius: 4px;
+  border: transparent solid 1px;
   white-space: nowrap;
 }
 .NavItem .navElement .folder {
@@ -62,6 +62,9 @@
 .NavItem .navElement .file span {
   margin-left: 4px;
 }
+.NavItem .navElement .file span::selection {
+  background: transparent;
+}
 .NavItem .navElement.open .folder svg {
   transform: rotate(0deg);
 }
@@ -74,13 +77,23 @@
 .NavItem .navElement.open .file svg {
   fill: #07ff0070;
 }
-.NavItem .navElement.active {
+
+.NavItem.true .navStep {
+  background-color: #b1b1b1;
+}
+.NavItem.true .navElement {
+  border-left: #b1b1b1 solid 1px;
+}
+.NavItem.true .navElement.active {
   border: #484848 solid 1px;
-  background-color: #2d2d2d;
+  background-color: #3e1f1f38;
+  border-radius: 4px;
 }
 
-.NavItem.true .navElement {
-  background-color: #2d2d2d;
+.navElement.active {
+  border: #484848 solid 1px;
+  background-color: #3e1f1f38;
+  border-radius: 4px;
 }
 
 /*# sourceMappingURL=NavItem.css.map */

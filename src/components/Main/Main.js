@@ -3,9 +3,10 @@ import './Main.css';
 import {connect} from "react-redux";
 import {getActiveFile} from "../../selectors/SectionSelector";
 import {Block} from "../Block/Block";
-import {changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
-import {addBlockInActiveFileTHUNK} from "../../redux/reducers/SectionReducer";
+import {changeActiveElement, changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
+import {addBlockInActiveFileTHUNK, pastElementTHUNK} from "../../redux/reducers/SectionReducer";
 import {
+	getActiveElement,
 	getIsContextMenu,
 	getIsContextMenuMain, getIsShowPanel, getUserId
 } from "../../selectors/AppSelector";
@@ -31,9 +32,21 @@ export function MainComponent(props) {
 			}
 		}
 	};
-
+	const activeElement = (e) => {
+		if (props.activeFile) {
+			props.changeActiveElement(props.activeFile.id);
+		}
+		// e.stopPropagation()
+	};
 	return (
-		<div className={`Main ${props.isShowPanel}`} onContextMenu={showMenuContextNav}>
+		<div className={`Main ${props.isShowPanel}`} onContextMenu={showMenuContextNav}
+				 onClick={activeElement}
+				 onPaste={e => {
+					 console.log('Past Main');
+					 props.pastElementTHUNK(e.clipboardData.getData('text/plain'),props.activeElement, props.userId);
+					 e.stopPropagation()
+				 }}
+		>
 			{props.activeFile &&
 			<div>
 
@@ -58,7 +71,8 @@ export function MainComponent(props) {
 			<div ref={refContextMenu} className="contextMenu"
 					 style={props.isContextMenuMain ? {display: 'block'} : {display: 'none'}}>
 				<span onPointerDown={(e) => {
-					props.addBlockInActiveFileTHUNK(props.activeFile.id, props.userId)
+					props.addBlockInActiveFileTHUNK(props.activeFile.id, props.userId);
+
 				}}> New Block </span>
 			</div>
 		</div>
@@ -72,7 +86,10 @@ export const Main = connect(
 		userId: getUserId(state),
 		isShowPanel: getIsShowPanel(state),
 		activeFile: getActiveFile(state),
+		activeElement: getActiveElement(state),
 	}), {
 		changeIsContextMenuAC,
 		addBlockInActiveFileTHUNK,
+		changeActiveElement,
+		pastElementTHUNK,
 	})(MainComponent);

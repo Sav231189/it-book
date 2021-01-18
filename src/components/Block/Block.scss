@@ -1,6 +1,6 @@
 .Block {
   margin: 5px 5px 5px;
-  padding: 5px 0 5px;
+  padding: 5px ;
   width: calc(100% - 10px);
   min-height: 30px;
   overflow-x: hidden;
@@ -16,9 +16,13 @@
     width: 185px;
     background-color: #333333;
   }
+  .blockGeneral {
+    display: flex;
+    align-items: center;
+    cursor: default;
+
+  }
   .blockTitle {
-    left: -2px;
-    padding-left: 3px;
     display: flex;
     align-items: center;
     cursor: default;
@@ -34,7 +38,7 @@
   }
 
   .blockSubTitle {
-    padding-left: 5px;
+    //padding-left: 5px;
     cursor: default;
 
     color: #448740;
@@ -46,7 +50,8 @@
   }
 
   .blockText {
-    padding-left: 5px;
+    //left: -2px;
+    //padding-left: 3px;
     cursor: default;
 
     color: #919191;
@@ -56,35 +61,32 @@
     font-size: 14px;
 
   }
-
+  @keyframes demoExit {
+    0% {background-color: #616161;}
+    100% {background-color: #b6b6b6;}
+  }
   .saveNameBtn {
-    margin: 2px;
-    padding: 4px 10px;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
+    margin: 3px 1px;
+    padding: 2px 5px;
+    background-color: #9c9c9c;
+    border-radius: 2px;
+    box-shadow: 1px 1px 5px rgb(0 0 0);
+    animation: demoExit 1s ease-out 0s infinite alternate;
 
-    background-color: #b7b7b7;
-    color: #2d2d2d;
-
-    font-size: 13px;
-    &:hover{
-      background-color: #989898;
+    &:active {
+      transform: scale(0.98);
+      animation-play-state: paused;
     }
   }
 
-  input {
-    background-color: #1F1F1F;
-    border: transparent solid 1px;
-  }
   textarea {
-    padding-left: 5px;
+    //padding-left: 5px;
     width: 100%;
     min-height: 20px;
     resize: none;
     overflow: hidden;
 
+    border: #333333 solid 1px;
     background-color: #1F1F1F;
     color: #919191;
   }
@@ -104,6 +106,21 @@
       font-size: 17px;
       text-indent: 2px;
       letter-spacing: 0.1em;
+      &::placeholder {
+        //left: -2px;
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+        cursor: default;
+        opacity: .2;
+
+        color: #BC5151;
+        text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+        font-size: 17px;
+        text-indent: 2px;
+        letter-spacing: 0.1em;
+      }
     }
     .inputSubTitle {
       padding: 2px 0;
@@ -116,6 +133,34 @@
       font-size: 14px;
       color: #448740;
       letter-spacing: 0.005em;
+
+      &::placeholder {
+        padding-left: 10px;
+        cursor: default;
+        opacity: .2;
+
+        color: #448740;
+        border-left: 2px solid transparent;
+
+        letter-spacing: 0.005em;
+        font-size: 14px;
+      }
+    }
+    .inputText {
+      padding: 2px 0;
+
+      &::placeholder {
+        padding-left: 10px;
+        cursor: default;
+        opacity: .2;
+
+        color: #919191;
+        border-left: 2px solid transparent;
+
+        letter-spacing: 0.005em;
+        font-size: 14px;
+
+      }
     }
   }
 }
@@ -124,8 +169,11 @@
 .Block.true {
   border: 2px transparent solid;
 }
+.Block.true.active {
+  border: 2px transparent solid;
+}
 .Block.active {
   border: #4f4f4f solid 2px;
-  background: #242424;
+  background: #56292938;
 }
 

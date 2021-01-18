@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {
 	addBlockInActiveFileTHUNK, changeBlockTHUNK,
 	changeIsOpenContextMenuItemAC, changePositionTHUNK,
-	deleteElementTHUNK
+	deleteElementTHUNK, pastElementTHUNK
 } from "../../redux/reducers/SectionReducer";
 import {changeActiveElement, changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
 import {getActiveFile} from "../../selectors/SectionSelector";
@@ -18,14 +18,14 @@ export function BlockComponent(props) {
 	let [subTitle, setSubTitle] = useState(props.element.subTitle);
 	let [text, setText] = useState(props.element.text);
 
-	let [isChangeTitle, setIsChangeTitle] = useState(false);
-	let [isChangeSubTitle, setIsChangeSubTitle] = useState(false);
-	let [isChangeText, setIsChangeText] = useState(false);
+	let [isChangeBlock, setIsChangeBlock] = useState(false);
 
 	const showBlockContextMenu = (e) => {
+
 		if (!props.isContextMenu && !props.element.isOpenContextMenu && props.activeFile) {
 			e.preventDefault();
 			e.stopPropagation();
+			activeElement();
 			props.changeIsContextMenuAC('isContextMenu', true);
 			props.changeIsOpenContextMenuItemAC(props.element.id, true);
 			if (e.clientY < window.innerHeight - 240) {
@@ -42,29 +42,18 @@ export function BlockComponent(props) {
 	const addBlockInActiveFile = () => {
 		props.addBlockInActiveFileTHUNK(props.activeFile.id, props.userId);
 	};
-	const changeTitleInBlock = () => {
-		setIsChangeTitle(false);
-		props.changeBlockTHUNK(props.element.id, 'changeTitle', title, props.userId);
 
-	};
-	const changeSubTitleInBlock = () => {
-		setIsChangeSubTitle(false);
-		props.changeBlockTHUNK(props.element.id, 'changeSubTitle', subTitle, props.userId);
-	};
-	const changeTextInBlock = () => {
-		setIsChangeText(false);
-		props.changeBlockTHUNK(props.element.id, 'changeText', text, props.userId);
-	};
 	const changeBorderInBlock = () => {
 		props.changeBlockTHUNK(props.element.id, 'changeBorder', '', props.userId);
 	};
 	const changePosition = (e) => {
+		e.stopPropagation()
 		e.target.innerHTML === 'Position UP' ?
 			props.changePositionTHUNK(props.element.id, "up", props.userId) :
 			props.changePositionTHUNK(props.element.id, "down", props.userId)
 	};
 	const deleteBlock = () => {
-		if (window.confirm('Вы хотите удалить блок?')){
+		if (window.confirm('Вы хотите удалить блок?')) {
 			props.deleteElementTHUNK(props.element.id, 'element', props.userId);
 		}
 	};
@@ -77,22 +66,50 @@ export function BlockComponent(props) {
 		}
 	}
 
+	function changeInBlock(e) {
+		setIsChangeBlock(false);
+		props.changeBlockTHUNK(props.element.id, 'changeTitle', title, props.userId);
+		props.changeBlockTHUNK(props.element.id, 'changeSubTitle', subTitle, props.userId);
+		props.changeBlockTHUNK(props.element.id, 'changeText', text, props.userId);
+	}
+
 	const activeElement = (e) => {
-		props.changeActiveElement(props.element.id);
+		if (window.getSelection().isCollapsed && !isChangeBlock) {
+			props.changeActiveElement(props.element.id);
+		}
 	};
 
 	return (
-		<div className={`Block ${!props.element.isBorder} ${props.activeElement === props.element.id && 'active'}`}
-				 onContextMenu={showBlockContextMenu}
-				 onClick={activeElement} >
-			{title !== '' && !isChangeTitle &&
-			<div className='blockTitle' onDoubleClick={(e) => setIsChangeTitle(true)}>
+		<div
+			className={`Block ${!props.element.isBorder} ${props.activeElement === props.element.id && !isChangeBlock && 'active'}`}
+			onContextMenu={showBlockContextMenu}
+			onDoubleClick={(e) => setIsChangeBlock(true)}
+			onClick={e => {
+				activeElement()
+				e.stopPropagation();
+			}}
+			onCopy={e => {
+				console.log('copy BlocK');
+				if (window.getSelection().isCollapsed && !isChangeBlock) {
+					e.clipboardData.setData('text/plain', JSON.stringify(props.element));
+					e.preventDefault();
+				}
+			}}
+			onPaste={e => {
+				console.log('Past in Block');
+				props.pastElementTHUNK(e.clipboardData.getData('text/plain'), props.activeElement, props.userId);
+				e.stopPropagation()
+			}}
+			// onClick={activeElement}
+		>
+			{title !== '' && !isChangeBlock &&
+			<div className='blockTitle'>
 				{title}</div>
 			}
-			{isChangeTitle &&
-			<div className='blockTitle'>
+			{isChangeBlock &&
+			<div className='blockGeneral'>
 				<form action="#">
-					<textarea className='inputTitle' autoFocus
+					<textarea className='inputTitle' autoFocus placeholder='Title'
 										value={title}
 										onKeyUp={textareaResize}
 										onFocus={textareaResize}
@@ -100,18 +117,19 @@ export function BlockComponent(props) {
 											setTitle(e.target.value);
 											textareaResize(e);
 										}}/>
-					<button className='saveNameBtn' onClick={changeTitleInBlock}>SAVE</button>
 				</form>
 			</div>
 			}
-			{subTitle !== '' && !isChangeSubTitle &&
-			<div className='blockSubTitle' onDoubleClick={(e) => setIsChangeSubTitle(true)}>
+
+			{subTitle !== '' && !isChangeBlock &&
+			<div className='blockSubTitle'>
 				{subTitle}</div>
 			}
-			{isChangeSubTitle &&
-			<div className='blockTitle'>
+
+			{isChangeBlock &&
+			<div className='blockGeneral'>
 				<form action="#">
-					<textarea className='inputSubTitle' autoFocus
+					<textarea className='inputSubTitle' autoFocus placeholder='SubTitle'
 										value={subTitle}
 										onKeyUp={textareaResize}
 										onFocus={textareaResize}
@@ -119,28 +137,29 @@ export function BlockComponent(props) {
 											setSubTitle(e.target.value);
 											textareaResize(e);
 										}}/>
-					<button className='saveNameBtn' onClick={changeSubTitleInBlock}>SAVE</button>
 				</form>
 			</div>
 			}
 
-			{text !== '' && !isChangeText &&
-			<div className='blockText' onDoubleClick={(e) => setIsChangeText(true)}>
+			{text !== '' && !isChangeBlock &&
+			<div className='blockText'>
 				{text}</div>
 			}
-			{isChangeText &&
-			<div className=''>
+			{isChangeBlock &&
+			<div className='blockGeneral'>
 				<form action="#">
-					<textarea value={text} autoFocus
+					<textarea className='inputText' value={text} autoFocus placeholder='Text'
 										onKeyUp={textareaResize}
 										onFocus={textareaResize}
 										onChange={(e) => {
 											setText(e.target.value);
 											textareaResize(e);
 										}}/>
-					<button className='saveNameBtn' onClick={changeTextInBlock}>SAVE</button>
 				</form>
 			</div>
+			}
+			{isChangeBlock &&
+			<button className='saveNameBtn' onClick={changeInBlock}>SAVE</button>
 			}
 
 			{props.element.fileMain &&
@@ -154,22 +173,21 @@ export function BlockComponent(props) {
 				<span onPointerDown={addBlockInActiveFile}>New Block</span>
 				<hr/>
 				<span onPointerDown={() => {
-					setTitle(title === '' ? 'new Title' : title);
-					setIsChangeTitle(true);
-				}}>Change Title</span>
-				<span onPointerDown={() => {
-					setSubTitle(subTitle === '' ? 'new Sub-Title' : subTitle);
-					setIsChangeSubTitle(true);
-				}}>Change Sub-Title</span>
-				<span onPointerDown={() => {
-					setText(text === '' ? 'new Text' : text);
-					setIsChangeText(true);
-				}}>Change Text</span>
+					setIsChangeBlock(true);
+				}}>Change Block</span>
 				<hr/>
 				<span onPointerDown={changeBorderInBlock}>{props.element.isBorder ? `Clear Border` : `Show Border`}</span>
 				<hr/>
-				<span onPointerDown={changePosition}>Position UP</span>
-				<span onPointerDown={changePosition}>Position DOWN</span>
+				<span onPointerDown={changePosition}
+							onDoubleClick={e => {
+								e.stopPropagation()
+							}}
+				>Position UP</span>
+				<span onPointerDown={changePosition}
+							onDoubleClick={e => {
+								e.stopPropagation()
+							}}
+				>Position DOWN</span>
 				<hr/>
 				<span onPointerDown={deleteBlock}>Delete Block</span>
 			</div>
@@ -192,5 +210,6 @@ export const Block = connect(
 		changePositionTHUNK,
 		deleteElementTHUNK,
 		changeActiveElement,
+		pastElementTHUNK,
 	})
 (BlockComponent);

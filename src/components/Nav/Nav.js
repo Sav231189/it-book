@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import './Nav.css';
 import {connect} from "react-redux";
 import {addNavItemTHUNK} from "../../redux/reducers/SectionReducer";
-import {changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
+import {changeActiveElement, changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
 import {getActiveSectionItem} from "../../selectors/SectionSelector";
 import {NavItem} from "../NavItem/NavItem";
 import arrow_left from "../../img/arrow_left.png";
@@ -30,8 +30,16 @@ export function NavContainer(props) {
 		}
 	};
 
+	const activeElement = (e) => {
+		if (window.getSelection().isCollapsed) {
+			props.changeActiveElement(props.activeSectionItem.id);
+			if(!props.isContextMenu) e.stopPropagation();
+		}
+	};
 	return (
-		<div className='Nav' onContextMenu={showMenuContextNav}>
+		<div className='Nav' onContextMenu={showMenuContextNav}
+				 onPointerDown={activeElement}
+		>
 			{!props.activeSectionItem
 				? <div className='previewNav'><img src={arrow_left} alt="arrow_left"/>SELECT SECTION</div>
 				: <div className='panelNavTitle'>
@@ -84,4 +92,5 @@ export const Nav = connect(
 	}), {
 		changeIsContextMenuAC,
 		addNavItemTHUNK,
+		changeActiveElement,
 	})(NavContainer);

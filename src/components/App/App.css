@@ -51,6 +51,9 @@
 .contextMenu span:hover {
   background-color: #737373;
 }
+.contextMenu span::selection {
+  background-color: transparent;
+}
 .contextMenu input {
   margin: 5px 0;
   padding: 0 10px;

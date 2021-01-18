@@ -47,15 +47,17 @@ export function HeaderComponent(props) {
 		e.preventDefault();
 		e.stopPropagation();
 	};
-	const updateName = () => {
+	const updateName = (e) => {
 		props.updateUserNameTHUNK(newName, props.userId);
 		setNewName('');
 		setIsChangeName(false);
+		e.stopPropagation()
 	};
-	const updatePassword = () => {
+	const updatePassword = (e) => {
 		props.updatePasswordTHUNK(newPassword, props.userId);
 		setNewPassword('');
 		setIsChangePassword(false);
+		e.stopPropagation()
 	};
 
 	return (
@@ -63,31 +65,39 @@ export function HeaderComponent(props) {
 			<PanelMoreBtn changePanelShow={props.changePanelShowAC}/>
 			{!props.isDemo ? <span className="logo">IT - BooK</span> :
 				<div className="demoLogo">
-					<span>Все изменения будут удаленый после выхода!</span> <button onClick={()=>props.isDemoAC(false)}> EXIT </button>
+					<span>Все изменения будут удаленый после выхода!</span>
+					<button onClick={() => props.isDemoAC(false)}> EXIT</button>
 				</div>
 			}
-			<div className="lk" onClick={menu} onContextMenu={menu}>
+			<div className="lk" onPointerDown={menu}>
 				<img src={user} alt={'user'}/>
 			</div>
 			<div className="contextMenu contextMenuLK"
 					 style={props.isContextMenuLK ? {display: 'block'} : {display: 'none'}}>
 				<div className="menuName">{props.userName !== '' ? props.userName : 'no Name'}</div>
 				<hr/>
-				{!isChangeName ? <div><span className="menuItem" onClick={changeNameMode}> Change Name </span></div>
-					: <div>	<form action="#"><input type="text" maxLength={16} onClick={changeNameMode} placeholder='new Name'
-												onChange={(e) => setNewName(e.currentTarget.value)} value={newName}/>
-							<button className="menuItem save_btn" onClick={updateName}>Save</button></form>
+				{!isChangeName ? <div><span className="menuItem" onPointerDown={changeNameMode}> Change Name </span></div>
+					: <div>
+						<form action="#"><input type="text" maxLength={16}
+																		onPointerDown={e=>e.stopPropagation()}
+																		placeholder='new Name'
+																		onChange={(e) => setNewName(e.currentTarget.value)} value={newName}/>
+							<button className="menuItem save_btn" onPointerDown={updateName}>Save</button>
+						</form>
 					</div>
 				}
 				<hr/>
-				{!isChangePassword ? <div><span className="menuItem" onClick={changePasswordMode}> New Password </span></div>
-					: <div><form action="#"><input type="text" maxLength={24} onClick={changePasswordMode} placeholder='new Password'
-												onChange={(e) => setNewPassword(e.currentTarget.value)} value={newPassword}/>
-						<button className="menuItem save_btn" onClick={updatePassword}>Save</button></form>
+				{!isChangePassword ? <div><span className="menuItem" onPointerDown={changePasswordMode}> New Password </span></div>
+					: <div>
+						<form action="#"><input type="text" maxLength={24}
+																		onPointerDown={e=>e.stopPropagation()} placeholder='new Password'
+																		onChange={(e) => setNewPassword(e.currentTarget.value)} value={newPassword}/>
+							<button className="menuItem save_btn" onPointerDown={updatePassword}>Save</button>
+						</form>
 					</div>
 				}
 				<hr/>
-				<span className="menuItem" onClick={props.outLoginTHUNK}>Out</span>
+				<span className="menuItem" onPointerDown={props.outLoginTHUNK}>Out</span>
 			</div>
 		</div>
 	);

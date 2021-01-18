@@ -5,7 +5,7 @@ import {
 	getSectionItemDAL, setNavInSectionDAL,
 	updateSectionItemDAL, updateSectionItemsListDAL
 } from "../../DAL/DAL_Section";
-import {addMessageAC, changeIsLoadingAC, closeAllContextMenuTHUNK} from "./AppReducer";
+import {addMessageAC, changeActiveElement, changeIsLoadingAC, closeAllContextMenuTHUNK} from "./AppReducer";
 
 //вспомогательные функции
 function closeAllOpenContextMenuItem(items = []) {
@@ -45,6 +45,26 @@ function searchListAndItemID(array, id) {
 	};
 	find(array, id);
 	return listAndIndex
+}
+
+function changeAllId(el) {
+	let id = new Date().getTime();
+	el.id = ++id;
+
+	const changeId = (items) => {
+		for (let i = 0; i < items.length; i++) {
+			items[i].id = ++id;
+			items[i].isOpen = false;
+			if (items[i].folderItems) changeId(items[i].folderItems);
+			if (items[i].fileMain) changeId(items[i].fileMain);
+		}
+	};
+	if (el.folderItems) {
+		changeId(el.folderItems);
+	}
+	if (el.fileMain) {
+		changeId(el.fileMain);
+	}
 }
 
 //Reducer
@@ -181,6 +201,12 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 			return stateCopy;
 		}
 
+		//Copy Past
+		case 'COPY_PAST': {
+
+			return stateCopy;
+		}
+
 		//Demo
 		case 'ADD_DEMO_STATE': {
 			let idCounter = 0;
@@ -208,7 +234,7 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 									isOpenContextMenu: false,
 									name: 'Концепция',
 									fileMain: []
-								},{
+								}, {
 									id: idCounter++,
 									type: 'file',
 									isOpen: true,
@@ -424,7 +450,7 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 											fileMain: [],
 										},
 									]
-								},{
+								}, {
 									id: idCounter++,
 									type: 'file',
 									isOpen: false,
@@ -579,6 +605,77 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 	}
 };
 
+//AC COPY_PAST:
+export const pastElementAC = () => {
+	return {
+		type: 'COPY_PAST',
+	}
+};
+
+//THUNK pastElementTHUNK:
+export const pastElementTHUNK = (elementString, activeElement, userId) => {
+	let activeEl = activeElement;
+	return (dispatch) => {
+		dispatch(closeAllContextMenuTHUNK());
+		dispatch(updateStateWorkDAL());
+		try {
+			let el = JSON.parse(elementString);
+
+			let lai = searchListAndItemID(stateWorkDAL.sectionItems, activeElement);
+			changeAllId(el);
+			switch (el.type) {
+				case 'folder':
+					el.isOpen = false;
+					if (lai.list[lai.index].type === 'folder'){
+						lai.list[lai.index].isOpen = true;
+						lai.list[lai.index].folderItems.push(el);
+					}else if (lai.list[lai.index].type === 'file'){
+						lai.list.push(el);
+					}else if (lai.list[lai.index].position !== ''){
+						lai.list[lai.index].folderItems.push(el);
+					}
+					break;
+				case 'file':
+					closeAllFile(stateWorkDAL.sectionItems);
+					el.isOpen = true;
+					if (lai.list[lai.index].type === 'folder'){
+						lai.list[lai.index].isOpen = true;
+						lai.list[lai.index].folderItems.push(el);
+					}else if (lai.list[lai.index].type === 'file'){
+						lai.list.push(el);
+					}else if (lai.list[lai.index].position !== ''){
+						lai.list[lai.index].folderItems.push(el);
+					}
+					break;
+				case 'block':
+					if (lai.list[lai.index].type === 'file'){
+						closeAllFile(stateWorkDAL.sectionItems);
+						lai.list[lai.index].isOpen = true;
+						lai.list[lai.index].fileMain.push(el);
+					}
+					else if (lai.list[lai.index].type === 'block'){
+						lai.list.push(el);
+					}	else {
+						dispatch(addMessageAC('error', `Ошибка, попытка вставить элемент другого формата!`));
+					}
+					break;
+				default:
+					dispatch(addMessageAC('error', `Ошибка, попытка вставить элемент другого формата!`));
+			}
+			dispatch(changeActiveElement(activeEl));
+			dispatch(pastElementAC());
+			if (userId !== '') {
+				setNavInSectionDAL(stateWorkDAL.sectionItems, userId)
+				.then((resolve) => {
+					dispatch(addMessageAC('success', `Элемент успешно добавлен.`));
+				}).catch((error) => {
+					dispatch(addMessageAC('error', error.message));
+				});
+			}
+		} catch (e) {}
+	}
+};
+
 //AC UPDATE_STATE_WORK_DAL:
 export const updateStateWorkDAL = () => {
 	return {
@@ -691,8 +788,7 @@ export const getDataTHUNK = (userId = '') => {
 			.catch((error) => {
 				dispatch(addMessageAC('error', error.message))
 			});
-		}
-		else {
+		} else {
 		}
 	}
 };

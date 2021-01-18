@@ -54,6 +54,9 @@
     &:hover {
       background-color: #737373;
     }
+    &::selection {
+      background-color: transparent;
+    }
   }
   input {
     margin: 5px 0;
