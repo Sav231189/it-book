@@ -184,16 +184,33 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 		//Main
 		case 'ADD_BLOCK_IN_ACTIVE_FILE': {
 			let listAndItem = searchListAndItemID(stateCopy.sectionItems, action.id);
-			listAndItem.list[listAndItem.index].fileMain.push({
-				id: new Date().getTime(),
-				type: 'block',
-				isOpenContextMenu: false,
-				title: '',
-				subTitle: '',
-				text: '',
-				isBorder: true,
-				img: '',
-			});
+			if (listAndItem.list[listAndItem.index].type === 'block'){
+				let arr = [...listAndItem.list.slice(0,listAndItem.index+1)];
+				let arr2 = [...listAndItem.list.slice(listAndItem.index+1,listAndItem.list.length)];
+				let list = [...arr, {
+					id: new Date().getTime(),
+					type: 'block',
+					isOpenContextMenu: false,
+					title: '',
+					subTitle: '',
+					text: '',
+					isBorder: true,
+					img: '',
+				},...arr2];
+				listAndItem.list.splice(0);
+				listAndItem.list.push(...list);
+			}else {
+				listAndItem.list[listAndItem.index].fileMain.push({
+					id: new Date().getTime(),
+					type: 'block',
+					isOpenContextMenu: false,
+					title: '',
+					subTitle: '',
+					text: '',
+					isBorder: true,
+					img: '',
+				});
+			}
 			return stateCopy;
 		}
 		case 'CHANGE_BLOCK': {
@@ -1109,7 +1126,9 @@ export const pastElementTHUNK = (elementString, activeElementId, userId) => {
 						lai.list[lai.index].isOpen = true;
 						lai.list[lai.index].fileMain.push(el);
 					}else if (lai.list[lai.index].type === 'block'){
-						lai.list.push(el);
+						let list = [...lai.list.slice(0,lai.index+1),el,...lai.list.slice(lai.index+1,lai.list.length)];
+						lai.list.splice(0);
+						lai.list.push(...list);
 					}else {
 						dispatch(addMessageAC('error', `Ошибка, попытка вставить элемент другого формата!`));
 					}

@@ -169,12 +169,14 @@
 
 .Block.true {
   border: 2px transparent solid;
+  margin: 1px 5px 1px;
 }
 .Block.true.active {
   border: 2px transparent solid;
+  margin: 1px 5px 1px;
 }
 .Block.active {
   border: #4f4f4f solid 2px;
-  background: #56292938;
+  background: rgba(86, 41, 41, 0.08);
 }
 

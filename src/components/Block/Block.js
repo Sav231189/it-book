@@ -53,7 +53,7 @@ export function BlockComponent(props) {
 		}else props.closeAllContextMenuTHUNK();
 	};
 	const addBlockInActiveFile = (e) => {
-		props.addBlockInActiveFileTHUNK(props.activeFile.id, props.userId);
+		props.addBlockInActiveFileTHUNK(props.activeElement.id, props.userId);
 	};
 	const changeBlock = (e) => {
 			setIsChangeBlock(true);
