@@ -62,7 +62,7 @@ export function HeaderComponent(props) {
 
 	return (
 		<div className="Header">
-			<PanelMoreBtn changePanelShow={props.changePanelShowAC}/>
+			<PanelMoreBtn changePanelShowAC={props.changePanelShowAC}/>
 			{!props.isDemo ? <span className="logo">IT - BooK</span> :
 				<div className="demoLogo">
 					<span>Все изменения будут удаленый после выхода!</span>

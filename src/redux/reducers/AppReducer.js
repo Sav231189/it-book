@@ -15,7 +15,10 @@ const initialState = {
 	isLoading: true,
 	messages: [],
 	isDemo: false,
-	activeElement: ''
+	activeElement: {
+		id: '',
+		typeElement: '',
+	}
 };
 
 export const AppReducer = (state = initialState, action) => {
@@ -33,6 +36,11 @@ export const AppReducer = (state = initialState, action) => {
 			stateCopy.isContextMenuMain = false;
 			stateCopy.isContextMenuLK = false;
 
+			return stateCopy;
+		}
+		case 'CHANGE_ACTIVE_ELEMENT': {
+			stateCopy.activeElement.id = action.id;
+			stateCopy.activeElement.typeElement = action.typeElement;
 			return stateCopy;
 		}
 
@@ -69,21 +77,8 @@ export const AppReducer = (state = initialState, action) => {
 			return stateCopy;
 		}
 
-		case 'CHANGE_ACTIVE_ELEMENT': {
-			stateCopy.activeElement = action.id;
-			return stateCopy;
-		}
-
 		default :
 			return state;
-	}
-};
-
-//AC CHANGE_IS_ACTIVE_ELEMENT:
-export const changeActiveElement = (id) => {
-	return {
-		type: 'CHANGE_ACTIVE_ELEMENT',
-		id: id,
 	}
 };
 
@@ -104,9 +99,17 @@ export const closeAllContextMenuAC = () => {
 //THUNK closeAllContextMenuTHUNK:
 export const closeAllContextMenuTHUNK = () => {
 	return (dispatch) => {
-		dispatch(changeActiveElement(""));
+		// dispatch(changeActiveElement("", 'app'));
 		dispatch(closeAllContextMenuAC());
 		dispatch(closeAllIsOpenContextMenuItemsAC());
+	}
+};
+//AC CHANGE_IS_ACTIVE_ELEMENT:
+export const changeActiveElement = (id,typeElement) => {
+	return {
+		type: 'CHANGE_ACTIVE_ELEMENT',
+		id: id,
+		typeElement: typeElement,
 	}
 };
 

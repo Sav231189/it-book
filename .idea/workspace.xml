@@ -2,26 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5ade667-796b-4e33-abca-7c3a979b8322" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/App/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/App/App.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/App/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/App/App.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/App/App.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Nav/Nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Nav/Nav.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavItem/NavItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavItem/NavItem.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/header/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/header/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sectionItem/SectionItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/reducers/AppReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/AppReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/reducers/SectionReducer.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

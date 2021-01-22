@@ -14,6 +14,7 @@
     padding: 1px 0 100px 0;
     width: calc(100vw - 400px);
     min-width: 400px;
+    min-height: calc(100vh - 111px);
 
     border: #383838cf solid 1px;
     background: rgb(31 31 31);
@@ -27,6 +28,9 @@
     width: calc(100vw - 20px);
 
     transition: all .2s linear 0s;
+  }
+  .mainWrapper.active {
+    border: rgba(134, 134, 134, 0.81) solid 1px;
   }
 
   .mainTitle {

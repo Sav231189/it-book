@@ -66,8 +66,6 @@ export function SectionItemComponent(props) {
 		isChangeName
 			? props.changeSectionItem(newName, '', props.element.id, props.userId)
 			: props.changeSectionItem('', newImgURL, props.element.id, props.userId);
-		// setNewName('');
-		// setNewImgURL('');
 		setIsChangeName(false);
 		setIsChangeImg(false);
 	};
@@ -75,8 +73,9 @@ export function SectionItemComponent(props) {
 	return (
 		<div className={`item ${props.element.isActive} ${props.element.url !== '' ? "url" : ''}`}
 				 onContextMenu={showSectionItemContextMenu}
-				 onClick={activateSectionItem}>
-			{props.element.isActive && <div className='isActiveSectionItem'> </div>}
+				 onClick={activateSectionItem}
+		>
+			{props.element.isActive && <div className='isActiveSectionItem'></div>}
 			{props.element.isLoading
 				?
 				<div>{props.element.url !== '' ? <img src={props.element.url} alt={props.element.url}/>

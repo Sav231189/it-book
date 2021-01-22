@@ -15,7 +15,6 @@ function closeAllOpenContextMenuItem(items = []) {
 		}
 		if (items[i].folderItems) closeAllOpenContextMenuItem(items[i].folderItems);
 		if (items[i].fileMain) closeAllOpenContextMenuItem(items[i].fileMain);
-		if (items[i].inner) closeAllOpenContextMenuItem(items[i].inner);
 	}
 }
 
@@ -29,6 +28,17 @@ function closeAllFile(items, isParentActive = false) {
 		}
 	}
 }
+
+function closeAllFolder(items) {
+	for (let i = 0; i < items.length; i++) {
+		if (items[i].isOpen && items[i].type === 'folder') {
+			items[i].isOpen = false;
+		}
+		if (items[i].folderItems) closeAllFolder(items[i].folderItems);
+	}
+}
+
+
 
 function searchListAndItemID(array, id) {
 	let listAndIndex = {list: [], index: null};
@@ -166,6 +176,10 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 			listAndItem.list[listAndItem.index].isOpenContextMenu = false;
 			return stateCopy;
 		}
+		case 'CLOSE_ALL_FOLDER': {
+			closeAllFolder(stateCopy.sectionItems.find(el=> el.isActive).folderItems);
+			return stateCopy;
+		}
 
 		//Main
 		case 'ADD_BLOCK_IN_ACTIVE_FILE': {
@@ -184,20 +198,14 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 		}
 		case 'CHANGE_BLOCK': {
 			let listAndItem = searchListAndItemID(stateCopy.sectionItems, action.id);
-			switch (action.typeChange) {
-				case 'changeTitle':
-					listAndItem.list[listAndItem.index].title = action.data;
-					break;
-				case 'changeSubTitle':
-					listAndItem.list[listAndItem.index].subTitle = action.data;
-					break;
-				case 'changeText':
-					listAndItem.list[listAndItem.index].text = action.data;
-					break;
-				case 'changeBorder':
-					listAndItem.list[listAndItem.index].isBorder = !listAndItem.list[listAndItem.index].isBorder;
-					break;
-			}
+			listAndItem.list[listAndItem.index].title = action.title;
+			listAndItem.list[listAndItem.index].subTitle = action.subTitle;
+			listAndItem.list[listAndItem.index].text = action.text;
+			return stateCopy;
+		}
+		case 'CHANGE_BLOCK_BORDER': {
+			let listAndItem = searchListAndItemID(stateCopy.sectionItems, action.id);
+			listAndItem.list[listAndItem.index].isBorder = !listAndItem.list[listAndItem.index].isBorder;
 			return stateCopy;
 		}
 
@@ -605,77 +613,6 @@ export const SectionReducer = (state = {sectionItems: []}, action) => {
 	}
 };
 
-//AC COPY_PAST:
-export const pastElementAC = () => {
-	return {
-		type: 'COPY_PAST',
-	}
-};
-
-//THUNK pastElementTHUNK:
-export const pastElementTHUNK = (elementString, activeElement, userId) => {
-	let activeEl = activeElement;
-	return (dispatch) => {
-		dispatch(closeAllContextMenuTHUNK());
-		dispatch(updateStateWorkDAL());
-		try {
-			let el = JSON.parse(elementString);
-
-			let lai = searchListAndItemID(stateWorkDAL.sectionItems, activeElement);
-			changeAllId(el);
-			switch (el.type) {
-				case 'folder':
-					el.isOpen = false;
-					if (lai.list[lai.index].type === 'folder'){
-						lai.list[lai.index].isOpen = true;
-						lai.list[lai.index].folderItems.push(el);
-					}else if (lai.list[lai.index].type === 'file'){
-						lai.list.push(el);
-					}else if (lai.list[lai.index].position !== ''){
-						lai.list[lai.index].folderItems.push(el);
-					}
-					break;
-				case 'file':
-					closeAllFile(stateWorkDAL.sectionItems);
-					el.isOpen = true;
-					if (lai.list[lai.index].type === 'folder'){
-						lai.list[lai.index].isOpen = true;
-						lai.list[lai.index].folderItems.push(el);
-					}else if (lai.list[lai.index].type === 'file'){
-						lai.list.push(el);
-					}else if (lai.list[lai.index].position !== ''){
-						lai.list[lai.index].folderItems.push(el);
-					}
-					break;
-				case 'block':
-					if (lai.list[lai.index].type === 'file'){
-						closeAllFile(stateWorkDAL.sectionItems);
-						lai.list[lai.index].isOpen = true;
-						lai.list[lai.index].fileMain.push(el);
-					}
-					else if (lai.list[lai.index].type === 'block'){
-						lai.list.push(el);
-					}	else {
-						dispatch(addMessageAC('error', `Ошибка, попытка вставить элемент другого формата!`));
-					}
-					break;
-				default:
-					dispatch(addMessageAC('error', `Ошибка, попытка вставить элемент другого формата!`));
-			}
-			dispatch(changeActiveElement(activeEl));
-			dispatch(pastElementAC());
-			if (userId !== '') {
-				setNavInSectionDAL(stateWorkDAL.sectionItems, userId)
-				.then((resolve) => {
-					dispatch(addMessageAC('success', `Элемент успешно добавлен.`));
-				}).catch((error) => {
-					dispatch(addMessageAC('error', error.message));
-				});
-			}
-		} catch (e) {}
-	}
-};
-
 //AC UPDATE_STATE_WORK_DAL:
 export const updateStateWorkDAL = () => {
 	return {
@@ -705,12 +642,30 @@ export const closeAllIsOpenContextMenuItemsAC = () => {
 	}
 };
 
-//AC ADD_DEMO_STATE:
-export const addDemoState = (folderItems, idSectionItem) => {
+//AC CLOSE_ALL_FOLDER:
+export const closeAllFolderAC = () => {
 	return {
-		type: 'ADD_DEMO_STATE',
+		type: 'CLOSE_ALL_FOLDER',
 	}
 };
+//THUNK closeAllFolderTHUNK:
+export const closeAllFolderTHUNK = ( userId) => {
+	return (dispatch) => {
+		dispatch(closeAllFolderAC());
+		dispatch(updateStateWorkDAL());
+		if (userId !== '') {
+			updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
+				dispatch(addMessageAC('success', `Ваши папки собраны.`));
+			}).catch((error) => {
+				dispatch(addMessageAC('error', error.message));
+			});
+		} else {
+			dispatch(addMessageAC('success', `DEMO MODE! \n Ваши папки собраны.`));
+
+		}
+	}
+};
+
 //AC APPEND_NAV_ITEM:
 export const appendNavItemAC = (folderItems, idSectionItem) => {
 	return {
@@ -1046,18 +1001,19 @@ export const addBlockInActiveFileTHUNK = (id, userId) => {
 };
 
 //AC CHANGE_BLOCK:
-export const changeBlockAC = (id, typeChange, data) => {
+export const changeBlockAC = (id, title, subTitle, text) => {
 	return {
 		type: 'CHANGE_BLOCK',
 		id: id,
-		typeChange: typeChange,
-		data: data,
+		title: title,
+		subTitle: subTitle,
+		text: text,
 	}
 };
 //THUNK changeBlockTHUNK:
-export const changeBlockTHUNK = (id, typeChange, data = '', userId) => {
+export const changeBlockTHUNK = (id, title, subTitle, text, userId) => {
 	return (dispatch) => {
-		dispatch(changeBlockAC(id, typeChange, data));
+		dispatch(changeBlockAC(id, title, subTitle, text));
 		dispatch(updateStateWorkDAL());
 		if (userId !== '') {
 			updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
@@ -1069,5 +1025,116 @@ export const changeBlockTHUNK = (id, typeChange, data = '', userId) => {
 			dispatch(addMessageAC('success', `DEMO MODE! \n Блок успешно изменен.`));
 
 		}
+	}
+};
+
+//AC CHANGE_BLOCK_BORDER:
+export const changeBlockBorderAC = (id) => {
+	return {
+		type: 'CHANGE_BLOCK_BORDER',
+		id: id,
+	}
+};
+//THUNK changeBlockBorderTHUNK:
+export const changeBlockBorderTHUNK = (id, userId) => {
+	return (dispatch) => {
+		dispatch(changeBlockBorderAC(id));
+		dispatch(updateStateWorkDAL());
+		if (userId !== '') {
+			updateSectionItemDAL(stateWorkDAL.sectionItems.find(el => el.isActive), userId).then(() => {
+				dispatch(addMessageAC('success', `Блок успешно изменен.`));
+			}).catch((error) => {
+				dispatch(addMessageAC('error', error.message));
+			});
+		} else {
+			dispatch(addMessageAC('success', `DEMO MODE! \n Блок успешно изменен.`));
+
+		}
+	}
+};
+
+//AC COPY_PAST:
+export const pastElementAC = () => {
+	return {
+		type: 'COPY_PAST',
+	}
+};
+//THUNK pastElementTHUNK:
+export const pastElementTHUNK = (elementString, activeElementId, userId) => {
+	return (dispatch) => {
+		dispatch(closeAllContextMenuTHUNK());
+		dispatch(updateStateWorkDAL());
+		try {
+			let el = JSON.parse(elementString);
+			let lai = searchListAndItemID(stateWorkDAL.sectionItems, activeElementId);
+			changeAllId(el);
+			// debugger
+			switch (el.type) {
+				case 'folder':
+					el.isOpen = false;
+					el.isOpenContextMenu = false;
+					if (lai.list[lai.index].type === 'folder'){
+						lai.list[lai.index].isOpen = true;
+						lai.list[lai.index].folderItems.push(el);
+					}else if (lai.list[lai.index].type === 'file'){
+						throw {myMessage: "Нельзя добавить папку в Файл!"}
+					}else if (lai.list[lai.index].type === 'main'){
+						throw {myMessage: "Нельзя добавить папку в Файл!"}
+					}else if (lai.list[lai.index].type === 'block'){
+						throw {myMessage: "Нельзя добавить папку в Блок!"}
+					}else if (lai.list[lai.index].position !== undefined){
+						lai.list[lai.index].folderItems.push(el);
+					}
+					break;
+				case 'file':
+					el.isOpen = true;
+					el.isOpenContextMenu = false;
+					if (lai.list[lai.index].type === 'folder'){
+						closeAllFile(stateWorkDAL.sectionItems);
+						lai.list[lai.index].isOpen = true;
+						lai.list[lai.index].folderItems.push(el);
+					}else if (lai.list[lai.index].type === 'file'){
+						throw {myMessage: "Нельзя добавить Файл в Файл!"}
+					}else if (lai.list[lai.index].type === 'block'){
+						throw {myMessage: "Нельзя добавить Файл в Блок!"}
+					}else if (lai.list[lai.index].position !== undefined){
+						closeAllFile(stateWorkDAL.sectionItems);
+						lai.list[lai.index].folderItems.push(el);
+					}
+					break;
+				case 'block':
+					el.isOpenContextMenu = false;
+					if (lai.list[lai.index].type === 'file'){
+						closeAllFile(stateWorkDAL.sectionItems);
+						lai.list[lai.index].isOpen = true;
+						lai.list[lai.index].fileMain.push(el);
+					}else if (lai.list[lai.index].type === 'block'){
+						lai.list.push(el);
+					}else {
+						dispatch(addMessageAC('error', `Ошибка, попытка вставить элемент другого формата!`));
+					}
+					break;
+				default:
+					dispatch(addMessageAC('error', `Ошибка, попытка вставить элемент другого формата!`));
+			}
+			dispatch(pastElementAC());
+			if (userId !== '') {
+				setNavInSectionDAL(stateWorkDAL.sectionItems, userId)
+				.then((resolve) => {
+					dispatch(addMessageAC('success', `Элемент успешно добавлен.`));
+				}).catch((error) => {
+					dispatch(addMessageAC('error', error.message));
+				});
+			}
+		} catch (error) {
+			dispatch(addMessageAC('error', `${error.myMessage ? error.myMessage : 'Ошибка, попытка вставить элемент другого формата!'}`));
+		}
+	}
+};
+
+//AC ADD_DEMO_STATE:
+export const addDemoState = (folderItems, idSectionItem) => {
+	return {
+		type: 'ADD_DEMO_STATE',
 	}
 };

@@ -35,5 +35,8 @@ export const getIsDemo = (state) => {
 	return state.app.isDemo;
 };
 export const getActiveElement = (state) => {
-	return state.app.activeElement;
+	return {
+		id: state.app.activeElement.id,
+		type: state.app.activeElement.typeElement,
+	};
 };

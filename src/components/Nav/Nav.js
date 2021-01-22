@@ -1,12 +1,21 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useRef} from 'react';
 import './Nav.css';
 import {connect} from "react-redux";
-import {addNavItemTHUNK} from "../../redux/reducers/SectionReducer";
-import {changeActiveElement, changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
+import {
+	addNavItemTHUNK,
+	closeAllFolderTHUNK,
+	pastElementTHUNK
+} from "../../redux/reducers/SectionReducer";
+import {
+	addMessageAC,
+	changeActiveElement,
+	changeIsContextMenuAC,
+	closeAllContextMenuTHUNK
+} from "../../redux/reducers/AppReducer";
 import {getActiveSectionItem} from "../../selectors/SectionSelector";
 import {NavItem} from "../NavItem/NavItem";
 import arrow_left from "../../img/arrow_left.png";
-import {getIsContextMenu, getIsContextMenuNav, getUserId} from "../../selectors/AppSelector";
+import {getActiveElement, getIsContextMenu, getIsContextMenuNav, getUserId} from "../../selectors/AppSelector";
 
 export function NavContainer(props) {
 
@@ -18,28 +27,62 @@ export function NavContainer(props) {
 			e.stopPropagation();
 			props.changeIsContextMenuAC('isContextMenu', true);
 			props.changeIsContextMenuAC('isContextMenuNav', true);
-			if (e.clientY < window.innerHeight - 80) {
+			if (e.clientY < window.innerHeight - 140) {
 				(e.clientX < window.innerWidth - 160)
 					? refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`
 					: refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 162}px;`
 			} else {
 				(e.clientX < window.innerWidth - 160)
-					? refContextMenu.current.style = `top: ${e.clientY - 67}px; left: ${e.clientX + 2}px;`
-					: refContextMenu.current.style = `top: ${e.clientY - 67}px; left: ${e.clientX - 162}px;`
+					? refContextMenu.current.style = `top: ${e.clientY - 101}px; left: ${e.clientX + 2}px;`
+					: refContextMenu.current.style = `top: ${e.clientY - 101}px; left: ${e.clientX - 162}px;`
 			}
 		}
 	};
 
 	const activeElement = (e) => {
+		props.closeAllContextMenuTHUNK();
+		e.stopPropagation();
 		if (window.getSelection().isCollapsed) {
-			props.changeActiveElement(props.activeSectionItem.id);
-			if(!props.isContextMenu) e.stopPropagation();
+			props.changeActiveElement(props.activeSectionItem.id, "nav");
 		}
 	};
+
+	const paste = (e) => {
+		props.closeAllContextMenuTHUNK();
+		if (e.pointerType === "mouse") {
+			e.stopPropagation();
+			if (navigator.clipboard) {
+				navigator.clipboard.readText().then(data => {
+					props.pastElementTHUNK(data, props.activeSectionItem.id, props.userId);
+				});
+			} else {
+				props.addMessageAC('error', `Нет доступа к буферу обмена. 
+				Используйте комбинацию клавиш 
+				Ctrl + V`)
+			}
+		} else if (props.activeElement.type === 'nav') {
+			e.stopPropagation();
+			props.pastElementTHUNK(e.clipboardData.getData('text/plain'), props.activeSectionItem.id, props.userId);
+		}
+	};
+
 	return (
 		<div className='Nav' onContextMenu={showMenuContextNav}
 				 onPointerDown={activeElement}
+				 onPaste={paste}
 		>
+			<div className="compress"
+					 onClickCapture={(e) => {
+						 props.closeAllFolderTHUNK(props.userId);
+						 e.stopPropagation();
+					 }}
+					 onContextMenu={e=>{
+					 	e.stopPropagation();
+					 	e.preventDefault()
+					 }}
+			>
+				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#444444" d="M12 0h-12v12l1-1v-10h10z"></path><path fill="#444444" d="M4 16h12v-12l-1 1v10h-10z"></path><path fill="#444444" d="M7 9h-5l1.8 1.8-3.8 3.8 1.4 1.4 3.8-3.8 1.8 1.8z"></path><path fill="#444444" d="M16 1.4l-1.4-1.4-3.8 3.8-1.8-1.8v5h5l-1.8-1.8z"></path></svg>
+			</div>
 			{!props.activeSectionItem
 				? <div className='previewNav'><img src={arrow_left} alt="arrow_left"/>SELECT SECTION</div>
 				: <div className='panelNavTitle'>
@@ -71,13 +114,13 @@ export function NavContainer(props) {
 			{/*contextMenu*/}
 			<div ref={refContextMenu} className="contextMenu"
 					 style={props.isContextMenuNav ? {display: 'block'} : {display: 'none'}}>
-				<span onPointerDown={() => {
-					props.addNavItemTHUNK('folder', props.activeSectionItem.id, props.userId)
-				}}> New Folder </span>
+				<span onPointerDown={() => {props.addNavItemTHUNK('folder', props.activeSectionItem.id, props.userId)}}
+				> New Folder </span>
 				<hr/>
-				<span onPointerDown={() => {
-					props.addNavItemTHUNK('file', props.activeSectionItem.id, props.userId)
-				}}> New File </span>
+				<span onPointerDown={() => {props.addNavItemTHUNK('file', props.activeSectionItem.id, props.userId)}}
+				> New File </span>
+				<hr/>
+				<span onPointerDown={paste}>Past</span>
 			</div>
 		</div>
 	);
@@ -89,8 +132,13 @@ export const Nav = connect(
 		isContextMenuNav: getIsContextMenuNav(state),
 		userId: getUserId(state),
 		activeSectionItem: getActiveSectionItem(state),
+		activeElement: getActiveElement(state),
 	}), {
+		closeAllContextMenuTHUNK,
 		changeIsContextMenuAC,
 		addNavItemTHUNK,
 		changeActiveElement,
+		pastElementTHUNK,
+		closeAllFolderTHUNK,
+		addMessageAC,
 	})(NavContainer);

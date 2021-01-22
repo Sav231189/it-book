@@ -11,4 +11,4 @@ export const Panel = (props) => {
 			<Nav />
 		</div>
 	);
-}
+};

@@ -2,15 +2,21 @@ import React, {useRef, useState} from 'react';
 import './Block.css';
 import {connect} from "react-redux";
 import {
-	addBlockInActiveFileTHUNK, changeBlockTHUNK,
+	addBlockInActiveFileTHUNK, changeBlockBorderTHUNK, changeBlockTHUNK,
 	changeIsOpenContextMenuItemAC, changePositionTHUNK,
 	deleteElementTHUNK, pastElementTHUNK
 } from "../../redux/reducers/SectionReducer";
-import {changeActiveElement, changeIsContextMenuAC} from "../../redux/reducers/AppReducer";
+import {
+	addMessageAC,
+	changeActiveElement,
+	changeIsContextMenuAC,
+	closeAllContextMenuTHUNK
+} from "../../redux/reducers/AppReducer";
 import {getActiveFile} from "../../selectors/SectionSelector";
 import {getActiveElement, getIsContextMenu, getUserId} from "../../selectors/AppSelector";
 
 export function BlockComponent(props) {
+
 
 	const refContextMenu = useRef(null);
 
@@ -20,44 +26,6 @@ export function BlockComponent(props) {
 
 	let [isChangeBlock, setIsChangeBlock] = useState(false);
 
-	const showBlockContextMenu = (e) => {
-
-		if (!props.isContextMenu && !props.element.isOpenContextMenu && props.activeFile) {
-			e.preventDefault();
-			e.stopPropagation();
-			activeElement();
-			props.changeIsContextMenuAC('isContextMenu', true);
-			props.changeIsOpenContextMenuItemAC(props.element.id, true);
-			if (e.clientY < window.innerHeight - 240) {
-				(e.clientX < window.innerWidth - 180)
-					? refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`
-					: refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 188}px;`
-			} else {
-				(e.clientX < window.innerWidth - 180)
-					? refContextMenu.current.style = `top: ${e.clientY - 246}px; left: ${e.clientX + 2}px;`
-					: refContextMenu.current.style = `top: ${e.clientY - 248}px; left: ${e.clientX - 188}px;`
-			}
-		}
-	};
-	const addBlockInActiveFile = () => {
-		props.addBlockInActiveFileTHUNK(props.activeFile.id, props.userId);
-	};
-
-	const changeBorderInBlock = () => {
-		props.changeBlockTHUNK(props.element.id, 'changeBorder', '', props.userId);
-	};
-	const changePosition = (e) => {
-		e.stopPropagation()
-		e.target.innerHTML === 'Position UP' ?
-			props.changePositionTHUNK(props.element.id, "up", props.userId) :
-			props.changePositionTHUNK(props.element.id, "down", props.userId)
-	};
-	const deleteBlock = () => {
-		if (window.confirm('Вы хотите удалить блок?')) {
-			props.deleteElementTHUNK(props.element.id, 'element', props.userId);
-		}
-	};
-
 	function textareaResize(e) {
 		e.target.style.height = 20 + "px";
 		e.target.style.height = e.target.scrollHeight + 'px';
@@ -66,48 +34,139 @@ export function BlockComponent(props) {
 		}
 	}
 
-	function changeInBlock(e) {
+	const showBlockContextMenu = (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		activeElement(e);
+		if (!props.isContextMenu && !props.element.isOpenContextMenu && props.activeFile) {
+			props.changeIsContextMenuAC('isContextMenu', true);
+			props.changeIsOpenContextMenuItemAC(props.element.id, true);
+			if (e.clientY < window.innerHeight - 265) {
+				(e.clientX < window.innerWidth - 190)
+					? refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX + 2}px;`
+					: refContextMenu.current.style = `top: ${e.clientY + 2}px; left: ${e.clientX - 188}px;`
+			} else {
+				(e.clientX < window.innerWidth - 190)
+					? refContextMenu.current.style = `top: ${e.clientY - 253}px; left: ${e.clientX + 2}px;`
+					: refContextMenu.current.style = `top: ${e.clientY - 253}px; left: ${e.clientX - 188}px;`
+			}
+		}else props.closeAllContextMenuTHUNK();
+	};
+	const addBlockInActiveFile = (e) => {
+		props.addBlockInActiveFileTHUNK(props.activeFile.id, props.userId);
+	};
+	const changeBlock = (e) => {
+			setIsChangeBlock(true);
+	};
+	const saveChangeInBlock = (e) => {
 		setIsChangeBlock(false);
-		props.changeBlockTHUNK(props.element.id, 'changeTitle', title, props.userId);
-		props.changeBlockTHUNK(props.element.id, 'changeSubTitle', subTitle, props.userId);
-		props.changeBlockTHUNK(props.element.id, 'changeText', text, props.userId);
-	}
+		props.changeBlockTHUNK(props.element.id, title, subTitle, text, props.userId);
+	};
+	const changeBorderInBlock = (e) => {
+		props.changeBlockBorderTHUNK(props.element.id, props.userId);
+	};
+	const changePosition = (e) => {
+		e.stopPropagation();
+		e.preventDefault();
+		e.target.innerHTML === 'Position UP' ?
+			props.changePositionTHUNK(props.element.id, "up", props.userId) :
+			props.changePositionTHUNK(props.element.id, "down", props.userId)
+	};
+	const deleteBlock = (e) => {
+		props.closeAllContextMenuTHUNK();
+		if (window.confirm('Вы хотите удалить блок?')) {
+			props.deleteElementTHUNK(props.element.id, 'element', props.userId);
+		}
+	};
 
 	const activeElement = (e) => {
-		if (window.getSelection().isCollapsed && !isChangeBlock) {
-			props.changeActiveElement(props.element.id);
+		props.closeAllContextMenuTHUNK();
+		e.stopPropagation();
+		if (window.getSelection().isCollapsed) {
+			props.changeActiveElement(props.element.id, "block");
+		}
+	};
+
+	const copy = (e) => {
+		props.closeAllContextMenuTHUNK();
+		if(props.activeElement.type === 'block'){
+			e.stopPropagation();
+			if (window.getSelection().isCollapsed && !isChangeBlock) {
+				if (navigator.clipboard) {
+					navigator.clipboard.writeText(JSON.stringify(props.element)).then(() => {
+						props.addMessageAC('success', 'Блок скопирован в буфер обмена.');
+					})
+				}else {
+					let copyTextArea = document.createElement("textarea");
+					document.body.append(copyTextArea);
+					copyTextArea.innerHTML = JSON.stringify(props.element);
+					copyTextArea.select();
+					document.execCommand("copy");
+					copyTextArea.remove();
+					props.addMessageAC('success', 'Блок скопирован в буфер обмена.');
+				}
+			}
+		}
+	};
+
+	const paste = (e) => {
+		props.closeAllContextMenuTHUNK();
+		if (e.pointerType === "mouse") {
+			if (navigator.clipboard) {
+				navigator.clipboard.readText().then(data => {
+					if (!isChangeBlock) {
+						props.pastElementTHUNK(data, props.activeElement.id, props.userId);
+					} else if (data) {
+						pastText(data);
+					}
+				});
+			} else {
+				props.addMessageAC('error', `Нет доступа к буферу обмена. 
+				Используйте комбинацию клавиш 
+				Ctrl + V`)
+			}
+		} else if (props.activeElement.type === 'block' && !isChangeBlock) {
+			e.stopPropagation();
+			props.pastElementTHUNK(e.clipboardData.getData('text/plain'), props.activeElement.id, props.userId);
+		}
+
+	};
+	const pastText = (text) => {
+		let e = document.getSelection();
+		let element = e.focusNode[0];
+		if (element) {
+			let {selectionStart, selectionEnd} = element;
+			switch (element.className) {
+				case "inputTitle":
+					element.setRangeText(text, selectionStart, selectionEnd, 'end');
+					setTitle(`${element.value}`);
+					break;
+				case "inputSubTitle":
+					element.setRangeText(text, selectionStart, selectionEnd, 'end');
+					setSubTitle(`${element.value}`);
+					break;
+				case "inputText":
+					element.setRangeText(text, selectionStart, selectionEnd, 'end');
+					setText(`${element.value}`);
+					break;
+			}
+			let myEvent = new Event("keyup", {bubbles: true, cancelable: true, composed: true});
+			element.dispatchEvent(myEvent);
 		}
 	};
 
 	return (
 		<div
-			className={`Block ${!props.element.isBorder} ${props.activeElement === props.element.id && !isChangeBlock && 'active'}`}
+			className={`Block ${!props.element.isBorder} ${props.activeElement.id === props.element.id && 'active'}`}
 			onContextMenu={showBlockContextMenu}
-			onDoubleClick={(e) => setIsChangeBlock(true)}
-			onClick={e => {
-				activeElement()
-				e.stopPropagation();
-			}}
-			onCopy={e => {
-				console.log('copy BlocK');
-				if (window.getSelection().isCollapsed && !isChangeBlock) {
-					e.clipboardData.setData('text/plain', JSON.stringify(props.element));
-					e.preventDefault();
-				}
-			}}
-			onPaste={e => {
-				console.log('Past in Block');
-				props.pastElementTHUNK(e.clipboardData.getData('text/plain'), props.activeElement, props.userId);
-				e.stopPropagation()
-			}}
-			// onClick={activeElement}
+			onDoubleClick={() => setIsChangeBlock(true)}
+			onPointerDown={activeElement}
+			onCopy={copy}
+			onPaste={paste}
 		>
-			{title !== '' && !isChangeBlock &&
-			<div className='blockTitle'>
-				{title}</div>
-			}
-			{isChangeBlock &&
-			<div className='blockGeneral'>
+			{/* Title */}
+			{title !== '' && !isChangeBlock && <div className='blockTitle'>{title}</div>}
+			{isChangeBlock && <div className='blockGeneral'>
 				<form action="#">
 					<textarea className='inputTitle' autoFocus placeholder='Title'
 										value={title}
@@ -118,16 +177,10 @@ export function BlockComponent(props) {
 											textareaResize(e);
 										}}/>
 				</form>
-			</div>
-			}
-
-			{subTitle !== '' && !isChangeBlock &&
-			<div className='blockSubTitle'>
-				{subTitle}</div>
-			}
-
-			{isChangeBlock &&
-			<div className='blockGeneral'>
+			</div>}
+			{/* SubTitle */}
+			{subTitle !== '' && !isChangeBlock && <div className='blockSubTitle'>{subTitle}</div>}
+			{isChangeBlock && <div className='blockGeneral'>
 				<form action="#">
 					<textarea className='inputSubTitle' autoFocus placeholder='SubTitle'
 										value={subTitle}
@@ -138,15 +191,10 @@ export function BlockComponent(props) {
 											textareaResize(e);
 										}}/>
 				</form>
-			</div>
-			}
-
-			{text !== '' && !isChangeBlock &&
-			<div className='blockText'>
-				{text}</div>
-			}
-			{isChangeBlock &&
-			<div className='blockGeneral'>
+			</div>}
+			{/* Text */}
+			{text !== '' && !isChangeBlock && <div className='blockText'>{text}</div>}
+			{isChangeBlock &&	<div className='blockGeneral'>
 				<form action="#">
 					<textarea className='inputText' value={text} autoFocus placeholder='Text'
 										onKeyUp={textareaResize}
@@ -156,42 +204,34 @@ export function BlockComponent(props) {
 											textareaResize(e);
 										}}/>
 				</form>
-			</div>
-			}
-			{isChangeBlock &&
-			<button className='saveNameBtn' onClick={changeInBlock}>SAVE</button>
-			}
+			</div>}
+			{isChangeBlock &&	<button className='saveNameBtn' onPointerDown={saveChangeInBlock}>SAVE</button>}
 
-			{props.element.fileMain &&
-			props.element.fileMain.map(el =>
-				<Block key={el.id} element={el}/>)
-			}
+			{props.element.fileMain &&	props.element.fileMain
+			.map(el => <Block key={el.id} element={el}/>)}
 
 			{/* contextMenu */}
-			<div ref={refContextMenu} className="contextMenu blockContextMenu"
-					 style={props.element.isOpenContextMenu ? {display: 'block'} : {display: 'none'}}>
+			<div ref={refContextMenu} className="contextMenu blockContextMenu" style={props.element.isOpenContextMenu && props.isContextMenu ? {display: 'block'} : {display: 'none'}}>
 				<span onPointerDown={addBlockInActiveFile}>New Block</span>
 				<hr/>
-				<span onPointerDown={() => {
-					setIsChangeBlock(true);
-				}}>Change Block</span>
+				<span onPointerDown={changeBlock}>Change Block</span>
 				<hr/>
 				<span onPointerDown={changeBorderInBlock}>{props.element.isBorder ? `Clear Border` : `Show Border`}</span>
 				<hr/>
+				<span onPointerDown={()=>document.execCommand("copy")}>{`Copy ${window.getSelection().isCollapsed && !isChangeBlock ? 'Block' : ''}`}</span>
+				<span onPointerDown={paste}>{`Paste ${window.getSelection().isCollapsed && !isChangeBlock ? 'Block' : ''}`}</span>
+				<hr/>
 				<span onPointerDown={changePosition}
-							onDoubleClick={e => {
-								e.stopPropagation()
-							}}
+							onContextMenu={e => {e.preventDefault(); props.closeAllContextMenuTHUNK()}}
+							onDoubleClick={e => {e.preventDefault(); e.stopPropagation()}}
 				>Position UP</span>
 				<span onPointerDown={changePosition}
-							onDoubleClick={e => {
-								e.stopPropagation()
-							}}
+							onContextMenu={e => {e.preventDefault(); props.closeAllContextMenuTHUNK()}}
+							onDoubleClick={e => {e.preventDefault(); e.stopPropagation()}}
 				>Position DOWN</span>
 				<hr/>
 				<span onPointerDown={deleteBlock}>Delete Block</span>
 			</div>
-
 		</div>
 	);
 }
@@ -203,13 +243,16 @@ export const Block = connect(
 		activeFile: getActiveFile(state),
 		activeElement: getActiveElement(state),
 	}), {
+		closeAllContextMenuTHUNK,
 		changeIsContextMenuAC,
 		changeIsOpenContextMenuItemAC,
 		addBlockInActiveFileTHUNK,
 		changeBlockTHUNK,
+		changeBlockBorderTHUNK,
 		changePositionTHUNK,
 		deleteElementTHUNK,
 		changeActiveElement,
 		pastElementTHUNK,
+		addMessageAC,
 	})
 (BlockComponent);
