@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5ade667-796b-4e33-abca-7c3a979b8322" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Block/Block.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Block/Block.scss" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,6 +26,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="ProjectId" id="1m8okEpL3cBna2hbFe0Bffq47vh" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -131,7 +135,16 @@
       <workItem from="1610793155666" duration="289000" />
       <workItem from="1610861977917" duration="18572000" />
       <workItem from="1610946377168" duration="37511000" />
+      <workItem from="1611313479410" duration="5713000" />
     </task>
+    <task id="LOCAL-00001" summary="change add block in block, fix margin no border block.">
+      <created>1611321347747</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1611321347747</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,6 +153,21 @@
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
+        <entry key="1">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="2">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="3">
+          <value>
+            <State />
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State>
@@ -149,5 +177,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="change add block in block, fix margin no border block." />
+    <option name="LAST_COMMIT_MESSAGE" value="change add block in block, fix margin no border block." />
   </component>
 </project>
